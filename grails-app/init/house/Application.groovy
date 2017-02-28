@@ -1,4 +1,4 @@
-package cs2212b.proj
+package house
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration

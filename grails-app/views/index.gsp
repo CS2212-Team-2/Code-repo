@@ -1,78 +1,87 @@
 <!doctype html>
-<html>
 <head>
-    <meta name="layout" content="main"/>
-    <title>Welcome to Grails</title>
-
-    <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="724926326266-dhm6bt52ttmrlaessmt8rqp5oc6ueute.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
-    <content tag="nav">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Application Status <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">Environment: ${grails.util.Environment.current.name}</a></li>
-                <li><a href="#">App profile: ${grailsApplication.config.grails?.profile}</a></li>
-                <li><a href="#">App version:
-                    <g:meta name="info.app.version"/></a>
-                </li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Grails version:
-                    <g:meta name="info.app.grailsVersion"/></a>
-                </li>
-                <li><a href="#">Groovy version: ${GroovySystem.getVersion()}</a></li>
-                <li><a href="#">JVM version: ${System.getProperty('java.version')}</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Reloading active: ${grails.util.Environment.reloadingAgentEnabled}</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Artefacts <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">Controllers: ${grailsApplication.controllerClasses.size()}</a></li>
-                <li><a href="#">Domains: ${grailsApplication.domainClasses.size()}</a></li>
-                <li><a href="#">Services: ${grailsApplication.serviceClasses.size()}</a></li>
-                <li><a href="#">Tag Libraries: ${grailsApplication.tagLibClasses.size()}</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Installed Plugins <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins}">
-                    <li><a href="#">${plugin.name} - ${plugin.version}</a></li>
-                </g:each>
-            </ul>
-        </li>
-    </content>
-
-    <div class="svg" role="presentation">
-        <div class="grails-logo-container">
-            <asset:image src="grails-cupsonly-logo-white.svg" class="grails-logo"/>
-        </div>
+    <h1>Message: ${params['message']}</h1>
+    <h5>Session: ${session['subId']}</h5>
+    <div>
+        <g:form controller="PersonHouse" action="logout">
+            <g:submitButton name="logout" controller="PersonHouse" action="logout" value="logout" />
+        </g:form>
     </div>
 
-    <div id="content" role="main">
-        <section class="row colset-2-its">
-            <h1>Welcome to Grails</h1>
+    <br/>
+    <h2>Welcome To House Mates!</h2>
+    <br/>
+    <h5>Before we get you setp up... please login to your google gmail account by clicking the button below</h5>
+    <h5>Then click the enter button</h5>
+    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>
+            var subId;
+            var email;
+            var firstName;
+            var lastName;
 
-            <p>
-                Congratulations, you have successfully started your first Grails application! At the moment
-                this is the default page, feel free to modify it to either redirect to a controller or display
-                whatever content you may choose. Below is a list of controllers that are currently deployed in
-                this application, click on each to execute its default action:
-            </p>
+            function onSignIn(googleUser) {
+                // The ID token you need to pass to your backend:
+                // Useful data for your client-side scripts:
+                var profile = googleUser.getBasicProfile();
+                console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+                console.log('Full Name: ' + profile.getName());
+                console.log('Given Name: ' + profile.getGivenName());
+                console.log('Family Name: ' + profile.getFamilyName());
+                console.log("Image URL: " + profile.getImageUrl());
+                console.log("Email: " + profile.getEmail());
 
-            <div id="controllers" role="navigation">
-                <h2>Available Controllers:</h2>
-                <ul>
-                    <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-                        <li class="controller">
-                            <g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link>
-                        </li>
-                    </g:each>
-                </ul>
-            </div>
-        </section>
+                // The ID token you need to pass to your backend:
+                var id_token = googleUser.getAuthResponse().id_token;
+                console.log("ID Token: " + id_token);
+                subId = profile.getId();
+                email = profile.getEmail();
+                firstName = profile.getGivenName();
+                lastName = profile.getFamilyName();
+
+            };
+            jQuery(function () {
+                jQuery("[name='jftForm']").submit(function () {
+                    jQuery("[name='googleProfile']").val([firstName,lastName,subId,email]);
+                });
+            })
+        </script>
+        <br/>
+        <div>
+            <br/>
+            <h4>Already a member... please click login button below</h4>
+            <g:form name="jftForm" controller="PersonHouse" action="login">
+                <g:hiddenField name="googleProfile" value=""/>
+                <g:submitButton name="login" value="Enter"/>
+            </g:form>
+        <br/>
+        </div>
+        <br/>
+        <div>
+        <a href="#" onclick="signOut();">Sign out</a>
+            <script>
+              function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                  console.log('User signed out.');
+                  location.reload();
+                });
+              }
+            </script>
+    </div>
+    <div>
+        <br/><br/>
+        <h4>Please click button below to join</h4>
+        <g:form name="jftForm" controller="person" action="createperson">
+            <g:hiddenField name="googleProfile" value=""/>
+            <g:submitButton name="Login" value="Enter"/>
+        </g:form>
     </div>
 
 </body>

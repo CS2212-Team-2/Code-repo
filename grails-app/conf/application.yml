@@ -2,7 +2,7 @@
 grails:
     profile: web
     codegen:
-        defaultPackage: cs2212b.proj
+        defaultPackage: house
     spring:
         transactionManagement:
             proxies: false
@@ -17,6 +17,7 @@ spring:
     groovy:
         template:
             check-template-location: false
+
 
 # Spring Actuator Endpoints are Disabled by Default
 endpoints:
@@ -126,3 +127,30 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+---
+grails:
+    plugin:
+        springsecurity:
+            securityConfigType: 'Annotation'
+            filterChain:
+                chainMap:
+                    - pattern: '/api/signup'
+                      filters: 'anonymousAuthenticationFilter,restExceptionTranslationFilter'
+
+                    - pattern: '/api/**'
+                      filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
+
+                    - pattern: '/**'
+                      filters: 'anonymousAuthenticationFilter,restExceptionTranslationFilter'
+
+            rest:
+                token:
+                    validation:
+                        enableAnonymousAccess: true
+
+            userLookup:
+                userDomainClassName: 'grails3.example.User'
+                authorityJoinClassName: 'grails3.example.UserRole'
+            authority:
+              className: 'grails3.example.Role'

@@ -1,4 +1,4 @@
-package cs2212b.proj
+package house
 
 class UrlMappings {
 
