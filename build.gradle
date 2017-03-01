@@ -7,22 +7,12 @@ buildscript {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.11.6"
         classpath "org.grails.plugins:hibernate5:6.0.4"
+
     }
 }
 
-plugins {
-    id "com.moowork.node" version "0.12"
-}
-
-node {
-    version = '5.10.1'
-    npmVersion = '3.8.3'
-    distBaseUrl = 'https://nodejs.org/dist'
-    download = true
-}
-
 version "0.1"
-group "cs2212b.proj"
+group "house"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
@@ -44,6 +34,10 @@ dependencyManagement {
 }
 
 dependencies {
+
+    //email plugin
+    compile "org.grails.plugins:mail:2.0.0.RC6"
+    //standard plugins
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
@@ -64,6 +58,12 @@ dependencies {
     testCompile "org.grails.plugins:geb"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
+    //compile "org.grails.plugins:spring-security-rest:2.0.0.M2"
+    //compile "org.grails.plugins:spring-security-core:3.0.3"
+    //compile ("org.grails.plugins:spring-security-oauth-google:0.3.1")
+
+
+
 }
 
 bootRun {
@@ -76,6 +76,3 @@ assets {
     minifyCss = true
 }
 
-processResources.dependsOn(['npmInstall', 'npm_run_bundle'])
-
-assetCompile.dependsOn(['npmInstall', 'npm_run_bundle'])
