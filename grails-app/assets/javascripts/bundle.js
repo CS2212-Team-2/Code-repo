@@ -9609,7 +9609,7 @@ var MembersList = exports.MembersList = function (_React$Component) {
                 return _react2.default.createElement(
                     "li",
                     { key: name.toString() },
-                    "---------" + name
+                    "--------- " + name
                 );
             });
             return _react2.default.createElement(

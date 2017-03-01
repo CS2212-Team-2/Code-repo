@@ -1,12 +1,12 @@
 {
   "name": "webapp",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch --colors --progress",
     "bundle": "webpack"
+
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,6 @@
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "webpack": "^2.2.1"
-  }
+  },
+  "description": ""
 }
-
-
