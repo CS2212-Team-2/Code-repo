@@ -5,20 +5,45 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
-    <h1>Message: ${params['message']}</h1>
-    <h5>Session: ${session['subId']}</h5>
-    <div>
+    <div style="position:relative; left:1200px;">
+        <p>Message: ${params['message']}</p>
+        <p>Session: ${session['subId']}</p>
+    </div>
+    <div style="position:relative; left:1200px;">
         <g:form controller="PersonHouse" action="logout">
             <g:submitButton name="logout" controller="PersonHouse" action="logout" value="logout" />
         </g:form>
+        <br/>
+        <a href="#" onclick="signOut();">Sign out of google</a>
     </div>
+    <br/>
+    <h2 style="text-align: center;">Welcome To House Mates!</h2>
+    <br/>
+    <div style="position:relative; left:5%;width:43%">
+        <h3>Before we get you setp up... please login to your google gmail account by clicking the button below</h3>
+    </div>
+    <div style="position:relative;left:16%;" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
-    <br/>
-    <h2>Welcome To House Mates!</h2>
-    <br/>
-    <h5>Before we get you setp up... please login to your google gmail account by clicking the button below</h5>
-    <h5>Then click the enter button</h5>
-    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+        <br/>
+        <div style="position:relative; left:5%; width:43%;">
+
+            <h4>Already a member and logged in to google? Please click login button below</h4>
+            <g:form style="position:relative; left:18%;" name="jftForm" controller="PersonHouse" action="login">
+                <g:hiddenField name="googleProfile" value=""/>
+                <g:submitButton style="position:relative;left:10%;" name="login" value="login"/>
+            </g:form>
+
+        </div>
+
+        <div style="position:relative; left:900px; top:-230px">
+            <h4>Not a Member? Please click button below to JOIN</h4>
+            <g:form name="jftForm" controller="person" action="createperson">
+                <g:hiddenField name="googleProfile" value=""/>
+                <g:submitButton style="position:relative; left:10%;" name="Login" value="JOIN"/>
+            </g:form>
+        </div>
+
+        <!-- javascript-->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>
             var subId;
@@ -52,37 +77,14 @@
                 });
             })
         </script>
-        <br/>
-        <div>
-            <br/>
-            <h4>Already a member... please click login button below</h4>
-            <g:form name="jftForm" controller="PersonHouse" action="login">
-                <g:hiddenField name="googleProfile" value=""/>
-                <g:submitButton name="login" value="Enter"/>
-            </g:form>
-        <br/>
-        </div>
-        <br/>
-        <div>
-        <a href="#" onclick="signOut();">Sign out</a>
-            <script>
-              function signOut() {
+        <script>
+            function signOut() {
                 var auth2 = gapi.auth2.getAuthInstance();
                 auth2.signOut().then(function () {
-                  console.log('User signed out.');
-                  location.reload();
+                    console.log('User signed out.');
+                    location.reload();
                 });
-              }
-            </script>
-    </div>
-    <div>
-        <br/><br/>
-        <h4>Please click button below to join</h4>
-        <g:form name="jftForm" controller="person" action="createperson">
-            <g:hiddenField name="googleProfile" value=""/>
-            <g:submitButton name="Login" value="Enter"/>
-        </g:form>
-    </div>
-
+            }
+        </script>
 </body>
 </html>
