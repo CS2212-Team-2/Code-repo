@@ -18,12 +18,6 @@ class PersonHouseController {
                     "FROM PersonHouse p  " +
                     "WHERE p.personId = '${subId}' ")
 
-            if(personHouse.isEmpty()){
-                redirect(uri:'/', params:[message:"Sorry ${p[0]}, you are not in our database." +
-                        "  Pleases click the Join button below."])
-                return
-            }
-
             if(personHouse[0] != '') {//if condition passes, then person is in house and has houseId
                 //LinkedList<String> list = new LinkedList<String>()
                 String[] pidHid = personHouse[0]
