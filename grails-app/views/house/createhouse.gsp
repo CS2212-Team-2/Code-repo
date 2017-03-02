@@ -12,13 +12,15 @@
         <p>On the next page you will be asked to add your HouseMates</p>
         <p>Please have their email address ready.</p>
         <br/>
-    </div>
+
+    <!-- form to create house, house ID is auto generate -->
     <div>
         <g:form controller="house" action="save">
             <label>House Name: </label>
             <g:textField name="houseName"/><br/>
             <label>Your House Id is: </label>
-            <g:textField name="houseId" value="${idNumber}" disabled="false"/><br/>
+            <g:textField name="houseId" value="${idNumber}" disabled="true"/>
+            <g:hiddenField name="houseId" value="${idNumber}"/><br/>
             <g:actionSubmit value="Save"/>
         </g:form>
     </div>

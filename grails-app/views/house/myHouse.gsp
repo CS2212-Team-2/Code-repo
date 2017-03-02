@@ -11,6 +11,7 @@
             <g:submitButton name="logout" controller="PersonHouse" action="logout" value="logout" />
         </g:form>
     </div>
+
     <!-- to add new user-->
     <div style="position:relative; left: 1200px;">
         <g:form controller="EmailSender" action="index">
@@ -18,7 +19,10 @@
         </g:form>
     </div>
     <br/>
+
     <div style="width:auto;height:200px;"><h3>BIG BOX GOES HERE</h3></div>
+    <!-- returns the users roommates -->
+
     <div>
         <h4>${user}'s HouseMates</h4>
         <g:each in="${persons}" var="item">
@@ -28,5 +32,6 @@
                 </g:each>
         </g:each>
     </div>
+
 </body>
 </html>
