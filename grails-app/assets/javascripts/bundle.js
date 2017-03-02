@@ -9486,8 +9486,24 @@ var Header = exports.Header = function (_React$Component) {
     }
 
     _createClass(Header, [{
+        key: 'logout',
+        value: function logout() {
+            fetch("http://localhost:8080/PersonHouse/logout", {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                } }).then(function (res) {
+                if (res.ok) {
+                    //redirect to the signout page
+                } else {
+                        //tell him he sucks
+                    }
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
 
             var style = {
                 width: '100%',
@@ -9503,8 +9519,7 @@ var Header = exports.Header = function (_React$Component) {
             var titleStyle = {
                 float: 'center',
                 margin: 'auto',
-                textSize: '25vh',
-                fontSize: '25vh'
+                fontSize: '10vmin'
 
             };
 
@@ -9513,6 +9528,10 @@ var Header = exports.Header = function (_React$Component) {
                 textAlign: 'center'
 
             };
+
+            // const buttonStyle = {
+            //
+            // };
             return _react2.default.createElement(
                 'div',
                 { style: style },
@@ -9530,6 +9549,13 @@ var Header = exports.Header = function (_React$Component) {
                     'div',
                     { style: personInfoStyle },
                     _react2.default.createElement(PersonInfo, null)
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: function onClick() {
+                            return _this2.logout();
+                        } },
+                    'Logout'
                 )
             );
         }
@@ -9544,14 +9570,14 @@ var AddPerson = function (_React$Component2) {
     function AddPerson() {
         _classCallCheck(this, AddPerson);
 
-        var _this2 = _possibleConstructorReturn(this, (AddPerson.__proto__ || Object.getPrototypeOf(AddPerson)).call(this));
+        var _this3 = _possibleConstructorReturn(this, (AddPerson.__proto__ || Object.getPrototypeOf(AddPerson)).call(this));
 
-        _this2.state = {
+        _this3.state = {
             isTooltipActive: false,
             email: "",
             success: ""
         };
-        return _this2;
+        return _this3;
     }
 
     _createClass(AddPerson, [{
@@ -9566,7 +9592,7 @@ var AddPerson = function (_React$Component2) {
     }, {
         key: 'sendEmailToBackend',
         value: function sendEmailToBackend(e) {
-            var _this3 = this;
+            var _this4 = this;
 
             e.preventDefault();
             var email = this.state.email;
@@ -9577,9 +9603,9 @@ var AddPerson = function (_React$Component2) {
                     "Content-Type": "application/json"
                 } }).then(function (res) {
                 if (res.ok) {
-                    _this3.setState({ success: 'Invite Sent!' });
+                    _this4.setState({ success: 'Invite Sent!' });
                 } else {
-                    _this3.setState({ success: 'Invite was unable to send' });
+                    _this4.setState({ success: 'Invite was unable to send' });
                 }
             });
         }
@@ -9594,7 +9620,7 @@ var AddPerson = function (_React$Component2) {
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             var buttonStyle = {
                 textAlign: 'center',
@@ -9608,7 +9634,7 @@ var AddPerson = function (_React$Component2) {
                 _react2.default.createElement(
                     'button',
                     { style: buttonStyle, id: 'text', onClick: function onClick() {
-                            return _this4.toggleTooltip();
+                            return _this5.toggleTooltip();
                         } },
                     'ADD ROOMMATE'
                 ),
@@ -9626,14 +9652,14 @@ var AddPerson = function (_React$Component2) {
                         _react2.default.createElement(
                             'form',
                             { onSubmit: function onSubmit(e) {
-                                    return _this4.sendEmailToBackend(e);
+                                    return _this5.sendEmailToBackend(e);
                                 } },
                             _react2.default.createElement(
                                 'label',
                                 null,
                                 _react2.default.createElement('input', { type: 'text', defaultValue: this.state.email,
                                     onChange: function onChange(e) {
-                                        return _this4.handleChange(e);
+                                        return _this5.handleChange(e);
                                     } }),
                                 _react2.default.createElement('input', { type: 'submit', value: 'Send invite' })
                             )
@@ -9658,13 +9684,13 @@ var PersonInfo = function (_React$Component3) {
     function PersonInfo() {
         _classCallCheck(this, PersonInfo);
 
-        var _this5 = _possibleConstructorReturn(this, (PersonInfo.__proto__ || Object.getPrototypeOf(PersonInfo)).call(this));
+        var _this6 = _possibleConstructorReturn(this, (PersonInfo.__proto__ || Object.getPrototypeOf(PersonInfo)).call(this));
 
-        _this5.state = {
+        _this6.state = {
             name: "",
             email: ""
         };
-        return _this5;
+        return _this6;
     }
 
     _createClass(PersonInfo, [{
@@ -9675,7 +9701,7 @@ var PersonInfo = function (_React$Component3) {
     }, {
         key: 'fetchFromApiUserInfo',
         value: function fetchFromApiUserInfo() {
-            var _this6 = this;
+            var _this7 = this;
 
             //How r we communicating with the backend, what should we send in, (name) id, etc
             fetch("http://localhost:8080/apis/getInfo").then(function (response) {
@@ -9686,7 +9712,7 @@ var PersonInfo = function (_React$Component3) {
                         var name = json.firstName + " " + json.lastName;
                         var email = json.email;
 
-                        _this6.setState({
+                        _this7.setState({
                             name: name,
                             email: email
                         });

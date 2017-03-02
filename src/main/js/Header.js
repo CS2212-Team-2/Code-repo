@@ -2,8 +2,23 @@
 import React from 'react'
 import ToolTip from 'react-portal-tooltip'
 
-
 export class Header extends React.Component{
+
+    logout(){
+        fetch("http://localhost:8080/PersonHouse/logout",
+        {
+            method: 'POST',
+                headers: {
+            "Content-Type": "application/json"
+        }}).then(res =>{
+            if(res.ok){
+                //redirect to the signout page
+            }
+            else{
+                //tell him he sucks
+            }
+        });
+    }
 
     render(){
 
@@ -16,6 +31,7 @@ export class Header extends React.Component{
 
         const personInfoStyle = {
             float : 'right',
+            marginRoght: '10%',
 
         };
         const titleStyle = {
@@ -31,6 +47,10 @@ export class Header extends React.Component{
 
 
         };
+
+        // const buttonStyle = {
+        //
+        // };
         return(
             <div style={style} >
 
@@ -38,6 +58,9 @@ export class Header extends React.Component{
 
                 <h1 style={titleStyle}>House Mates</h1>
                 <div style={personInfoStyle}><PersonInfo/></div>
+                <button onClick={() => this.logout()}>
+                    Logout
+                </button>
                 {/*logout button*/}
 
             </div>
