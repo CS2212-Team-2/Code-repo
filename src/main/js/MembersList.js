@@ -63,13 +63,16 @@ export class MembersList extends React.Component{
         const members = this.state.membersList;
         const membersList = members.map(name =>
             <li key={name.toString()}>
-                {"--------- "+name}
+                {name}
             </li>
         );
         return(
-            <ul>
-                {membersList}
-            </ul>
+            <div>
+                <h3>Home Leaderboard</h3>
+                <ul className="a">
+                    {membersList}
+                </ul>
+            </div>
         );
     }
 }

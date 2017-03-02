@@ -17,6 +17,27 @@ class ApisController extends RestfulController{
 
     }
 
+    //IN HERE PLEASE CALL THE INVITE MEMBER FUNCTION
+    //MAKE SURE HE IS NOT ALREADY IN THE HOUSE
+    def receiveEmail(){
+        print("\n\n successfully in controller")
+        def email = params.email
+        println(email)
+        //if success
+        response.status = 200
+        //else failed
+        //response.status = 500
+
+    }
+
+    def getInfo(){
+        print("Info request received")
+        //make  a call to the user info
+
+        def person = new Person(firstName: "bob", lastName: "smith", email: "lol@lol.com")
+        respond person
+    }
+
     def index() {
 
     }

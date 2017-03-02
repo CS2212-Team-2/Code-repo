@@ -11,9 +11,7 @@ var LeaderboardComponent = React.createClass({
         console.log("rendering leaderboard\n");
         return (
             <div>
-                <h1>Home Leaderboard</h1>
                 {<MembersList/>}
-                //add other leaderboard items here
             </div>
         )
     }

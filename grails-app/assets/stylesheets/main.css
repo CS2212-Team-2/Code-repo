@@ -36,9 +36,9 @@ body {
     background: #ffffff;
     color: #333333;
     overflow-x: hidden; /* prevents box-shadow causing a horizontal scrollbar in firefox when viewport < 960px wide */
-    -moz-box-shadow: 0 0 0.3em #4D8618;
-    -webkit-box-shadow: 0 0 0.3em #4D8618;
-    box-shadow: 0 0 0.3em #4D8618;
+    -moz-box-shadow: 0 0 0.3em #003c86;
+    -webkit-box-shadow: 0 0 0.3em #003c86;
+    box-shadow: 0 0 0.3em #003c86;
 }
 
 #grailsLogo {
@@ -125,7 +125,7 @@ img {
     float: left;
     list-style-type: none;
     margin-right: 0.5em;
-    padding: 0;
+    padding: 5px;
 }
 
 .nav a {
