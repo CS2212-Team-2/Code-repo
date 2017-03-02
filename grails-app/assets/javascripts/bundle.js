@@ -9487,6 +9487,9 @@ var Header = exports.Header = function (_React$Component) {
 
     _createClass(Header, [{
         key: 'logout',
+
+
+        //logout
         value: function logout() {
             fetch("http://localhost:8080/PersonHouse/logout", {
                 method: 'POST',
@@ -9513,7 +9516,8 @@ var Header = exports.Header = function (_React$Component) {
             };
 
             var personInfoStyle = {
-                float: 'right'
+                float: 'right',
+                marginRoght: '10%'
 
             };
             var titleStyle = {
@@ -9828,19 +9832,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Created by om on 23/02/17.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var member = _react2.default.createClass({
-    displayName: "member",
-    getInitialState: function getInitialState() {
-        return {};
-    },
-    render: function render() {
-        return _react2.default.createElement(
-            "div",
-            null,
-            this.props.name
-        );
-    }
-});
+//
+// var member = React.createClass({
+//
+//     getInitialState () {
+//         return {
+//         }
+//     },
+//    render()
+//    {
+//       return( <div>
+//            {this.props.name}
+//        </div>);
+//    }
+// });
 
 var MembersList = exports.MembersList = function (_React$Component) {
     _inherits(MembersList, _React$Component);

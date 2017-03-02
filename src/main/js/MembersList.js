@@ -3,20 +3,20 @@
  */
 
 import React from 'react'
-
-var member = React.createClass({
-
-    getInitialState () {
-        return {
-        }
-    },
-   render()
-   {
-      return( <div>
-           {this.props.name}
-       </div>);
-   }
-});
+//
+// var member = React.createClass({
+//
+//     getInitialState () {
+//         return {
+//         }
+//     },
+//    render()
+//    {
+//       return( <div>
+//            {this.props.name}
+//        </div>);
+//    }
+// });
 
 export class MembersList extends React.Component{
 

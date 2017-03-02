@@ -16,6 +16,5 @@
     <asset:javascript src="index.bundle.js"/>
 
 
-
 </body>
 </html>

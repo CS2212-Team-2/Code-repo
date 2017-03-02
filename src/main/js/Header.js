@@ -4,6 +4,7 @@ import ToolTip from 'react-portal-tooltip'
 
 export class Header extends React.Component{
 
+    //logout
     logout(){
         fetch("http://localhost:8080/PersonHouse/logout",
         {
