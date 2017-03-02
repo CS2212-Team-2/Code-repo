@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- data sent from ./index.gsp (main page) -->
 <html>
 <head>
     <meta name="layout" content="main"/>

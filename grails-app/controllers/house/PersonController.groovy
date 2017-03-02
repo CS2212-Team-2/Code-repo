@@ -3,8 +3,34 @@ package house
 class PersonController {
     //list persons in Person database
     def index() {
-        def persons = Person.list()
-        [person: persons]
+        if(session['subId']) {
+            def persons = Person.list()
+            String houseId = session['houseId']
+            //search database for subId as personId
+            def list = PersonHouse.executeQuery("SELECT p.personId "+
+                    "FROM PersonHouse p " +
+                    "WHERE p.houseId = '${houseId}' ")
+
+            //search Person table for firstName based on subId from list
+            LinkedList<String> nameList = new LinkedList<String>()
+            def person = Person.list()
+
+            for(int i = 0; i < list.size(); i++){
+                String nameSubId = list[i]
+                def retPerson = Person.executeQuery("SELECT p.firstName, p.email, p.subId " +
+                        "FROM Person p " +
+                        "WHERE p.subId = '${nameSubId}'"
+                )
+                nameList.add(retPerson)
+
+            }
+            [nameList:nameList]
+        }
+        else{
+            def persons = Person.list()
+            [person: persons]
+
+        }
     }
 
     //returns authentication data
@@ -18,7 +44,7 @@ class PersonController {
         }
     }
 
-    //create new person based on google Id
+    //create new person based on google Id. Data sent from .../index.gsp
     def createperson() {
         def googleProfile = params.googleProfile
         if(!googleProfile.equals(',,,')) {
@@ -35,16 +61,17 @@ class PersonController {
         }
 
     }
-    //save new Person based on google Id
+    //save new Person based on google Id. Data sent from createperson() PersonController
     def saveperson() {
         def person = new Person(params)
         def list = Person.list()
-
+        //check if person is already in data base
         if (person.subId in list.subId) {
-            render "Person is in the database"
+            render "Person ${person.email} is in the database"
         } else {
             person.save()           //add person to Person Table
-            session['subId'] = person.subId
+            session['subId'] = person.subId         //create a user session
+            session['firstName'] = person.firstName
             redirect(action: 'createhouse', controller: 'house')
             /*def person1 = Person.executeQuery(
                     "SELECT p.firstName, p.lastName, p.sub_id " +
