@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset='utf-8' />
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme3.css"/>
+
+  </head>
+  <body>
+    <p>Google Calendar API Quickstart</p>
+    <div id="caleandar">
+
+
+    </div>
+
+
+    <p>Google Calendar API Quickstart</p>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize-button" style="display: none;">Authorize</button>
+    <button id="signout-button" style="display: none;">Sign Out</button>
+
+    <pre id="content"></pre>
+    
+
+    <script type="text/javascript" src="js/caleandar.js"></script>
+
+    <script type="text/javascript" src="js/index.js"></script>
+
+    <script async defer src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+
+
+  </body>
+</html>

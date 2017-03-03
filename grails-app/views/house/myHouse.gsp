@@ -3,6 +3,9 @@
 <asset:stylesheet src="style.css"/>
 <head>
     <title>HouseMates</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/theme3.css"/>
 </head>
 <body>
 <!--code for top right corner, user name, logout and add person -->
@@ -22,8 +25,28 @@
 <br/>
 <div><h3 id="welcome">Welcome Home, ${user}!</h3></div>
 
-
+<div>
 <h3 id="calender">BIG BOX GOES HERE</h3>
+    <p>Google Calendar API Quickstart</p>
+    <div id="caleandar">
+    </div>
+
+
+    <p>Google Calendar API Quickstart</p>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+
+    <pre id="content"></pre>
+
+
+    <script type="text/javascript" src="js/caleandar.js"></script>
+
+    <script type="text/javascript" src="js/index.js"></script>
+
+    <script async defer src="https://apis.google.com/js/api.js"
+            onload="this.onload=function(){};handleClientLoad()"
+            onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
 <!-- returns the users roommates -->
 
     <h4 id="leaderboard">${user}'s HouseMates</h4>
