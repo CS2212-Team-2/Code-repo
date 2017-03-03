@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<asset:stylesheet src="style.css"/>
 <head>
     <title>Logout Page</title>
 </head>

@@ -1,9 +1,10 @@
 
 <!doctype html>
 <html>
+<asset:stylesheet src="style.css"/>
 <head>
     <meta name="layout" content="main"/>
-    <title>Welcome To HouseMates</title>
+    <title>Welcome To House Mates</title>
 
     <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
 </head>
