@@ -1,10 +1,16 @@
 <!doctype html>
 <head>
+    <meta name="layout" content="main"/>
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="724926326266-dhm6bt52ttmrlaessmt8rqp5oc6ueute.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <asset:javascript src="index.bundle.js"/>
+
 </head>
 <body>
+
+
+
     <h1>Message: ${params['message']}</h1>
     <h5>Session: ${session['subId']}</h5>
     <div>

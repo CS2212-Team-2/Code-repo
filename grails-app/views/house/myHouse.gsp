@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="layout" content="main"/>
     <title>Welcome Home!</title>
+    <asset:javascript src="index.bundle.js"/>
+
 </head>
 <body>
-    <div style="">
-        <h5>Welcome Home: ${user}</h5>
-    </div>
-    <br/><br/>
-    <div>
-        <g:form controller="PersonHouse" action="logout">
-            <g:submitButton name="logout" controller="PersonHouse" action="logout" value="logout" />
-        </g:form>
-    </div>
+    <div id="root" data-title="userName" data-name= ${user}></div>
+
     <br/>
     <div>
         <g:each in="${persons}" var="item">
@@ -25,5 +21,8 @@
             </div>
         </g:each>
     </div>
+
+    <asset:javascript src="index.bundle.js"/>
+
 </body>
 </html>
