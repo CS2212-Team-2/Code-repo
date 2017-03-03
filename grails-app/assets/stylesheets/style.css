@@ -1,5 +1,18 @@
+#loginline{
+    text-size: 25;
+    text-align: center;
+    text-color: white; !important;
+    width:100%;
+}
+
+#logoutline{
+    text-size: 67; !important;
+    text-align: center; !important;
+    text-color: white; !important;
+}
+
 *{
-    background: skyblue;
+    background: silver;
     font-family: Verdana, Times, serif;
 }
 
@@ -48,6 +61,8 @@
     font-size: 53px;
     margin: 4px 2px;
     cursor: pointer;
+    text-decoration: underline;
+
 }
 
 #welcome{
@@ -58,40 +73,44 @@
 
 #logout{
     float:right; !important;
+
+    padding: 20px 20px;
     /*padding-left: 10px;*/
 
     /*background-color: grey;*/
     /*border: none;*/
-    color: white; !important;
-    /*!*border-style: solid;*!*/
-    /*!*border-width: 2px;*!*/
-    /*!*border-color: black;*!*/
-    /*text-align: center;*/
-    /*text-decoration: none;*/
-    display: inline-block; !important;
-    /*font-size: 16px;*/
-    margin: 4px 2px; !important;
-    cursor: pointer; !important;
+    /*color: white; !important;*/
+    /*!*!*border-style: solid;*!*!*/
+    /*!*!*border-width: 2px;*!*!*/
+    /*!*!*border-color: black;*!*!*/
+    /*!*text-align: center;*!*/
+    /*!*text-decoration: none;*!*/
+    /*display: inline-block; !important;*/
+    /*!*font-size: 16px;*!*/
+    /*margin: 4px 2px; !important;*/
+    /*cursor: pointer; !important;*/
 
-    border-style: solid; !important;
-    border-width: 0.5px; !important;
-    border-color: white; !important;
-    background-color: lightgrey; !important;
+    /*border-style: solid; !important;*/
+    /*border-width: 0.5px; !important;*/
+    /*border-color: white; !important;*/
+    /*background-color: lightgrey; !important;*/
 }
 
 #add{
     float: left;!important;
+    padding: 20px 20px;
+
     /*padding-right: 450px;*/
 
-    border: none;!important;
-    color: white;!important;
+    /*border: none;!important;*/
+    /*color: white;!important;*/
 
-    text-align: center;!important;
-    text-decoration: none;!important;
-    display: inline-block;!important;
-    font-size: 16px;!important;
-    margin: 4px 2px;!important;
-    cursor: pointer; !important;
+    /*text-align: center;!important;*/
+    /*text-decoration: none;!important;*/
+    /*display: inline-block;!important;*/
+    /*font-size: 16px;!important;*/
+    /*margin: 4px 2px;!important;*/
+    /*cursor: pointer; !important;*/
 
     /*border-style: solid;*/
     /*border-width: 0.5px;*/
@@ -105,4 +124,7 @@
 .class{
 
 }
+
+
+
 
