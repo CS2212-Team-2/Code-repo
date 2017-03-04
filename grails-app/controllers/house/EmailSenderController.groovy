@@ -1,12 +1,6 @@
 package house
 
-import grails.rest.RestfulController
-
-class EmailSenderController extends RestfulController{
-
-    EmailSenderController() {
-        super(Leaderboard)
-    }
+class EmailSenderController {
 
     def index() {
         String email = "Hello from HouseMates!  Your friend, ${session['firstName']}, is requesting that " +
@@ -22,24 +16,11 @@ class EmailSenderController extends RestfulController{
     def send() {
         sendMail {
             to params.address
-            from "housemates2212@gmail.com"
             subject params.subject
             text params.body
         }
 
         flash.message = "Message sent at "+new Date() + "Please add another HouseMate"
         redirect action:"index"
-    }
-
-    def sendFromDashboard() {
-        print("email controller" + params.address + "\n"+ params.subject + "\n" + params.body)
-        sendMail {
-            to params.address
-            from "housemates2212@gmail.com"
-            subject params.subject
-            text (params.body + ", ${session['houseId']} \n\n\n Thank you from HouseMates!")
-    }
-
-        response.status = 200;
     }
 }

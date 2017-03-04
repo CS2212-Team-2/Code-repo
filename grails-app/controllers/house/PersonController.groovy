@@ -115,6 +115,38 @@ class PersonController {
             render "You are not signed into your Google Account. Please sign-in to google to proceed"
         }
     }
+    def delete(){
+
+    }
+    //removes person from house
+    def remove(){
+        if(session['subId']){
+            def emailToDelete = params.email
+
+            def verify = Person.executeQuery("SELECT p.email, p.subId FROM Person p " +
+                    "WHERE p.email = '${emailToDelete}' ")
+
+            if(verify.isEmpty()){
+                render "Email does not match with database, please try again"
+            }else{
+                String[] list = verify[0]
+                if((session['subId'] == list[1]) && (emailToDelete == list[0])) {
+                    try {
+                        PersonHouse.executeUpdate("DELETE PersonHouse p WHERE p.personId = '${session['subId']}' ")
+                        String num = session['houseId']
+                        session.invalidate()
+                        render "You have been removed from house number: '${num}' "
+                    } catch (Exception e) {
+                        render e
+                    }
+
+                }else{
+                    render "failed"
+                }
+            }
+        }
+    }
+
 
 }
 

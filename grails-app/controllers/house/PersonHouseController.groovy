@@ -1,15 +1,7 @@
 package house
 
-import grails.rest.RestfulController
 
-
-class PersonHouseController extends RestfulController {
-
-    static responseFormats = ['json', 'xml']
-
-    PersonHouseController() {
-        super(PersonHouse)
-    }
+class PersonHouseController {
 
     def index() {
 
@@ -21,18 +13,18 @@ class PersonHouseController extends RestfulController {
         if(!auth.equals(',,,')) {
             String[] p = auth.split(',')
             String subId = p[2]
-            //check database for login user.x
+            //check database for login user.
             def personHouse =  PersonHouse.executeQuery("SELECT p.personId, p.houseId " +
                     "FROM PersonHouse p  " +
                     "WHERE p.personId = '${subId}' ")
 
             if(personHouse.isEmpty()){
-                redirect(uri:'/', params:[message:"Sorry ${p[0]}, you are not in our database" +
-                        "Please click the Join button below"])
+                redirect(uri:'/', params:[message:"Sorry ${p[0]}, you are not in our database." +
+                        "  Pleases click the Join button below."])
                 return
             }
+
             if(personHouse[0] != '') {//if condition passes, then person is in house and has houseId
-                //LinkedList<String> list = new LinkedList<String>()
 
                 String[] pidHid = personHouse[0]
                 String pid = pidHid[0]
@@ -50,9 +42,7 @@ class PersonHouseController extends RestfulController {
             redirect(uri:'/', params:[message:"IMPORTANT- Please login to google to access the app"])
         }
     }
-
     //end users session
-
     def logout() {
         session.invalidate()
 
@@ -63,17 +53,9 @@ class PersonHouseController extends RestfulController {
         redirect(url: '/')
     }
 
-    def getHouseMembers(){
-        print("getting house members")
-        def houseId = params.houseId
-        def list = PersonHouse.findAllByHouseId(houseId);
-        def personList = []
-        for(PersonHouse pHouse : list){
-            personList.add(Person.findBySubId(pHouse.getPersonId()))
-        }
-        respond personList
+    def demo(){
+        redirect(uri:'/demo')
     }
-
     //fun with session
     def list() {
         if (session['subId']) {
