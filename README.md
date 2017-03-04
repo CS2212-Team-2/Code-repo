@@ -12,11 +12,16 @@ be evaluated it was branched back into the master.
 
 ##  installation/run
 
-1. Make sure that you have the jdk property installed ([a link](https://www3.ntu.edu.sg/home/ehchua/programming/howto/JDK_Howto.html))
-2. Install grails/groovy (Refer to slide 4 of the grails tutorial [a link](https://ethamajin.github.io/CS2212B-2017/TUTORIALS.html)
+1. Make sure that you have the jdk property installed ([Java JDK](https://www3.ntu.edu.sg/home/ehchua/programming/howto/JDK_Howto.html))
+2. Install grails/groovy (Refer to slide 4 of the grails tutorial [ethamajin.github.io](https://ethamajin.github.io/CS2212B-2017/TUTORIALS.html)
 3. Download this project and place it in a folder
 4. Once you have that installed open a command prompt window and move to the root of the project folder
 5. Once inside the folder run the command grails run-app and the server will start on at localhost:8080
 6. Go to that address in the browser to view the application
 
 Note: To get to the add to house screen go to localhost:8080/house/joinhouse
+
+
+##  3rd party license
+
+Calendar: For the calendar code and css we used a 3rd parties code to help. Under The MIT License (MIT) Copyright (c) 2016 jujumuncher we were granted the right to change, modify, and edit the original code. To see the original [Click Here](https://github.com/jujumuncher/caleandar)
