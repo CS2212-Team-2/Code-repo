@@ -16,10 +16,10 @@ be evaluated it was branched back into the master.
 2. Install grails/groovy (Refer to slide 4 of the grails tutorial ([ethamajin.github.io](https://ethamajin.github.io/CS2212B-2017/TUTORIALS.html))
 3. Download this project and place it in a folder
 4. Once you have that installed open a command prompt window and move to the root of the project folder
-5. Once inside the folder run the command grails run-app and the server will start on at localhost:8080
+5. Once inside the folder run the command grails run-app and the server will start up at localhost:8080
 6. Go to that address in the browser to view the application
 
-Note: To get to the add to house screen go to localhost:8080/house/joinhouse
+Note: To get to the join a house screen go to localhost:8080/house/joinhouse
 
 
 ##  3rd party license
