@@ -25,7 +25,7 @@ class PersonHouseController {
             }
 
             if(personHouse[0] != '') {//if condition passes, then person is in house and has houseId
-                //LinkedList<String> list = new LinkedList<String>()
+
                 String[] pidHid = personHouse[0]
                 String pid = pidHid[0]
                 String hid = pidHid[1]

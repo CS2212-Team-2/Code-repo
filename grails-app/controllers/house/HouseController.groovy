@@ -9,7 +9,7 @@ class HouseController {
             def person = params['person']
             String[] p = person.split(',')
             Person per = new Person()
-            per.sub_id = p[0]
+            per.subId = p[0]
             per.firstName = p[2]
             [message: mess, person: per]
         }
@@ -66,6 +66,7 @@ class HouseController {
                     "WHERE p.subId = '${session['subId']}'")
 
             String firstName = name[0]
+
             [persons:nameList, user:firstName]
         }
         else{
