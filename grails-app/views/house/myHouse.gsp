@@ -25,6 +25,8 @@
 
 
 <div>
+    <div id="test"> </div>
+
     <h3 id="calender">BIG BOX GOES HERE
     <div>
     <div id="caleandar">
@@ -383,12 +385,12 @@
     */
     function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
-    authorizeButton.style.display = 'none';
-    signoutButton.style.display = 'block';
-    listUpcomingEvents();
+        authorizeButton.style.display = 'none';
+        signoutButton.style.display = 'block';
+        listUpcomingEvents();
     } else {
-    authorizeButton.style.display = 'block';
-    signoutButton.style.display = 'none';
+        authorizeButton.style.display = 'block';
+        signoutButton.style.display = 'none';
     }
     }
     /**
