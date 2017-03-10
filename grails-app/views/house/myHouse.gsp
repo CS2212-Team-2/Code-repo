@@ -4,6 +4,7 @@
 <head>
     <title>HouseMates</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+
 </head>
 <body>
 <!--code for top right corner, user name, logout and add person -->
@@ -18,6 +19,11 @@
 </div>
 <br/>
 <div><h3 id="welcome">Welcome Home, ${user}!</h3></div>
+%{--location to open js file--}%
+<div id="root"> </div>
+
+
+
 <div>
     <h3 id="calender">BIG BOX GOES HERE
     <div>
@@ -519,5 +525,10 @@
             <p>Email: ${subItem[1]}</p>
         </g:each>
     </g:each>
+
+
+
+    <asset:javascript src="bundle.js"/>
+
 </body>
 </html>
