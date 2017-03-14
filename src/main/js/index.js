@@ -4,8 +4,7 @@
 alert('Whats up!');
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Leaderboard } from './Leaderboard';
-import { Header } from './Header';
+import { PostFeed } from './PostFeed'
 
 
 console.log("index rendering");
@@ -27,10 +26,9 @@ var root = document.getElementById('root');
 let theParams = getParams();
 ReactDOM.render(
     <div>
-        <Header params={theParams}/>
         <div className="row">
             <div className="col-3" frameBorder={true} >
-                {<Leaderboard params={theParams}/>}
+                {<PostFeed params={theParams}/>}
             </div>
         </div>
     </div>, root);

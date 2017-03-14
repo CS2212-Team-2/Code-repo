@@ -2,12 +2,16 @@ package house
 
 class Post {
 
-    Person sender
+    String senderName
     String title
     String text
     Date date
-    List<Person> toWho
+
+    static belongsTo = Person
+    static hasMany = [receivers: Person]
+
 
     static constraints = {
+        receivers nullable: true
     }
 }

@@ -1,7 +1,15 @@
 package house
 
+import grails.rest.RestfulController
 
-class PersonHouseController {
+
+class PersonHouseController extends RestfulController{
+
+    static responseFormats = ['json', 'xml']
+
+    PersonHouseController() {
+        super(PersonHouse)
+    }
 
     def index() {
 
@@ -64,5 +72,20 @@ class PersonHouseController {
         } else {
             redirect(url:'/')
         }
+    }
+
+    //for one api call
+    def getHouseMembers(){
+        print("getting house members")
+        def subId = params.subId
+        def houseId = PersonHouse.findByPersonId(subId).getHouseId();
+        PersonHouse.findAllByHouseId(houseId)
+        def personList = []
+        for(PersonHouse pHouse : PersonHouse.findAllByHouseId(houseId))
+        {
+            personList.add(Person.findBySubId(pHouse.getPersonId()))
+        }
+        println(personList)
+        respond personList
     }
 }

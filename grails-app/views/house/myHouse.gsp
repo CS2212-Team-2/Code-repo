@@ -25,7 +25,7 @@
 
 
 <div>
-    <div id="test"> </div>
+    <div id="root"> </div>
 
     <h3 id="calender">BIG BOX GOES HERE
     <div>
