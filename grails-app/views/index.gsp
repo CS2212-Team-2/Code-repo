@@ -5,7 +5,6 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
-
     <div style="position:relative; left:1200px;">
         <p>Message: ${params['message']}</p>
         <p>Session: ${session['subId']}</p>
@@ -52,7 +51,6 @@
             var firstName;
             var lastName;
 
-
             function onSignIn(googleUser) {
                 // The ID token you need to pass to your backend:
                 // Useful data for your client-side scripts:
@@ -88,7 +86,5 @@
                 });
             }
         </script>
-
-
 </body>
 </html>

@@ -53,9 +53,6 @@ class PersonHouseController {
         redirect(url: '/')
     }
 
-    def demo(){
-        redirect(uri:'/demo')
-    }
     //fun with session
     def list() {
         if (session['subId']) {

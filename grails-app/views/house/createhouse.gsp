@@ -2,6 +2,7 @@
 <!--Datasent from PersonController, createperson() method-->
 <html>
 <head>
+    <meta name="layout" content="main"/>
     <title>Create House Form</title>
 </head>
 <body>
