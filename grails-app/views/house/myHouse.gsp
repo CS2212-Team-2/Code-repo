@@ -50,7 +50,9 @@
                 <p>Email: ${subItem[1]}</p>
             </g:each>
         </g:each>
-
+    </div>
+    <div style="position:relative; bottom: 300px; left: 1000px;">
+        <h3>Finance</h3>
     </div>
 
 </body>
