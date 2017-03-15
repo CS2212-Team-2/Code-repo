@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html>
 <asset:stylesheet src="style.css"/>
+
 <head>
     <title>HouseMates</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 
 </head>
+
+
+<div>
+
+<script>
+    var anDate;
+    var year =[];
+    var month = [];
+    var day = [];
+    var summary = [];
+    var desc = [];
+</script>
+
 <body>
 <!--code for top right corner, user name, logout and add person -->
 <div id="topblock">
@@ -26,36 +40,18 @@
 
 <div>
     <h3 id="calender">BIG BOX GOES HERE
+
     <div>
-    <div id="caleandar">
 
+    	<div id="caleandar">
+    	</div>
 
-    </div>
-
-
-
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize-button" style="display: block;">Authorize</button>
-    <button id="signout-button" style="display: none;">Sign Out</button>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <div class="popup" onclick="myFunction2()">Add an Event/Task
-        <span class="popuptext" id="myPopup"><button onclick="myFunction()">Add </button></br>
-            Year: <input type="text" id="YearInputEvent" value="YYYY">
-            Month: <input type="text" id="MonthInputEvent" value="MM">
-            Day: <input type="text" id="DayInputEvent" value="DD">
-            Description: <input type="text" id="DescriptionInputEvent" value="Description">
-            Summary/Title: <input type="text" id="SummaryInputEvent" value="Summary">
-    </div>
-
-    <pre id="content"></pre>
-
-
-
+    	<!--Add buttons to initiate auth sequence and sign out-->
+    	<pre id="content"></pre>
     <script async defer src="https://apis.google.com/js/api.js"
             onload="this.onload=function(){};handleClientLoad()"
             onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
-
     <script>
     /*
     Author: Jack Ducasse;
@@ -337,22 +333,16 @@
     createCalendar(obj, el);
     }
     </script>
+
     <script>
-    var anDate;
-    var year =[];
-    var month = [];
-    var day = [];
-    var summary = [];
-    var desc = [];
     // Client ID and API key from the Developer Console
     var CLIENT_ID = '731832964818-uecs4clv5qsfubet2rbbr1co235pbost.apps.googleusercontent.com';
+	//724926326266-dhm6bt52ttmrlaessmt8rqp5oc6ueute.apps.googleusercontent.com
     // Array of API discovery doc URLs for APIs used by the quickstart
     var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
     // Authorization scopes required by the API; multiple scopes can be
     // included, separated by spaces.
     var SCOPES = "https://www.googleapis.com/auth/calendar";
-    var authorizeButton = document.getElementById('authorize-button');
-    var signoutButton = document.getElementById('signout-button');
     /**
     *  On load, called to load the auth2 library and API client library.
     */
@@ -373,8 +363,6 @@
     gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
     // Handle the initial sign-in state.
     updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-    authorizeButton.onclick = handleAuthClick;
-    signoutButton.onclick = handleSignoutClick;
     });
     }
     /**
@@ -383,26 +371,11 @@
     */
     function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
-    authorizeButton.style.display = 'none';
-    signoutButton.style.display = 'block';
     listUpcomingEvents();
     } else {
-    authorizeButton.style.display = 'block';
-    signoutButton.style.display = 'none';
     }
     }
-    /**
-    *  Sign in the user upon button click.
-    */
-    function handleAuthClick(event) {
-    gapi.auth2.getAuthInstance().signIn();
-    }
-    /**
-    *  Sign out the user upon button click.
-    */
-    function handleSignoutClick(event) {
-    gapi.auth2.getAuthInstance().signOut();
-    }
+
     /**
     * Append a pre element to the body containing the given message
     * as its text node. Used to display the results of the API call.
@@ -429,7 +402,7 @@
     * the authorized user's calendar. If no events are found an
     * appropriate message is printed.
     */
-    listUpcomingEvents();
+
     function listUpcomingEvents() {
     gapi.client.calendar.events.list({
     'calendarId': 'primary',
@@ -505,18 +478,34 @@
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
     }
+
+
     </script>
+
+
+
+    <br>
+    
+    <div class="popup" onclick="myFunction2()">Add an Event/Task
+        <span class="popuptext" id="myPopup"><button onclick="myFunction()">Add </button></br>
+            Year: <input type="text" id="YearInputEvent" value="YYYY">
+            Month: <input type="text" id="MonthInputEvent" value="MM">
+            Day: <input type="text" id="DayInputEvent" value="DD">
+            Description: <input type="text" id="DescriptionInputEvent" value="Description">
+            Summary/Title: <input type="text" id="SummaryInputEvent" value="Summary">
+    </div>
+
+    <pre id="content"></pre>    
+
+
+	
+
     </div>
 
     </h3>
-    <div id="caleandar">
-    </div>
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <pre id="content"></pre>
-    <script async defer src="https://apis.google.com/js/api.js"
-            onload="this.onload=function(){};handleClientLoad()"
-            onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
+	
+
+
     <!-- returns the users roommates -->
     <h4 id="leaderboard">${user}'s HouseMates</h4>
     <g:each in="${persons}" var="item">
@@ -527,8 +516,10 @@
     </g:each>
 
 
-
     <asset:javascript src="bundle.js"/>
 
 </body>
+
+</div>
+
 </html>
