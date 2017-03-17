@@ -1,6 +1,6 @@
 package house
-import org.springframework.dao.*
 
+import static java.util.Calendar.YEAR
 class TransactionController {
 
     def index() {
@@ -39,12 +39,7 @@ class TransactionController {
 
         int total = (totalCredit -totalDebit) //total to be returned to front end*/
 
-        //total section ends
-        //SECTION: get individual transactions
-        /*session['subId'] = '107726694172578448865'
-        String[] subIdList= ['107726694172578448865','11256632556454563','11002002022004']*/
-        //String[] newList = new String[subIdList.size()]
-        //int n = 0
+
         //remove duplicate subId
         /*for(String w: subIdList){
             if(session['subId'] != w){
@@ -101,18 +96,13 @@ class TransactionController {
         }
 
         //search Person table for firstName based on subId from list
-        //LinkedList<String> nameList = new LinkedList<String>()
-        Person[] houseList = new Person[2]
-        //String[] nameList = new String[findSubId.size()]
+        Person[] houseList = new Person[k]
         for (int i = 0; i < findSubId.size(); i++) {
             String nameSubId = findSubId[i]
             def retPerson = Person.executeQuery("SELECT p.firstName, p.email, p.subId " +
                     "FROM Person p " +
                     "WHERE p.subId = '${nameSubId}'"
             )
-            //nameList[i] = retPerson[0]
-            //}
-            //int size = retPerson.size()
 
             String[] retlist = retPerson[0]
             String firstname = retlist[0]
@@ -125,22 +115,56 @@ class TransactionController {
         [list: houseList]
     }
 
+
+
+    def addpayment(){
+        def payer = params.email
+        Person person = Person.findByEmail(payer)
+        def message = params.message
+        [person: person, message:message]
+    }
+
+
     def payment(){
         def paid = params.amount
-        def invoice = params.invoiceNum
+        def invoiceId = params.invoiceNum
+        Transaction toPay = Transaction.findByInvoiceId(invoiceId)
 
-        def toPay = Transaction.get(invoice)
         if(toPay.amountOwed == paid.toInteger()){
             toPay.delete(flush:true)
             redirect(action:'transaction')
 
         }else{
             int amountPaid = toPay.amountOwed - paid.toInteger()
-            render amountPaid
+            Transaction invoiceAdjust = Transaction.findByInvoiceId(invoiceId)
+            invoiceAdjust.amountOwed = amountPaid
+            invoiceAdjust.save(flush:true)
+            redirect(action:'transaction')
+
         }
     }
 
-    def addpayment(){
+    def savepayment(){
+        def amountPaid = params.amountPaid
+        def amountOwed = params.amountOwed
+        def subId = params.subId
 
+        Person debitorInfo = Person.findBySubId(subId)
+        Person creditorInfo = Person.findBySubId(session['subId'])
+        Transaction transInvoiceId = Transaction.last()
+        int invoiceId = transInvoiceId.invoiceId +1
+        String houseId = session['houseId']
+
+        def today = new Date()
+        Transaction trans = new Transaction(invoiceId:invoiceId, houseId:houseId.toInteger(),creditorId:session['subId'], debitorId:subId, creditorName: creditorInfo.firstName, debitorName: debitorInfo.firstName, amountPaid: amountPaid, amountOwed: amountOwed, description: params.description, date:today).save()
+
+        def message = "Payment added"
+        redirect(action:'addpayment' , params:[message:message, email:debitorInfo.email])
+
+    }
+
+    def translist(){
+        def list = Transaction.list()
+        render list.amountOwed
     }
 }

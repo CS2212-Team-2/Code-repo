@@ -30,7 +30,6 @@ class HouseController {
     //redirect method from login - controller takes person to their house
     def myHouse() {
         if(session['subId']) {
-            def persons = Person.list()
             String houseId = session['houseId']
             //search database for subId as personId
             def list = PersonHouse.executeQuery("SELECT p.personId "+
@@ -47,27 +46,62 @@ class HouseController {
                     k++
                 }
             }
-
+            //calculate totals owed to each person in house
             //search Person table for firstName based on subId from list
-            LinkedList<String> nameList = new LinkedList<String>()
-            def person = Person.list()
-
+            String[] emailList = new String[findSubId.size()]
+            Person[] houseList = new Person[k]
             for(int i = 0; i < findSubId.size(); i++){
                 String nameSubId = findSubId[i]
                 def retPerson = Person.executeQuery("SELECT p.firstName, p.email, p.subId " +
                         "FROM Person p " +
                         "WHERE p.subId = '${nameSubId}'"
                 )
-                nameList.add(retPerson)
-
+                String[] retlist = retPerson[0]
+                String firstname = retlist[0]
+                String email = retlist[1]
+                String subid = retlist[2]
+                Person houseMember = [firstName: firstname, email: email, subId: subid]
+                houseList[i] = houseMember
+                emailList[i] = email
             }
+
+            //get total per house member
+            LinkedList<Person> totalList = new LinkedList<>()
+            for(Person per: houseList){
+                String memberSubId = per.subId
+                Person person = Person.findBySubId(memberSubId)
+                //get credit owed by user
+                def credits = Transaction.findByCreditorId(memberSubId)
+
+                int creditTotals = 0
+                for(def credit:credits){
+                    if(session['subId'] == credit.debitorId) {
+                        creditTotals = creditTotals + credit.amountOwed
+                    }
+                }
+
+                def debits = Transaction.findByDebitorId(memberSubId)
+                int debitTotals = 0
+                for(def debit: debits){
+                    if(session['subId'] == debit.creditorId){
+                        debitTotals = debitTotals + debits.amountOwed
+                    }
+                }
+                String name = person.firstName
+                String id = person.subId
+                int netTotal = (creditTotals - debitTotals)
+                Person ledgerItem = [firstName:name, subId:id, amount:netTotal.toString()]
+                totalList.add(ledgerItem)
+            }
+
+            //get name of active user
             def name = Person.executeQuery("SELECT p.firstName " +
                     "FROM Person p " +
                     "WHERE p.subId = '${session['subId']}'")
 
             String firstName = name[0]
 
-            [persons:nameList, user:firstName]
+            [persons:houseList, user:firstName, emails:emailList, totalList:totalList]
         }
         else{
             def persons = Person.list()

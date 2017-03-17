@@ -12,7 +12,7 @@
         </g:form>
     </div>
 
-    <!-- to add new user-->
+    <!-- send EMAIL to add new user-->
     <div style="position:relative; left: 1200px;">
         <g:form controller="EmailSender" action="index">
             <g:submitButton name="addRoommate" controller="EmailSender" action="index" value="Add Person" />
@@ -26,33 +26,31 @@
     <div>
         <h4>${user}'s HouseMates</h4>
         <g:each in="${persons}" var="item">
-                <g:each in="${item}" var="subItem">
-                    <p>Name: ${subItem[0]}</p>
-                    <p>Email: ${subItem[1]}</p>
-                </g:each>
+                <p>Name: ${item.firstName}</p>
+                <p>Email: ${item.email}</p>
         </g:each>
     </div>
     <!--integrate with calendar add task/event drop down function-->
-    <div>
-        <select>
-        <g:each in="${persons}" var="item">
-            <g:each in="${item}" var="subItem">
-                    <option value="dropdown">${subItem[1]}</option>
-            </g:each>
-        </g:each>
-        </select>
-    </div>
 
-    <div>
-    <p>Email Addresses</p>
-        <g:each in="${persons}" var="item">
-            <g:each in="${item}" var="subItem">
-                <p>Email: ${subItem[1]}</p>
-            </g:each>
-        </g:each>
-    </div>
     <div style="position:relative; bottom: 300px; left: 1000px;">
         <h3>Finance</h3>
+        <div>
+            <h4>Select Person to Add Payment</h4>
+            <g:form controller="transaction" action="addpayment">
+                <g:select onchange="submit()"
+                          name="email"
+                          from="${emails}"
+                          value="${emails}"
+                          noSelection="['':'-Choose Persons Email-']"
+                />
+            </g:form>
+        </div>
+        <div>
+            <g:each in ="${totalList}" var ="person">
+                <h4><g:link action="index" controller = "transaction" id="${person.subId}">${person.firstName} | Total: ${person.amount}</g:link></h4>
+            </g:each>
+        </div>
+
     </div>
 
 </body>

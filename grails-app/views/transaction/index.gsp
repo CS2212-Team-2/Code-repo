@@ -4,7 +4,8 @@
     <title>Test Transactions</title>
 </head>
     <body>
-        <g:set var="user" value="${userId}" scope="page"/>
+    <h4><g:link controller="house" action="myHouse">Back To My House</g:link></h4>
+    <g:set var="user" value="${userId}" scope="page"/>
 
         <h2>Transactions</h2>
         <div>
