@@ -24,7 +24,7 @@
                 <lablel>email: </lablel>
                 <g:textField name="email" value="${person['email']}" disabled="true"/>
                 <g:hiddenField name="email" value="${person['email']}"/><br/>
-                <g:actionSubmit controller='house' action='saveform' value="Create"/>
+                <g:actionSubmit controller='house' action='saveform' value="Join"/>
             </g:form>
         </div>
     </body>

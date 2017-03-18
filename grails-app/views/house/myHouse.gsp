@@ -46,6 +46,7 @@
             </g:form>
         </div>
         <div>
+            <h4>Account Balances(+/-)</h4>
             <g:each in ="${totalList}" var ="person">
                 <h4><g:link action="index" controller = "transaction" id="${person.subId}">${person.firstName} | Total: ${person.amount}</g:link></h4>
             </g:each>

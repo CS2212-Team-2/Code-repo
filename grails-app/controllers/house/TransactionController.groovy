@@ -51,6 +51,8 @@ class TransactionController {
                 "p.debitorName, p.amountPaid, p.amountOwed, p.description, p.date " +
                 "FROM Transaction p " +
                 "WHERE (p.debitorId = '${userId}' AND p.creditorId='${houseMemId}') OR (p.creditorId = '${userId}' AND p.debitorId='${houseMemId}') ")
+        /*render listOfCreditDebit.size()
+        return*/
 
         int size = listOfCreditDebit.size()
         Transaction[] list = new Transaction[size]
@@ -126,22 +128,33 @@ class TransactionController {
 
 
     def payment(){
-        def paid = params.amount
-        def invoiceId = params.invoiceNum
-        Transaction toPay = Transaction.findByInvoiceId(invoiceId)
+        def numOfPayments = params.amount //get the number of payments from params
+        def invoiceNums = params.invoiceNum
 
-        if(toPay.amountOwed == paid.toInteger()){
-            toPay.delete(flush:true)
-            redirect(action:'transaction')
-
-        }else{
-            int amountPaid = toPay.amountOwed - paid.toInteger()
-            Transaction invoiceAdjust = Transaction.findByInvoiceId(invoiceId)
-            invoiceAdjust.amountOwed = amountPaid
-            invoiceAdjust.save(flush:true)
-            redirect(action:'transaction')
-
+        Transaction[] transList = new Transaction[numOfPayments.size()]
+        for(int i = 0; i < numOfPayments.size(); i++){
+            String amountPaid = numOfPayments[i]
+            String invoice = invoiceNums[i]
+            def insertItem = [invoiceId: invoice.toInteger(), amountOwed:amountPaid.toInteger()]
+            transList[i] = insertItem
         }
+
+        for(Transaction t: transList){
+
+            Transaction toPay = Transaction.findByInvoiceId(t.invoiceId)
+            if(toPay.amountOwed == t.amountOwed){
+                toPay.delete(flush:true)
+
+
+            }else{
+                int amountPaid = toPay.amountOwed - t.amountOwed
+                Transaction invoiceAdjust = Transaction.findByInvoiceId(t.invoiceId)
+                invoiceAdjust.amountOwed = amountPaid
+                invoiceAdjust.save(flush:true)
+
+            }
+        }
+        redirect(action:'myHouse', controller:'house')
     }
 
     def savepayment(){

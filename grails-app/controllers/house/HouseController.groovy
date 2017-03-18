@@ -31,10 +31,11 @@ class HouseController {
     def myHouse() {
         if(session['subId']) {
             String houseId = session['houseId']
-            //search database for subId as personId
+            //search database get all subId's associated with house Id
             def list = PersonHouse.executeQuery("SELECT p.personId "+
                     "FROM PersonHouse p " +
                     "WHERE p.houseId = '${houseId}' ")
+
             //remove user from list
             String[] findSubId = new String[list.size()-1]
             int k =0
@@ -65,27 +66,33 @@ class HouseController {
                 emailList[i] = email
             }
 
-            //get total per house member
+            //get total amount owed/owe per house member
             LinkedList<Person> totalList = new LinkedList<>()
-            for(Person per: houseList){
-                String memberSubId = per.subId
-                Person person = Person.findBySubId(memberSubId)
-                //get credit owed by user
-                def credits = Transaction.findByCreditorId(memberSubId)
 
+            for(Person member: houseList){
+                Person person = Person.findBySubId(member.subId)
+                //get credits owed by user to each house member
+                def credits = []
+                credits = Transaction.findAllByCreditorId(member.subId)
                 int creditTotals = 0
                 for(def credit:credits){
-                    if(session['subId'] == credit.debitorId) {
+                    if(session['subId'] == credit.debitorId) {//each transaction where user owes member
                         creditTotals = creditTotals + credit.amountOwed
+                        //render creditTotals
                     }
                 }
 
-                def debits = Transaction.findByDebitorId(memberSubId)
+                //get debits owed by member to user
+                def debits= []
+                debits = Transaction.findAllByDebitorId(member.subId)
                 int debitTotals = 0
+
                 for(def debit: debits){
-                    if(session['subId'] == debit.creditorId){
-                        debitTotals = debitTotals + debits.amountOwed
+
+                    if (session['subId'] == debit.creditorId) {
+                        debitTotals = debitTotals + debit.amountOwed
                     }
+
                 }
                 String name = person.firstName
                 String id = person.subId

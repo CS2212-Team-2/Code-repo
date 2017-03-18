@@ -5,10 +5,23 @@
 </head>
     <body>
     <h4><g:link controller="house" action="myHouse">Back To My House</g:link></h4>
-    <g:set var="user" value="${userId}" scope="page"/>
+    <div>
+        <g:set var="user" value="${userId}" scope="page"/>
+        <g:set var="count" value="" scope="page"/>
+        <g:set var="list" scope="page"/>
+        <script>
+        <g:each in="${transactions}" var="per1" status="j">
+            count = ${j+1}
+        </g:each>
+        var array = list[count];
+        document.write(count)
+        </script>
+
+    </div>
 
         <h2>Transactions</h2>
         <div>
+            <g:form >
             <g:each in="${transactions}" var ="person" status="i">
                 <h3>____________________________</h3>
                 <p>Date:        ${person.date}</p>
@@ -18,14 +31,14 @@
                 <p>Total:       ${person.amountPaid}</p>
                 <p>Amount Owed: ${person.amountOwed}</p>
                 <g:if test="${person.debitorId == user}">
-                    <g:form >
-                        $<g:textField name="amount" value=""/>
-                        <g:hiddenField name="invoiceNum" value="${person.invoiceId}" />
-                        <g:actionSubmit action="payment" controller="transaction" value="Make Payment" />
-                    </g:form>
+                    $<g:textField name="amount" value=""/>
+                    <g:hiddenField name="invoiceNum" value="${person.invoiceId}" />
                 </g:if>
                 <p>Description: ${person.description}</p>
             </g:each>
+
+                <g:actionSubmit action="payment" controller="transaction" value="Make Payment" />
+            </g:form>
         </div>
     </body>
 </html>

@@ -36,10 +36,10 @@
         </div>
 
         <div style="position:relative; left:900px; top:-230px">
-            <h4>Not a Member? Please click button below to JOIN</h4>
+            <h4>Not a Member? Please click button below to Create a House</h4>
             <g:form name="jftForm" controller="person" action="createperson">
                 <g:hiddenField name="googleProfile" value=""/>
-                <g:submitButton style="position:relative; left:10%;" name="Login" value="JOIN"/>
+                <g:submitButton style="position:relative; left:10%;" name="Login" value="Create House"/>
             </g:form>
         </div>
 
