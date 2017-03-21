@@ -9632,8 +9632,9 @@ var SubmitPost = function (_React$Component) {
     _createClass(SubmitPost, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            setTimeout(this.listEvents, 3000);
-            this.listEvents();
+            this.getHouseMatesOp();
+
+            setTimeout(this.listEvents, 2000);
 
             //hiding the stupid filter box thing
             document.getElementsByClassName('FilteredMultiSelect__filter')[0].style.visibility = 'hidden';
@@ -9766,7 +9767,6 @@ var SubmitPost = function (_React$Component) {
         value: function render() {
             var houseMateNames = [];
 
-            this.getHouseMatesOp();
             for (var i = 0; i < this.state.houseMates.length; i++) {
                 //I made it auto send posts to urself
                 if (this.state.houseMates[i].subId != this.props.subId) houseMateNames.push({ value: this.state.houseMates[i].subId, text: this.state.houseMates[i].firstName });
@@ -9804,7 +9804,6 @@ var SubmitPost = function (_React$Component) {
                     options: houseMateNames,
                     selectedOptions: this.state.selected
                 }),
-                _react2.default.createElement('input', { type: 'hidden', className: 'n o-see' }),
                 _react2.default.createElement(
                     'div',
                     null,
@@ -22334,13 +22333,10 @@ var _PostFeed = __webpack_require__(80);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Created by om on 10/03/17.
- */
-alert('Whats up!');
+console.log("index rendering"); /**
+                                 * Created by om on 10/03/17.
+                                 */
 
-
-console.log("index rendering");
 function getParams() {
     // http://localhost:8080/house/myHouse?persons=Session+Content%3A%0A++subId+%3D+102369340031760804603%0A++firstName+%3D+down%0A++lastName+%3D+load%0A++houseName+%3D+jb+hg%0A++houseId+%3D+2%0A++org.grails.FLASH_SCOPE+%3D+org.grails.web.servlet.GrailsFlashScope%401467ea6f%0A++email+%3D+stupidemail9898%40gmail.com%0A
     var url_parameter = {};

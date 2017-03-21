@@ -21,8 +21,9 @@ export default class SubmitPost extends React.Component{
     }
 
     componentDidMount(){
-        setTimeout( this.listEvents, 3000);
-        this.listEvents();
+        this.getHouseMatesOp();
+
+        setTimeout( this.listEvents, 2000);
 
         //hiding the stupid filter box thing
         document.getElementsByClassName('FilteredMultiSelect__filter')[0].style.visibility = 'hidden';
@@ -155,7 +156,6 @@ export default class SubmitPost extends React.Component{
     render(){
         let houseMateNames = [];
 
-        this.getHouseMatesOp();
         for(let i = 0; i < this.state.houseMates.length; i++){
             //I made it auto send posts to urself
             if(this.state.houseMates[i].subId != this.props.subId)
@@ -186,7 +186,6 @@ export default class SubmitPost extends React.Component{
                     options={houseMateNames}
                     selectedOptions={this.state.selected}
                 />
-                <input type="hidden" className="n o-see"/>
 
                 <div>
                     <ul>
