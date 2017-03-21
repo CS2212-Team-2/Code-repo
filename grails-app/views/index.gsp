@@ -5,7 +5,6 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
-
     <div style="position:relative; left:1200px;">
         <p>Message: ${params['message']}</p>
         <p>Session: ${session['subId']}</p>
@@ -37,10 +36,10 @@
         </div>
 
         <div style="position:relative; left:900px; top:-230px">
-            <h4>Not a Member? Please click button below to JOIN</h4>
+            <h4>Not a Member? Please click button below to Create a House</h4>
             <g:form name="jftForm" controller="person" action="createperson">
                 <g:hiddenField name="googleProfile" value=""/>
-                <g:submitButton style="position:relative; left:10%;" name="Login" value="JOIN"/>
+                <g:submitButton style="position:relative; left:10%;" name="Login" value="Create House"/>
             </g:form>
         </div>
 
@@ -51,7 +50,6 @@
             var email;
             var firstName;
             var lastName;
-
 
             function onSignIn(googleUser) {
                 // The ID token you need to pass to your backend:
@@ -88,7 +86,5 @@
                 });
             }
         </script>
-
-
 </body>
 </html>

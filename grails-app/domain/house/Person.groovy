@@ -12,11 +12,13 @@ class Person {
 
     static hasMany = [posts : Post]
 
+    String  amount
 
     static constraints = {
         subId size: 2..50, unique: true
         posts nullable: true
         //email email: true, blank:false
+        amount nullable: true
     }
 
 }
