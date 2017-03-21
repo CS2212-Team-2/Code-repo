@@ -30,7 +30,10 @@ class HouseController {
     //redirect method from login - controller takes person to their house
     def myHouse() {
         if(session['subId']) {
+            //get scores for all house members
             String houseId = session['houseId']
+            def scores = Score.findAllByHouseId(houseId)
+
             //search database get all subId's associated with house Id
             def list = PersonHouse.executeQuery("SELECT p.personId "+
                     "FROM PersonHouse p " +
@@ -108,7 +111,7 @@ class HouseController {
 
             String firstName = name[0]
 
-            [persons:houseList, user:firstName, emails:emailList, totalList:totalList]
+            [persons:houseList, user:firstName, emails:emailList, totalList:totalList, scores:scores]
         }
         else{
             def persons = Person.list()
@@ -126,7 +129,9 @@ class HouseController {
             ph.save()                               //save personhouse to PersonHouse Table
             session['houseId'] = house.id
             session['houseName'] = house.houseName
-
+            //create new users score
+            Person person = Person.findBySubId(session['subId'])
+            Score score =  new Score(firstName: person.firstName, lastName: person.lastName, subId: person.subId, houseId: session['subId']).save()
 
             redirect(action:'index', controller:'EmailSender')
         }else{
@@ -195,6 +200,8 @@ class HouseController {
         def person = new Person(firstName:firstName, lastName:lastName, subId:subId, email:email).save()
         //add person and house id to personHouse table
         def personHouse = new PersonHouse(personId:subId, houseId:houseId).save()
+        //set up intial score for new member
+        Score newScore = new Score(firstName: firstName, lastName:lastName, subId:subId,houseId:houseId).save()
         session.invalidate()
         redirect(uri:'/', params:[message:"Thank you for joining HouseMates! Please login below."])
     }

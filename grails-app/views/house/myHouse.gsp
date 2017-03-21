@@ -41,8 +41,7 @@
                           name="email"
                           from="${emails}"
                           value="${emails}"
-                          noSelection="['':'-Choose Persons Email-']"
-                />
+                          noSelection="['':'-Choose Persons Email-']"/>
             </g:form>
         </div>
         <div>
@@ -51,7 +50,12 @@
                 <h4><g:link action="index" controller = "transaction" id="${person.subId}">${person.firstName} | Total: ${person.amount}</g:link></h4>
             </g:each>
         </div>
-
+    </div>
+    <div>
+        <h3>Leader Board</h3>
+        <g:each in="${scores}" var="score">
+            <p>${score.firstName}   ${score.score}</p>
+        </g:each>
     </div>
 
 </body>

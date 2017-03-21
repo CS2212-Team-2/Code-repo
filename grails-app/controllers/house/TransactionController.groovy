@@ -1,6 +1,9 @@
 package house
 
-import static java.util.Calendar.YEAR
+import java.util.*;
+import java.text.*;
+import java.util.Date;
+
 class TransactionController {
 
     def index() {
@@ -132,25 +135,49 @@ class TransactionController {
         def invoiceNums = params.invoiceNum
 
         def notification
-
+        //put payments in list
         LinkedList<Transaction> transList = new LinkedList<Transaction>()
         for(int i = 0; i < numOfPayments.size()-1; i++) {
-            render i
+
             String amountPaid = numOfPayments[i]
             String invoice = invoiceNums[i]
             def insertItem = [invoiceId: invoice.toInteger(), amountOwed: amountPaid.toInteger()]
-            render insertItem
+
             transList.add(i, insertItem)
         }
-
+        //process payments
         for(Transaction t: transList){
             Transaction toPay = Transaction.findByInvoiceId(t.invoiceId)
             if(toPay.amountOwed == t.amountOwed){
-                toPay.delete(flush:true)
+
                 String whoPaid = toPay.debitorName
                 String description = toPay.description
                 String amountOwed = toPay.amountOwed
-                notification = [whoPaid: whoPaid, description: description, amountOwed: amountOwed]
+                /**ENTER SCORE CALCULATIONS HERE*/
+                def score = Score.findBySubId(toPay.debitorId)
+                Date payDate = new Date()
+
+                if(payDate.after(toPay.date)){
+                    int numDays = payDate.minus(toPay.date)
+                    if(numDays > 30 && numDays < 90){
+                        score.score = score.score - 10
+                        score.save()
+
+                    }
+                    if(numDays > 90 ){
+                        score.score = score.score - 20
+                        score.save()
+
+                    }
+                    if(numDays < 30){
+                        score.score = score.score + 5
+                        score.save()
+                    }
+                }
+                toPay.delete(flush:true)
+                Date today = new Date()
+                redirect(action:'addPost', controller:'Post', params:[receiversId: toPay.creditorId, subId: session['subId'], title: "Finance", text: "Paid: " +amountOwed+", FOR: " +description, date:today.toString() ])
+
 
             }else{
                 int amountPaid = toPay.amountOwed - t.amountOwed
@@ -189,5 +216,23 @@ class TransactionController {
     def translist(){
         def list = Transaction.list()
         render list.amountOwed
+    }
+
+    def calcdate(){
+        def userSubId = session['subId']
+
+        int score = 100
+        if(modDate.after(date)){
+            int numDays = modDate.minus(date)
+            if(numDays > 30 && numDays < 90){
+                score = score - 10
+            }
+            if(numDays > 90 ){
+                score = score - 20
+            }
+        }else{
+            render score
+        }
+        render score
     }
 }
