@@ -31,12 +31,13 @@
                 <p>Total:       ${person.amountPaid}</p>
                 <p>Amount Owed: ${person.amountOwed}</p>
                 <g:if test="${person.debitorId == user}">
-                    $<g:textField name="amount" value=""/>
+                    $<g:textField name="amount" value="0"/>
                     <g:hiddenField name="invoiceNum" value="${person.invoiceId}" />
                 </g:if>
                 <p>Description: ${person.description}</p>
             </g:each>
-
+                <g:hiddenField name="amount" value="0"/>
+                <g:hiddenField name="invoiceNum" value="0"/>
                 <g:actionSubmit action="payment" controller="transaction" value="Make Payment" />
             </g:form>
         </div>

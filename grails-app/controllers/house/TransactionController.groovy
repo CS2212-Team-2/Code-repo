@@ -131,30 +131,40 @@ class TransactionController {
         def numOfPayments = params.amount //get the number of payments from params
         def invoiceNums = params.invoiceNum
 
-        Transaction[] transList = new Transaction[numOfPayments.size()]
-        for(int i = 0; i < numOfPayments.size(); i++){
+        def notification
+
+        LinkedList<Transaction> transList = new LinkedList<Transaction>()
+        for(int i = 0; i < numOfPayments.size()-1; i++) {
+            render i
             String amountPaid = numOfPayments[i]
             String invoice = invoiceNums[i]
-            def insertItem = [invoiceId: invoice.toInteger(), amountOwed:amountPaid.toInteger()]
-            transList[i] = insertItem
+            def insertItem = [invoiceId: invoice.toInteger(), amountOwed: amountPaid.toInteger()]
+            render insertItem
+            transList.add(i, insertItem)
         }
 
         for(Transaction t: transList){
-
             Transaction toPay = Transaction.findByInvoiceId(t.invoiceId)
             if(toPay.amountOwed == t.amountOwed){
                 toPay.delete(flush:true)
-
+                String whoPaid = toPay.debitorName
+                String description = toPay.description
+                String amountOwed = toPay.amountOwed
+                notification = [whoPaid: whoPaid, description: description, amountOwed: amountOwed]
 
             }else{
                 int amountPaid = toPay.amountOwed - t.amountOwed
                 Transaction invoiceAdjust = Transaction.findByInvoiceId(t.invoiceId)
                 invoiceAdjust.amountOwed = amountPaid
                 invoiceAdjust.save(flush:true)
+                String whoPaid = toPay.debitorName
+                String description = toPay.description
+                String amountOwed = toPay.amountOwed
+                notification = [whoPaid: whoPaid, description: description, amountOwed: amountOwed]
 
             }
         }
-        redirect(action:'myHouse', controller:'house')
+        redirect(action:'myHouse', controller:'house', notification:notification)
     }
 
     def savepayment(){
