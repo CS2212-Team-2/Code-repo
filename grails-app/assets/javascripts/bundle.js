@@ -9650,7 +9650,8 @@ var SubmitPost = function (_React$Component) {
         key: 'handleSubmit',
         value: function handleSubmit(e) {
             e.preventDefault();
-            this.postPost(this.state.text, this.state.selected);
+            this.postPost("Post", this.state.text, this.state.selected, false, new Date().toISOString());
+            //title, text, selectedPersons, eventPost, date
         }
     }, {
         key: 'listEvents',
@@ -9697,9 +9698,6 @@ var SubmitPost = function (_React$Component) {
         key: 'postPost',
         value: function postPost(title, text, selectedPersons, eventPost, date) {
             var _this3 = this;
-
-            if (!title) title = "Post";
-            if (!date) date = new Date().toUTCString();
 
             var receiversStr = "";
             for (var i = 0; i < selectedPersons.length; i++) {

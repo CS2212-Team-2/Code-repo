@@ -38,7 +38,8 @@ export default class SubmitPost extends React.Component{
 
     handleSubmit(e){
         e.preventDefault();
-        this.postPost(this.state.text, this.state.selected);
+        this.postPost("Post",this.state.text, this.state.selected, false, (new Date()).toISOString());
+        //title, text, selectedPersons, eventPost, date
     }
 
     listEvents() {
@@ -80,10 +81,7 @@ export default class SubmitPost extends React.Component{
     }
 
     postPost(title, text, selectedPersons, eventPost, date){
-        if (!title)
-            title = "Post";
-        if(!date)
-            date = (new Date()).toUTCString();
+
 
         let receiversStr = "";
         for (let i = 0; i < selectedPersons.length; i++){
