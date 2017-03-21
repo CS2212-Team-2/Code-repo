@@ -8,9 +8,14 @@ class Person {
     String  lastName
     String  subId
     String  email
+    List<Post> posts
+
+    static hasMany = [posts : Post]
+
 
     static constraints = {
         subId size: 2..50, unique: true
+        posts nullable: true
         //email email: true, blank:false
     }
 

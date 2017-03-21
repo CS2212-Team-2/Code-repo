@@ -15,7 +15,6 @@
     "webpack": "^2.2.1"
   },
   "scripts": {
-
     "watch": "webpack --watch --colors --progress",
     "bundle": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
