@@ -1,0 +1,48 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/gtohill/grails/GrailsTutorial/Code-repo/.gradle/nodejs/node-v5.10.1-linux-x64/bin/node',
+1 verbose cli   '/home/gtohill/grails/GrailsTutorial/Code-repo/node_modules/npm/bin/npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'bundle' ]
+2 info using npm@3.8.3
+3 info using node@v5.10.1
+4 verbose run-script [ 'prebundle', 'bundle', 'postbundle' ]
+5 info lifecycle webapp@1.0.0~prebundle: webapp@1.0.0
+6 silly lifecycle webapp@1.0.0~prebundle: no script for prebundle, continuing
+7 info lifecycle webapp@1.0.0~bundle: webapp@1.0.0
+8 verbose lifecycle webapp@1.0.0~bundle: unsafe-perm in lifecycle true
+9 verbose lifecycle webapp@1.0.0~bundle: PATH: /home/gtohill/grails/GrailsTutorial/Code-repo/node_modules/npm/bin/node-gyp-bin:/home/gtohill/grails/GrailsTutorial/Code-repo/node_modules/.bin:/home/gtohill/grails/GrailsTutorial/Code-repo/.gradle/nodejs/node-v5.10.1-linux-x64/bin:/home/gtohill/grails/GrailsTutorial/Code-repo/.gradle/nodejs/node-v5.10.1-linux-x64/bin:/home/gtohill/bin:/home/gtohill/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+10 verbose lifecycle webapp@1.0.0~bundle: CWD: /home/gtohill/grails/GrailsTutorial/Code-repo
+11 silly lifecycle webapp@1.0.0~bundle: Args: [ '-c', 'webpack' ]
+12 silly lifecycle webapp@1.0.0~bundle: Returned: code: 2  signal: null
+13 info lifecycle webapp@1.0.0~bundle: Failed to exec bundle script
+14 verbose stack Error: webapp@1.0.0 bundle: `webpack`
+14 verbose stack Exit status 2
+14 verbose stack     at EventEmitter.<anonymous> (/home/gtohill/grails/GrailsTutorial/Code-repo/node_modules/npm/lib/utils/lifecycle.js:239:16)
+14 verbose stack     at emitTwo (events.js:100:13)
+14 verbose stack     at EventEmitter.emit (events.js:185:7)
+14 verbose stack     at ChildProcess.<anonymous> (/home/gtohill/grails/GrailsTutorial/Code-repo/node_modules/npm/lib/utils/spawn.js:24:14)
+14 verbose stack     at emitTwo (events.js:100:13)
+14 verbose stack     at ChildProcess.emit (events.js:185:7)
+14 verbose stack     at maybeClose (internal/child_process.js:850:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:215:5)
+15 verbose pkgid webapp@1.0.0
+16 verbose cwd /home/gtohill/grails/GrailsTutorial/Code-repo
+17 error Linux 4.4.0-53-generic
+18 error argv "/home/gtohill/grails/GrailsTutorial/Code-repo/.gradle/nodejs/node-v5.10.1-linux-x64/bin/node" "/home/gtohill/grails/GrailsTutorial/Code-repo/node_modules/npm/bin/npm-cli.js" "run" "bundle"
+19 error node v5.10.1
+20 error npm  v3.8.3
+21 error code ELIFECYCLE
+22 error webapp@1.0.0 bundle: `webpack`
+22 error Exit status 2
+23 error Failed at the webapp@1.0.0 bundle script 'webpack'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the webapp package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     webpack
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs webapp
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls webapp
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]

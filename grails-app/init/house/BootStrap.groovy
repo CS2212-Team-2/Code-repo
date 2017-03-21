@@ -25,12 +25,17 @@ class BootStrap {
         PersonHouse testPersonHouse1 = new PersonHouse(personId: testPerson1.subId, houseId:testHouse.houseId).save()
         PersonHouse testPersonHouse2 = new PersonHouse(personId:testPerson2.subId, houseId:testHouse.houseId).save()
         PersonHouse testPersonHouse3 = new PersonHouse(personId: testPerson3.subId, houseId:testHouse.houseId).save()
-        def today = new Date()
+        Date today = new Date().minus(120)
+
         Transaction trans1 = new Transaction(invoiceId:1, houseId:1,creditorId:'107726694172578448865', debitorId:'11256632556454563', creditorName: 'Gary', debitorName: 'Rupi', amountPaid: 100, amountOwed: 50, description: 'Groceries', date:today).save()
         Transaction trans2 = new Transaction(invoiceId:2, houseId:1,creditorId:'11256632556454563', debitorId:'107726694172578448865', creditorName: 'Rupi', debitorName: 'Gary', amountPaid: 80, amountOwed: 35, description: 'Hydro', date:today).save()
         Transaction trans3 = new Transaction(invoiceId:3, houseId:1,creditorId:'11002002022004', debitorId:'107726694172578448865', creditorName: 'Mark', debitorName: 'Gary', amountPaid: 120, amountOwed: 55, description: 'LCBO', date:today).save()
         Transaction trans4 = new Transaction(invoiceId:4, houseId:1,creditorId:'107726694172578448865', debitorId:'11002002022004', creditorName: 'Gary', debitorName: 'Mark', amountPaid: 60, amountOwed: 40, description: 'KEG', date:today).save()
         Transaction trans5 = new Transaction(invoiceId:5, houseId:1,creditorId:'11256632556454563', debitorId:'107726694172578448865', creditorName: 'Rupi', debitorName: 'Gary', amountPaid: 44, amountOwed: 22, description: 'Phone-Bell', date:today).save()
+
+        Score scorePerson1 = new Score(subId: testPerson1.subId, firstName: testPerson1.firstName, lastName: testPerson1.lastName, houseId:1).save()
+        Score scorePerson2 = new Score(subId: testPerson2.subId, firstName: testPerson2.firstName, lastName: testPerson2.lastName, houseId:1).save()
+        Score scorePerson3 = new Score(subId: testPerson3.subId, firstName: testPerson3.firstName, lastName: testPerson3.lastName, houseId:1).save()
     }
 
     def destroy = {

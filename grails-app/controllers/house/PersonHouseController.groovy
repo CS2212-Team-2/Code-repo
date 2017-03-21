@@ -6,7 +6,7 @@ class PersonHouseController {
     def index() {
 
     }
-    //NEED TO ADD all users house mates to return object.
+    //NEED TO ADD all users house mates to session object.
     def login() {
         def auth = params.googleProfile
 
@@ -33,6 +33,8 @@ class PersonHouseController {
                 if(pid in person.subId){//check the passed subId(person) matches the database subId(Person)
                     session['subId'] = pid  //create a session
                     session['houseId'] = hid
+                    def getPerson = Person.findBySubId(pid)
+                    session['firstName'] = getPerson.firstName
                 }
                 //send user to users house.
                 redirect(action:'myHouse', controller:'house', params:[persons:session])
