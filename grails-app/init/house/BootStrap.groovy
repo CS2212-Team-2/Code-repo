@@ -11,7 +11,7 @@ class BootStrap {
         //Add person
 
         Person testPerson1 = new Person(firstName:'Gary', lastName:'Tohill', subId:'107726694172578448865', email:'johnhend1974@gmail.com').save()
-        Person testPerson2 = new Person(firstName: 'Rupi', lastName: 'Bains', subId: '11256632556454563', email:'rupi@gmail.com').save()
+        Person testPerson2 = new Person(firstName: 'Nick', lastName: 'Cheng', subId: '109241297313926835647', email:'nickchengswps@yahoo.ca').save()
         Person testPerson3 = new Person(firstName: 'Ossama', lastName: 'Mahmoud', subId: '114604175836541464029', email:'omahmou2@gmail.com').save()
 
 
@@ -27,8 +27,8 @@ class BootStrap {
         PersonHouse testPersonHouse2 = new PersonHouse(personId:testPerson2.subId, houseId:testHouse.houseId).save()
         PersonHouse testPersonHouse3 = new PersonHouse(personId: testPerson3.subId, houseId:testHouse.houseId).save()
 
-        Post post = new Post(senderName: testPerson2.firstName, title: "title of post",
-                text: "aifbviqhbvkjsvnhnhv bhvbjjjahebv", date: (new Date()))
+        Post post = new Post(senderName: testPerson2.firstName, title: "Title of post",
+                text: "aifbviqhbvkjsvnhnhv bhvbjjjahebv", date: (new Date()).getTimeString())
         post.save()
         testPerson1.addToPosts(post).save()
         testPerson3.addToPosts(post).save()

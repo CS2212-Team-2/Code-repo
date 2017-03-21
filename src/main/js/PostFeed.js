@@ -14,9 +14,11 @@ var Post = React.createClass({
     render(){
         return(
             <div id="status_box">
-                {this.props.sender}<br/>
-                {this.props.title + "\t" + this.props.date}<br/>
+                {"Title: " + this.props.title}<br/>
+                {"Date: " + this.props.date}<br/>
+                {"From:  "+this.props.sender}<br/>
                 {this.props.text}
+                <hr/>
             </div>
         );
     }
@@ -34,6 +36,8 @@ export class PostFeed extends React.Component{
 
         this.fetchPosts = this.fetchPosts.bind(this);
     }
+
+
 
 
     fetchPosts(subId){
@@ -57,9 +61,14 @@ export class PostFeed extends React.Component{
             });
     }
 
+
     componentDidMount() {
         let subId = this.props.params.subId;
         this.fetchPosts(subId);
+        //this.listOneEvent();
+        //alert(isLoaded);
+        setTimeout( this.listOneEvent, 10000);
+
     }
 
     componentWillReceiveProps(nextProps){
@@ -73,7 +82,8 @@ export class PostFeed extends React.Component{
             <div>
                 <h2>Notifications</h2>
                 {this.state.postList}
-                {<SubmitPost subId={this.props.params.subId} update={this.fetchPosts}/>}
+                {<SubmitPost subId={this.props.params.subId} update={this.fetchPosts}
+                             firstName={this.props.params.firstName}/>}
 
             </div>
         );

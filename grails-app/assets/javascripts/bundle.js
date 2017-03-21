@@ -9477,11 +9477,14 @@ var Post = _react2.default.createClass({
         return _react2.default.createElement(
             'div',
             { id: 'status_box' },
-            this.props.sender,
+            "Title: " + this.props.title,
             _react2.default.createElement('br', null),
-            this.props.title + "\t" + this.props.date,
+            "Date: " + this.props.date,
             _react2.default.createElement('br', null),
-            this.props.text
+            "From:  " + this.props.sender,
+            _react2.default.createElement('br', null),
+            this.props.text,
+            _react2.default.createElement('hr', null)
         );
     }
 });
@@ -9533,6 +9536,9 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
         value: function componentDidMount() {
             var subId = this.props.params.subId;
             this.fetchPosts(subId);
+            //this.listOneEvent();
+            //alert(isLoaded);
+            setTimeout(this.listOneEvent, 10000);
         }
     }, {
         key: 'componentWillReceiveProps',
@@ -9553,7 +9559,8 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
                     'Notifications'
                 ),
                 this.state.postList,
-                _react2.default.createElement(_SubmitPost2.default, { subId: this.props.params.subId, update: this.fetchPosts })
+                _react2.default.createElement(_SubmitPost2.default, { subId: this.props.params.subId, update: this.fetchPosts,
+                    firstName: this.props.params.firstName })
             );
         }
     }]);
@@ -9613,18 +9620,21 @@ var SubmitPost = function (_React$Component) {
             houseMates: [],
             selected: []
         };
+
         // this.getHouseMatesOp = this.getHouseMatesOp.bind(this);
         _this.handleChangeOp = _this.handleChangeOp.bind(_this);
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
-
+        _this.listEvents = _this.listEvents.bind(_this);
         return _this;
     }
 
     _createClass(SubmitPost, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.getHouseMatesOp();
+            setTimeout(this.listEvents, 3000);
+            this.listEvents();
+
             //hiding the stupid filter box thing
             document.getElementsByClassName('FilteredMultiSelect__filter')[0].style.visibility = 'hidden';
         }
@@ -9642,48 +9652,93 @@ var SubmitPost = function (_React$Component) {
             this.postPost(this.state.text, this.state.selected);
         }
     }, {
-        key: 'postPost',
-        value: function postPost(text, selectedPersons) {
+        key: 'listEvents',
+        value: function listEvents() {
             var _this2 = this;
 
-            var date = new Date().toDateString();
+            console.log("IN list on call");
+            console.log("IN while on call");
+            var timeMax = new Date();
+            timeMax.setHours(23);
+            timeMax.setMinutes(59);
+            gapi.client.calendar.events.list({
+                'calendarId': 'primary',
+                'timeMin': new Date().toISOString(),
+                'timeMax': timeMax.toISOString(),
+                'showDeleted': false,
+                'singleEvents': true,
+                'maxResults': 10,
+                'orderBy': 'startTime'
+            }).then(function (response) {
+                var events = response.result.items;
+                var eventTitle = void 0;
+                var attendees = [];
+                var eventText = '';
+                var eventTime = void 0;
+                for (var i = 0; i < events.length; i++) {
+                    //find the attendees
+                    for (var j = 0; j < events[i].attendees.length; j++) {
+                        attendees.push(events[i].attendees[j].email);
+                        console.log(events[i].attendees[j].email);
+                    }
+                    eventTitle = events[0].summary;
+
+                    eventText = "Your " + eventTitle + " is " + events[0].description;
+                    eventTime = events[i].start.dayTime;
+
+                    alert(events[0].attendees[i].email + "  " + events[0].attendees.length);
+
+                    _this2.postPost(eventTitle, eventText, attendees, true, eventTime);
+                }
+            });
+        }
+    }, {
+        key: 'postPost',
+        value: function postPost(title, text, selectedPersons, eventPost, date) {
+            var _this3 = this;
+
+            if (!title) title = "Post";
+            if (!date) date = new Date().toUTCString();
 
             var receiversStr = "";
             for (var i = 0; i < selectedPersons.length; i++) {
-                receiversStr += selectedPersons[i].value + ",";
+                receiversStr += selectedPersons[i] + ",";
             }
 
-            fetch('http://localhost:8080/Post/addPost?subId=' + this.props.subId + '&title=' + 'Post' + '&date=' + date + '&text=' + text + '&receivers=' + receiversStr, {
+            console.log(receiversStr);
+            fetch('http://localhost:8080/Post/addPost?byEmail=' + eventPost + '&subId=' + this.props.subId + '&title=' + title + '&date=' + date + '&text=' + text + '&receivers=' + receiversStr, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
                 }
             }).then(function (response) {
-                if (response.ok) {
-                    console.log("response is ok");
-                    _this2.setState({
-                        status: "Post successfully posted!!!",
-                        text: "",
-                        selected: []
+                console.log("updating ui");
+                _this3.props.update(_this3.props.subId);
+                if (!eventPost) {
+                    if (response.ok) {
+                        console.log("response is ok");
+                        _this3.setState({
+                            status: "Post successfully posted!!!",
+                            text: "",
+                            selected: []
+                        });
+                    } else {
+                        _this3.setState({
+                            status: "Post Failed :("
+                        });
+                        console.log("response is not ok");
 
-                    });
-                    _this2.props.update(_this2.props.subId);
-                } else {
-                    _this2.setState({
-                        status: "Post Failed :("
-                    });
-                    console.log("response is not ok");
-
-                    // If response is NOT OKAY (e.g. 404), clear the statuses.
+                        // If response is NOT OKAY (e.g. 404), clear the statuses.
+                    }
                 }
             });
         }
     }, {
         key: 'getHouseMatesOp',
         value: function getHouseMatesOp() {
-            var _this3 = this;
+            var _this4 = this;
 
-            console.log("fetch call sent...\n");
+            console.log("getting house mates call sent...\n");
             //How r we communicating with the backend, what should we send in, (name) id, etc
             var results = [];
             fetch("http://localhost:8080/PersonHouse/getHouseMembers?subId=" + this.props.subId).then(function (response) {
@@ -9693,7 +9748,7 @@ var SubmitPost = function (_React$Component) {
                         for (var i = 0; i < json.length; i++) {
                             results.push(json[i]);
                         }
-                        _this3.setState({ houseMates: results });
+                        _this4.setState({ houseMates: results });
                     });
                 }
             });
@@ -9711,8 +9766,10 @@ var SubmitPost = function (_React$Component) {
         value: function render() {
             var houseMateNames = [];
 
+            this.getHouseMatesOp();
             for (var i = 0; i < this.state.houseMates.length; i++) {
-                houseMateNames.push({ value: this.state.houseMates[i].subId, text: this.state.houseMates[i].firstName });
+                //I made it auto send posts to urself
+                if (this.state.houseMates[i].subId != this.props.subId) houseMateNames.push({ value: this.state.houseMates[i].subId, text: this.state.houseMates[i].firstName });
             }
             var listItems = this.state.selected.map(function (select) {
                 return _react2.default.createElement(
@@ -9737,14 +9794,15 @@ var SubmitPost = function (_React$Component) {
                     _react2.default.createElement(
                         'label',
                         null,
-                        _react2.default.createElement('input', { type: 'text', onChange: this.handleChange, defaultValue: this.state.text })
+                        _react2.default.createElement('input', { type: 'text', onChange: this.handleChange, value: this.state.text })
                     ),
                     _react2.default.createElement('input', { type: 'submit', value: 'Post',
                         disabled: this.state.selected.length == 0 || this.state.text.trim().length == 0 })
                 ),
                 _react2.default.createElement(_reactFilteredMultiselect2.default, {
                     onChange: this.handleChangeOp,
-                    options: houseMateNames
+                    options: houseMateNames,
+                    selectedOptions: this.state.selected
                 }),
                 _react2.default.createElement('input', { type: 'hidden', className: 'n o-see' }),
                 _react2.default.createElement(

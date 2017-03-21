@@ -5,7 +5,7 @@ class Post {
     String senderName
     String title
     String text
-    Date date
+    String date
 
     static belongsTo = Person
     static hasMany = [receivers: Person]

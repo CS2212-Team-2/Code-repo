@@ -1,10 +1,11 @@
 <!doctype html>
 <head>
-    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-scope" content="profile email https://www.googleapis.com/auth/calendar">
     <meta name="google-signin-client_id" content="724926326266-dhm6bt52ttmrlaessmt8rqp5oc6ueute.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
+
     <div style="position:relative; left:1200px;">
         <p>Message: ${params['message']}</p>
         <p>Session: ${session['subId']}</p>
@@ -51,6 +52,7 @@
             var firstName;
             var lastName;
 
+
             function onSignIn(googleUser) {
                 // The ID token you need to pass to your backend:
                 // Useful data for your client-side scripts:
@@ -86,5 +88,7 @@
                 });
             }
         </script>
+
+
 </body>
 </html>

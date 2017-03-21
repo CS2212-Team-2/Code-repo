@@ -78,7 +78,7 @@ class PersonHouseController extends RestfulController{
     def getHouseMembers(){
         print("getting house members")
         def subId = params.subId
-        def houseId = PersonHouse.findByPersonId(subId).getHouseId();
+        def houseId = PersonHouse.findByPersonId(subId).getHouseId()
         PersonHouse.findAllByHouseId(houseId)
         def personList = []
         for(PersonHouse pHouse : PersonHouse.findAllByHouseId(houseId))
