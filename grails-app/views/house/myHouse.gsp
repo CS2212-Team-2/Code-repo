@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <asset:stylesheet src="style.css"/>
 
 <head>
@@ -19,6 +20,10 @@
     var summary = [];
     var desc = [];
 </script>
+
+<g:javascript>
+	
+</g:javascript>
 
 <body>
 <!--code for top right corner, user name, logout and add person -->
@@ -46,6 +51,7 @@
     	<div id="caleandar">
     	</div>
 
+
     	<!--Add buttons to initiate auth sequence and sign out-->
     	<pre id="content"></pre>
     <script async defer src="https://apis.google.com/js/api.js"
@@ -62,7 +68,7 @@
     // Default Values
     this.Options = {
     Color: '',
-    LinkColor: '',
+    LinkColor: 'red',
     NavShow: true,
     NavVertical: false,
     NavLocation: '',
@@ -253,7 +259,7 @@
     title.className += "cld-title";
     if(typeof calendar.Model[n].Link == 'function' || calendar.Options.EventClick){
     var a = document.createElement('a');
-    a.setAttribute('href', '#');
+    a.setAttribute('a', '#');
     a.innerHTML += calendar.Model[n].Title;
     if(calendar.Options.EventClick){
     var z = calendar.Model[n].Link;
@@ -279,7 +285,10 @@
     }
     title.appendChild(a);
     }else{
-    title.innerHTML += '<a href="' + calendar.Model[n].Link + '">' + calendar.Model[n].Title + '</a>';
+    //title.innerHTML += '<a href="' + calendar.Model[n].Link + '">' + calendar.Model[n].Title + '</a>';
+    title.innerHTML += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
+    //title.innerHtml += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
+    //title.innerHtml += '<div>Hello</div>';
     }
     number.appendChild(title);
     }
@@ -316,7 +325,7 @@
     mainSection.innerHTML += '<style>.cld-main{color:' + calendar.Options.Color + ';}</style>';
     }
     if(calendar.Options.LinkColor){
-    mainSection.innerHTML += '<style>.cld-title a{color:' + calendar.Options.LinkColor + ';}</style>';
+    //mainSection.innerHTML += '<style>.cld-title a{color:' + calendar.Options.LinkColor + ';}</style>';
     }
     element.appendChild(mainSection);
     if(calendar.Options.NavShow && calendar.Options.NavVertical){
@@ -382,15 +391,16 @@
     *
     * @param {string} message Text to be placed in pre element.
     */
-    function popupMessage(){
-        alert("Description of the event");
+    function popupMessage(x){
+        alert(x);
     }
     function appendPre(message) {
     var events = [];
     var b = {};
     for (i = 0; i < year.length; i++) {
-    //b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]}
-    b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': function(){popupMessage()}};
+    
+    //b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]};
+    b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]};
     events.push(b);
     }
     var settings = {};
@@ -438,9 +448,12 @@
     });
     }
     function myFunction() {
+    var x = 0;
+
     var test = document.getElementById("YearInputEvent").value;
     var event = {
-    'summary': document.getElementById("SummaryInputEvent").value,
+    //'summary': document.getElementById("SummaryInputEvent").value,
+    'summary': 'RoomMateEvent',
     'description': document.getElementById("DescriptionInputEvent").value,
     'start': {
     'dateTime': document.getElementById("YearInputEvent").value + '-' +document.getElementById("MonthInputEvent").value + '-' + document.getElementById("DayInputEvent").value + 'T01:00:00-23:00',
@@ -454,7 +467,6 @@
     //'RRULE:FREQ=DAILY;COUNT=2'
     ],
     'attendees': [
-    //{'email': 'lpage@example.com'}
     ],
     'reminders': {
     'useDefault': false,
@@ -468,32 +480,116 @@
     'calendarId': 'primary',
     'resource': event
     });
+    for (x=0;x<document.getElementById("AssigneesTask").length;x++)
+    {
+    	event.attendees.push({'email':document.getElementById("AssigneesTask")[x].value});
+    }
     request.execute(function(event) {
     alert('Event created: ' + event.htmlLink);
     });
     }
+
     /*
     */
+
     function myFunction2(){
-    var popup = document.getElementById("myPopup");
-    popup.classList.toggle("show");
+    var x=0;
+
+    var test = document.getElementById("YearInputTask").value;
+    var event = {
+    //'summary': document.getElementById("SummaryInputTask").value,
+    'summary': 'RoomMateTask',
+    'description': document.getElementById("DescriptionInputTask").value,
+    'start': {
+    'dateTime': document.getElementById("YearInputTask").value + '-' +document.getElementById("MonthInputTask").value + '-' + document.getElementById("DayInputTask").value + 'T01:00:00-23:00',
+    'timeZone': 'America/Toronto'
+    },
+    'end': {
+    'dateTime': document.getElementById("YearInputTask").value + '-' +document.getElementById("MonthInputTask").value + '-' + document.getElementById("DayInputTask").value + 'T01:00:00-23:00',
+    'timeZone': 'America/Toronto'
+    },
+    'recurrence': [
+    //'RRULE:FREQ=DAILY;COUNT=2'
+    ],
+    'attendees': [
+    ],
+    'reminders': {
+    'useDefault': false,
+    'overrides': [
+    {'method': 'email', 'minutes': 24 * 60},
+    {'method': 'popup', 'minutes': 10}
+    ]
+    }
+    };
+    var request = gapi.client.calendar.events.insert({
+    'calendarId': 'primary',
+    'resource': event
+    });
+    for (x=0;x<document.getElementById("AssigneesTask").length;x++)
+    {
+        if (document.getElementById("AssigneesTask")[x].selected)
+        {
+    	    event.attendees.push({'email':document.getElementById("AssigneesTask")[x].value});
+    	}	
+    }
+    request.execute(function(event) {
+    alert('Task created: ' + event.htmlLink);
+    });
     }
 
 
     </script>
 
 
-
-    <br>
-    
-    <div class="popup" onclick="myFunction2()">Add an Event/Task
-        <span class="popuptext" id="myPopup"><button onclick="myFunction()">Add </button></br>
+    <div>
+    Calendar Stuff
+    <div id="addEventDiv" style="display:none">
+        <button onclick="myFunction()">Add Event</button>
             Year: <input type="text" id="YearInputEvent" value="YYYY">
             Month: <input type="text" id="MonthInputEvent" value="MM">
             Day: <input type="text" id="DayInputEvent" value="DD">
             Description: <input type="text" id="DescriptionInputEvent" value="Description">
-            Summary/Title: <input type="text" id="SummaryInputEvent" value="Summary">
     </div>
+    <div id="addTaskDiv" style="display:none">
+        <button onclick="myFunction2()">Add Task</button>
+            Year: <input type="text" id="YearInputTask" value="YYYY">
+            Month: <input type="text" id="MonthInputTask" value="MM">
+            Day: <input type="text" id="DayInputTask" value="DD">
+            Description: <input type="text" id="DescriptionInputTask" value="Description">
+            <select id="AssigneesTask" name="AssigneesTask" multiple="multiple">
+            <g:each in="${persons}" var="item">
+               <g:each in="${item}" var="subItem">
+                  <option value=${subItem[1]}>${subItem[1]}</option>
+               </g:each>
+            </g:each>
+            </select>
+    </div>
+    <button onclick="myFunction5()">+E</button>
+    <button onclick="myFunction6()">+T</button>
+    </div>
+
+<script>
+function myFunction5() {
+    if (document.getElementById("addEventDiv").style.display == "block"){
+        document.getElementById("addEventDiv").style.display = "none";
+    }else{
+        if (document.getElementById("addTaskDiv").style.display == "block"){
+            document.getElementById("addTaskDiv").style.display = "none";
+        }
+        document.getElementById("addEventDiv").style.display = "block";
+    }
+}
+function myFunction6() {
+    if (document.getElementById("addTaskDiv").style.display == "block"){
+        document.getElementById("addTaskDiv").style.display = "none";
+    }else{
+        if (document.getElementById("addEventDiv").style.display == "block"){
+            document.getElementById("addEventDiv").style.display = "none";
+        }
+        document.getElementById("addTaskDiv").style.display = "block";
+    }
+}
+</script>
 
     <pre id="content"></pre>    
 
