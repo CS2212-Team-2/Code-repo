@@ -83,6 +83,7 @@ export default class SubmitPost extends React.Component{
     postPost(title, text, selectedPersons, eventPost, date){
 
 
+
         let receiversStr = "";
         for (let i = 0; i < selectedPersons.length; i++){
             receiversStr += selectedPersons[i] + ",";
