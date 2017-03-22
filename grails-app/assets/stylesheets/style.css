@@ -161,7 +161,8 @@
     padding: 5px;
     height: 90px;
     border: 1px solid #ddd;
-    overflow-y: auto;
+    overflow-y: visible;
+    overflow-x: visible;
     background: white
   }
   .cld-day.clickable:hover{
@@ -205,4 +206,30 @@
       }
       .today .cld-number.eventday:hover{
       }
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    background: white;
+}
 
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 5;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
