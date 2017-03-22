@@ -56,38 +56,22 @@
                 <h4><g:link action="index" controller = "transaction" id="${person.subId}">${person.firstName} | Total: ${person.amount}</g:link></h4>
             </g:each>
         </div>
+
 <div>
     <h3 id="calender">BIG BOX GOES HERE
+
     <div>
-    <div id="caleandar">
+
+    	<div id="caleandar">
+    	</div>
 
 
-    </div>
-
-
-
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <button id="authorize-button" style="display: block;">Authorize</button>
-    <button id="signout-button" style="display: none;">Sign Out</button>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <div class="popup" onclick="myFunction2()">Add an Event/Task
-        <span class="popuptext" id="myPopup"><button onclick="myFunction()">Add </button></br>
-            Year: <input type="text" id="YearInputEvent" value="YYYY">
-            Month: <input type="text" id="MonthInputEvent" value="MM">
-            Day: <input type="text" id="DayInputEvent" value="DD">
-            Description: <input type="text" id="DescriptionInputEvent" value="Description">
-            Summary/Title: <input type="text" id="SummaryInputEvent" value="Summary">
-    </div>
-
-    <pre id="content"></pre>
-
-
-
+    	<!--Add buttons to initiate auth sequence and sign out-->
+    	<pre id="content"></pre>
     <script async defer src="https://apis.google.com/js/api.js"
             onload="this.onload=function(){};handleClientLoad()"
             onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
-
     <script>
     /*
     Author: Jack Ducasse;
@@ -98,7 +82,7 @@
     // Default Values
     this.Options = {
     Color: '',
-    LinkColor: '',
+    LinkColor: 'red',
     NavShow: true,
     NavVertical: false,
     NavLocation: '',
@@ -289,7 +273,7 @@
     title.className += "cld-title";
     if(typeof calendar.Model[n].Link == 'function' || calendar.Options.EventClick){
     var a = document.createElement('a');
-    a.setAttribute('href', '#');
+    a.setAttribute('a', '#');
     a.innerHTML += calendar.Model[n].Title;
     if(calendar.Options.EventClick){
     var z = calendar.Model[n].Link;
@@ -315,7 +299,10 @@
     }
     title.appendChild(a);
     }else{
-    title.innerHTML += '<a href="' + calendar.Model[n].Link + '">' + calendar.Model[n].Title + '</a>';
+    //title.innerHTML += '<a href="' + calendar.Model[n].Link + '">' + calendar.Model[n].Title + '</a>';
+    title.innerHTML += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
+    //title.innerHtml += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
+    //title.innerHtml += '<div>Hello</div>';
     }
     number.appendChild(title);
     }
@@ -352,7 +339,7 @@
     mainSection.innerHTML += '<style>.cld-main{color:' + calendar.Options.Color + ';}</style>';
     }
     if(calendar.Options.LinkColor){
-    mainSection.innerHTML += '<style>.cld-title a{color:' + calendar.Options.LinkColor + ';}</style>';
+    //mainSection.innerHTML += '<style>.cld-title a{color:' + calendar.Options.LinkColor + ';}</style>';
     }
     element.appendChild(mainSection);
     if(calendar.Options.NavShow && calendar.Options.NavVertical){
@@ -369,6 +356,7 @@
     createCalendar(obj, el);
     }
     </script>
+
     <script>
     var anDate;
     var year =[];
@@ -378,13 +366,12 @@
     var desc = [];
     // Client ID and API key from the Developer Console
     var CLIENT_ID = '731832964818-uecs4clv5qsfubet2rbbr1co235pbost.apps.googleusercontent.com';
+	//724926326266-dhm6bt52ttmrlaessmt8rqp5oc6ueute.apps.googleusercontent.com
     // Array of API discovery doc URLs for APIs used by the quickstart
     var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
     // Authorization scopes required by the API; multiple scopes can be
     // included, separated by spaces.
     var SCOPES = "https://www.googleapis.com/auth/calendar";
-    var authorizeButton = document.getElementById('authorize-button');
-    var signoutButton = document.getElementById('signout-button');
     /**
     *  On load, called to load the auth2 library and API client library.
     */
@@ -405,8 +392,6 @@
     gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
     // Handle the initial sign-in state.
     updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-    authorizeButton.onclick = handleAuthClick;
-    signoutButton.onclick = handleSignoutClick;
     });
     }
     /**
@@ -415,41 +400,27 @@
     */
     function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
-    authorizeButton.style.display = 'none';
-    signoutButton.style.display = 'block';
     listUpcomingEvents();
     } else {
-    authorizeButton.style.display = 'block';
-    signoutButton.style.display = 'none';
     }
     }
-    /**
-    *  Sign in the user upon button click.
-    */
-    function handleAuthClick(event) {
-    gapi.auth2.getAuthInstance().signIn();
-    }
-    /**
-    *  Sign out the user upon button click.
-    */
-    function handleSignoutClick(event) {
-    gapi.auth2.getAuthInstance().signOut();
-    }
+
     /**
     * Append a pre element to the body containing the given message
     * as its text node. Used to display the results of the API call.
     *
     * @param {string} message Text to be placed in pre element.
     */
-    function popupMessage(){
-        alert("Description of the event");
+    function popupMessage(x){
+        alert(x);
     }
     function appendPre(message) {
     var events = [];
     var b = {};
     for (i = 0; i < year.length; i++) {
-    //b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]}
-    b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': function(){popupMessage()}};
+    
+    //b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]};
+    b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]};
     events.push(b);
     }
     var settings = {};
@@ -461,7 +432,7 @@
     * the authorized user's calendar. If no events are found an
     * appropriate message is printed.
     */
-    listUpcomingEvents();
+
     function listUpcomingEvents() {
     gapi.client.calendar.events.list({
     'calendarId': 'primary',
@@ -497,9 +468,12 @@
     });
     }
     function myFunction() {
+    var x = 0;
+
     var test = document.getElementById("YearInputEvent").value;
     var event = {
-    'summary': document.getElementById("SummaryInputEvent").value,
+    //'summary': document.getElementById("SummaryInputEvent").value,
+    'summary': 'RoomMateEvent',
     'description': document.getElementById("DescriptionInputEvent").value,
     'start': {
     'dateTime': document.getElementById("YearInputEvent").value + '-' +document.getElementById("MonthInputEvent").value + '-' + document.getElementById("DayInputEvent").value + 'T01:00:00-23:00',
@@ -513,7 +487,6 @@
     //'RRULE:FREQ=DAILY;COUNT=2'
     ],
     'attendees': [
-    //{'email': 'lpage@example.com'}
     ],
     'reminders': {
     'useDefault': false,
@@ -527,37 +500,126 @@
     'calendarId': 'primary',
     'resource': event
     });
+    for (x=0;x<document.getElementById("AssigneesTask").length;x++)
+    {
+    	event.attendees.push({'email':document.getElementById("AssigneesTask")[x].value});
+    }
     request.execute(function(event) {
     alert('Event created: ' + event.htmlLink);
     });
     }
+
     /*
     */
+
     function myFunction2(){
-    var popup = document.getElementById("myPopup");
-    popup.classList.toggle("show");
+    var x=0;
+
+    var test = document.getElementById("YearInputTask").value;
+    var event = {
+    //'summary': document.getElementById("SummaryInputTask").value,
+    'summary': 'RoomMateTask',
+    'description': document.getElementById("DescriptionInputTask").value,
+    'start': {
+    'dateTime': document.getElementById("YearInputTask").value + '-' +document.getElementById("MonthInputTask").value + '-' + document.getElementById("DayInputTask").value + 'T01:00:00-23:00',
+    'timeZone': 'America/Toronto'
+    },
+    'end': {
+    'dateTime': document.getElementById("YearInputTask").value + '-' +document.getElementById("MonthInputTask").value + '-' + document.getElementById("DayInputTask").value + 'T01:00:00-23:00',
+    'timeZone': 'America/Toronto'
+    },
+    'recurrence': [
+    //'RRULE:FREQ=DAILY;COUNT=2'
+    ],
+    'attendees': [
+    ],
+    'reminders': {
+    'useDefault': false,
+    'overrides': [
+    {'method': 'email', 'minutes': 24 * 60},
+    {'method': 'popup', 'minutes': 10}
+    ]
     }
+    };
+    var request = gapi.client.calendar.events.insert({
+    'calendarId': 'primary',
+    'resource': event
+    });
+    for (x=0;x<document.getElementById("AssigneesTask").length;x++)
+    {
+        if (document.getElementById("AssigneesTask")[x].selected)
+        {
+    	    event.attendees.push({'email':document.getElementById("AssigneesTask")[x].value});
+    	}	
+    }
+    request.execute(function(event) {
+    alert('Task created: ' + event.htmlLink);
+    });
+    }
+
+
     </script>
+
+
+    <div>
+    Calendar Stuff
+    <div id="addEventDiv" style="display:none">
+        <button onclick="myFunction()">Add Event</button>
+            Year: <input type="text" id="YearInputEvent" value="YYYY">
+            Month: <input type="text" id="MonthInputEvent" value="MM">
+            Day: <input type="text" id="DayInputEvent" value="DD">
+            Description: <input type="text" id="DescriptionInputEvent" value="Description">
+    </div>
+    <div id="addTaskDiv" style="display:none">
+        <button onclick="myFunction2()">Add Task</button>
+            Year: <input type="text" id="YearInputTask" value="YYYY">
+            Month: <input type="text" id="MonthInputTask" value="MM">
+            Day: <input type="text" id="DayInputTask" value="DD">
+            Description: <input type="text" id="DescriptionInputTask" value="Description">
+            <select id="AssigneesTask" name="AssigneesTask" multiple="multiple">
+            <g:each in="${persons}" var="item">
+               <g:each in="${item}" var="subItem">
+                  <option value=${subItem[1]}>${subItem[1]}</option>
+               </g:each>
+            </g:each>
+            </select>
+    </div>
+    <button onclick="myFunction5()">+E</button>
+    <button onclick="myFunction6()">+T</button>
+    </div>
+
+<script>
+function myFunction5() {
+    if (document.getElementById("addEventDiv").style.display == "block"){
+        document.getElementById("addEventDiv").style.display = "none";
+    }else{
+        if (document.getElementById("addTaskDiv").style.display == "block"){
+            document.getElementById("addTaskDiv").style.display = "none";
+        }
+        document.getElementById("addEventDiv").style.display = "block";
+    }
+}
+function myFunction6() {
+    if (document.getElementById("addTaskDiv").style.display == "block"){
+        document.getElementById("addTaskDiv").style.display = "none";
+    }else{
+        if (document.getElementById("addEventDiv").style.display == "block"){
+            document.getElementById("addEventDiv").style.display = "none";
+        }
+        document.getElementById("addTaskDiv").style.display = "block";
+    }
+}
+</script>
+
+    <pre id="content"></pre>    
+
+
+	
+
     </div>
 
     </h3>
-    <div id="caleandar">
-    </div>
-    <!--Add buttons to initiate auth sequence and sign out-->
-    <pre id="content"></pre>
-    <script async defer src="https://apis.google.com/js/api.js"
-            onload="this.onload=function(){};handleClientLoad()"
-            onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
-    <!-- returns the users roommates -->
-    <h4 id="leaderboard">${user}'s HouseMates</h4>
-    <g:each in="${persons}" var="item">
-
-        <p>Name: ${item.firstName}</p>
-        <p>Email: ${item.email}</p>
-
-    </g:each>
-
+	
 
 
     <asset:javascript src="bundle.js"/>
