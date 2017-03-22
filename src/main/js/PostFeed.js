@@ -67,8 +67,6 @@ export class PostFeed extends React.Component{
         this.fetchPosts(subId);
         //this.listOneEvent();
         //alert(isLoaded);
-        setTimeout( this.listOneEvent, 10000);
-
     }
 
     componentWillReceiveProps(nextProps){

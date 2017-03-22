@@ -18,6 +18,7 @@ function  getParams() {
         url_parameter[parr[0]] = parr[1];
     }
     return url_parameter;
+
 }
 
 

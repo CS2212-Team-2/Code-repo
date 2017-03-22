@@ -5,26 +5,57 @@
     <title>Welcome Home!</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 
+
 </head>
 <body>
-<!--code for top right corner, user name, logout and add person -->
-<div id="topblock">
-    <div class="inner" id="add"><g:form controller="EmailSender" action="index">
-        <g:submitButton name="addRoommate" controller="EmailSender" action="index" value="Add Person" />
-    </g:form></div>
-    <div class="inner"><h2 id="title">HouseMates</h2></div>
-    <div class="inner" id="logout"><g:form controller="PersonHouse" action="logout">
-        <g:submitButton name="logout" controller="PersonHouse" action="logout" value="Log Out" />
-    </g:form></div>
-</div>
-<br/>
-<div><h3 id="welcome">Welcome Home, ${user}!</h3></div>
-%{--location to open js file--}%
-<div id="root"> </div>
+    <!--code for top right corner, user name, logout and add person -->
+    <div style="position:relative; left: 1200px;">
+        <h3>Welcome Home: ${user}</h3>
+        <g:form controller="PersonHouse" action="logout">
+            <g:submitButton name="logout" controller="PersonHouse" action="logout" value="logout" />
+        </g:form>
+    </div>
+
+    <!-- send EMAIL to add new user-->
+    <div style="position:relative; left: 1200px;">
+        <g:form controller="EmailSender" action="index">
+            <g:submitButton name="addRoommate" controller="EmailSender" action="index" value="Add Person" />
+        </g:form>
+    </div>
+    <br/>
+    %{--location to open js file--}%
+    <div id="root"> </div>
 
     <div style="width:auto;height:200px;"><h3>BIG BOX GOES HERE</h3></div>
     <!-- returns the users roommates -->
 
+    <div>
+        <h4>${user}'s HouseMates</h4>
+        <g:each in="${persons}" var="item">
+                <p>Name: ${item.firstName}</p>
+                <p>Email: ${item.email}</p>
+        </g:each>
+    </div>
+    <!--integrate with calendar add task/event drop down function-->
+
+    <div style="position:relative; bottom: 300px; left: 1000px;">
+        <h3>Finance</h3>
+        <div>
+            <h4>Select Person to Add Payment</h4>
+            <g:form controller="transaction" action="addpayment">
+                <g:select onchange="submit()"
+                          name="email"
+                          from="${emails}"
+                          value="${emails}"
+                          noSelection="['':'-Choose Persons Email-']"/>
+            </g:form>
+        </div>
+        <div>
+            <h4>Account Balances(+/-)</h4>
+            <g:each in ="${totalList}" var ="person">
+                <h4><g:link action="index" controller = "transaction" id="${person.subId}">${person.firstName} | Total: ${person.amount}</g:link></h4>
+            </g:each>
+        </div>
 <div>
     <h3 id="calender">BIG BOX GOES HERE
     <div>
@@ -521,10 +552,10 @@
     <!-- returns the users roommates -->
     <h4 id="leaderboard">${user}'s HouseMates</h4>
     <g:each in="${persons}" var="item">
-        <g:each in="${item}" var="subItem">
-            <p>Name: ${subItem[0]}</p>
-            <p>Email: ${subItem[1]}</p>
-        </g:each>
+
+        <p>Name: ${item.firstName}</p>
+        <p>Email: ${item.email}</p>
+
     </g:each>
 
 

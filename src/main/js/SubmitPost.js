@@ -73,7 +73,7 @@ export default class SubmitPost extends React.Component{
                 eventText = "Your "+ eventTitle +" is " + events[0].description;
                 eventTime = events[i].start.dayTime;
 
-                alert(events[0].attendees[i].email + "  " + events[0].attendees.length);
+                alert(eventTime);
 
                 this.postPost(eventTitle, eventText, attendees, true, eventTime);
                 }
