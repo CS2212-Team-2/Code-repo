@@ -614,7 +614,7 @@ function myFunction6() {
     <pre id="content"></pre>    
 
 
-	
+	<div id="leaderboard"></div>
 
     </div>
 
