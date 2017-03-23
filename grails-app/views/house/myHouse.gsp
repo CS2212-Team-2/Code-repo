@@ -526,7 +526,7 @@
         </g:each>
     </g:each>
 
-
+    <div id="leaderboard"></div>
 
     <asset:javascript src="bundle.js"/>
 
