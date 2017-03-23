@@ -37,10 +37,7 @@ class PostController extends RestfulController {
         //if statement checking if we want to get the house members by email or subId
         def byEmail = params.byEmail.trim()
 
-        println("post received")
-        println( "this is wat i got " + params )
-
-        Person sender = ( Person.findBySubId(senderId) )
+        Person sender = Person.findBySubId(senderId)
 
         List<String> receiversId = params.receivers.split(",")//list of subIds related it to
         println("list:                 " + receiversId + "\n")
@@ -93,7 +90,7 @@ class PostController extends RestfulController {
         }
 
         response.status = 200
-
+        redirect(uri:"http://localHost:8080/house/myHouse?subId+%3D+${session['subId']}%0A++firstName+%3D+${[session['firstName']]}")
     }
 
 }

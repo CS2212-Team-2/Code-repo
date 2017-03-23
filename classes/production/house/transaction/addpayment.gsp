@@ -27,6 +27,11 @@
     <div>
         <h4>${message}</h4>
     </div>
+<<<<<<< Updated upstream
+<h4><g:link  base="http://localHost:8080/house/myHouse?subId+%3D+${session['subId']}%0A++firstName+%3D+${[session['firstName']]}">Back To My House</g:link></h4>
+
+=======
     <h4><g:link controller="house" action="myHouse">Back To My House</g:link></h4>
+>>>>>>> Stashed changes
 </body>
 </html>
