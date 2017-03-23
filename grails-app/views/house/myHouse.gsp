@@ -68,11 +68,11 @@
 
     	<!--Add buttons to initiate auth sequence and sign out-->
     	<pre id="content"></pre>
-    <script async defer src="https://apis.google.com/js/api.js"
+    <script async src="https://apis.google.com/js/api.js"
             onload="this.onload=function(){};handleClientLoad()"
             onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
-    <script>
+    <script defer>
     /*
     Author: Jack Ducasse;
     Version: 0.1.0;
@@ -357,7 +357,7 @@
     }
     </script>
 
-    <script>
+    <script defer>
     var anDate;
     var year =[];
     var month = [];
@@ -578,7 +578,7 @@
     <button onclick="myFunction6()">+T</button>
     </div>
 
-<script>
+<script defer>
 function myFunction5() {
     if (document.getElementById("addEventDiv").style.display == "block"){
         document.getElementById("addEventDiv").style.display = "none";
