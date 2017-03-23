@@ -404,7 +404,6 @@
     } else {
     }
     }
-
     /**
     * Append a pre element to the body containing the given message
     * as its text node. Used to display the results of the API call.
@@ -432,7 +431,6 @@
     * the authorized user's calendar. If no events are found an
     * appropriate message is printed.
     */
-
     function listUpcomingEvents() {
     gapi.client.calendar.events.list({
     'calendarId': 'primary',
@@ -469,7 +467,6 @@
     }
     function myFunction() {
     var x = 0;
-
     var test = document.getElementById("YearInputEvent").value;
     var event = {
     //'summary': document.getElementById("SummaryInputEvent").value,
@@ -508,13 +505,10 @@
     alert('Event created: ' + event.htmlLink);
     });
     }
-
     /*
     */
-
     function myFunction2(){
     var x=0;
-
     var test = document.getElementById("YearInputTask").value;
     var event = {
     //'summary': document.getElementById("SummaryInputTask").value,
@@ -556,8 +550,6 @@
     alert('Task created: ' + event.htmlLink);
     });
     }
-
-
     </script>
 
 
@@ -577,10 +569,8 @@
             Day: <input type="text" id="DayInputTask" value="DD">
             Description: <input type="text" id="DescriptionInputTask" value="Description">
             <select id="AssigneesTask" name="AssigneesTask" multiple="multiple">
-            <g:each in="${persons}" var="item">
-               <g:each in="${item}" var="subItem">
-                  <option value=${subItem[1]}>${subItem[1]}</option>
-               </g:each>
+	    <g:each in="${persons}" var="item">
+                  <option value=${item.email}>${item.email}</option>
             </g:each>
             </select>
     </div>
