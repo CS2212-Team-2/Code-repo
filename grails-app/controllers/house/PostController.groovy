@@ -16,10 +16,16 @@ class PostController extends RestfulController {
         def subId = params.subId.trim()
         Person person = Person.findBySubId(subId)
         print(person.getFirstName())
-        println("POSTS IN GET           "+Post.getAll())
+        println(" POSTS IN GET           " + person.getPosts() )
+
+        println("\n\n\n ALL THE POSTS          " + Post.getAll() )
+        //println("\n\n\n POST 3         " + Post.getAll().get(2).text )
+
 
         if(person!=null){
-            println(person.getPosts())
+
+          //  println(person.getPosts().get(2).getText())
+
             respond person.getPosts()
         }
         else{
@@ -35,7 +41,7 @@ class PostController extends RestfulController {
         def text = params.text
         def date = params.date
         //if statement checking if we want to get the house members by email or subId
-        def byEmail = params.byEmail.trim()
+        def byEmail = params.byEmail
 
         println("post received")
         println( "this is wat i got " + params )
@@ -48,7 +54,6 @@ class PostController extends RestfulController {
         //checks to see if the post is already in the database
         if(Post.findBySenderNameAndTextAndTitle(sender.firstName, text, title))
         {
-            print("\n i knew it was this if statement")
             response.status = 402
             respond "same" //this causes an error which exits the method lool
         }
@@ -61,7 +66,6 @@ class PostController extends RestfulController {
         //add the post also to the sender
         sender.addToPosts(post).save(flush : true)
 
-        println("\n\n" + Post.getAll())
 
         for(int i = 0; i<receiversId.size(); i++)
         {
@@ -69,8 +73,6 @@ class PostController extends RestfulController {
             //find the persons by email, hence we are coming from the Calendar posts
             println("\nThis is byEmail ===  "  + byEmail)
             if(byEmail == "true"){
-                println("looking for " + receiversId[i])
-                println("looking for " + receiversId[i])
                 person = Person.findByEmail(receiversId[i])
                 if(person == sender){
                     continue

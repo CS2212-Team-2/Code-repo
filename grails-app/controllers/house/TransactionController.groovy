@@ -188,10 +188,10 @@ class TransactionController {
                 String description = toPay.description
                 String amountOwed = toPay.amountOwed
                 notification = [whoPaid: whoPaid, description: description, amountOwed: amountOwed]
-
             }
         }
         redirect(action:'myHouse', controller:'house', notification:notification)
+        return
     }
 
     def savepayment(){

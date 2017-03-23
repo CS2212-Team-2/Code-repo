@@ -37,9 +37,6 @@ export class PostFeed extends React.Component{
         this.fetchPosts = this.fetchPosts.bind(this);
     }
 
-
-
-
     fetchPosts(subId){
         console.log("getting update to backend");
         fetch('http://localhost:8080/Post/getPosts?subId=' + subId )
@@ -60,7 +57,6 @@ export class PostFeed extends React.Component{
                 }
             });
     }
-
 
     componentDidMount() {
         let subId = this.props.params.subId;
@@ -86,7 +82,6 @@ export class PostFeed extends React.Component{
             </div>
         );
     }
-
 
 
 }

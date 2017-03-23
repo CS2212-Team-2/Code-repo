@@ -9538,7 +9538,6 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
             this.fetchPosts(subId);
             //this.listOneEvent();
             //alert(isLoaded);
-            setTimeout(this.listOneEvent, 10000);
         }
     }, {
         key: 'componentWillReceiveProps',
@@ -9650,7 +9649,15 @@ var SubmitPost = function (_React$Component) {
         key: 'handleSubmit',
         value: function handleSubmit(e) {
             e.preventDefault();
-            this.postPost("Post", this.state.text, this.state.selected, false, new Date().toISOString());
+            //need to add it not replace it some how
+            var temp = [];
+            for (var i = 0; i < this.state.selected.length; i++) {
+                temp[i] = this.state.selected[i].value;
+            }
+            alert("this is the temp list" + temp);
+
+            this.postPost("Post", this.state.text, temp, false, SubmitPost.buildDateStr(new Date()));
+
             //title, text, selectedPersons, eventPost, date
         }
     }, {
@@ -9686,9 +9693,8 @@ var SubmitPost = function (_React$Component) {
                     eventTitle = events[0].summary;
 
                     eventText = "Your " + eventTitle + " is " + events[0].description;
-                    eventTime = events[i].start.dayTime;
 
-                    alert(events[0].attendees[i].email + "  " + events[0].attendees.length);
+                    eventTime = SubmitPost.buildDateStr(new Date(events[i].start.dateTime));
 
                     _this2.postPost(eventTitle, eventText, attendees, true, eventTime);
                 }
@@ -9704,7 +9710,9 @@ var SubmitPost = function (_React$Component) {
                 receiversStr += selectedPersons[i] + ",";
             }
 
-            console.log(receiversStr);
+            alert("this is the receiverStr " + receiversStr);
+            console.log("this is the receiverStr " + receiversStr);
+
             fetch('http://localhost:8080/Post/addPost?byEmail=' + eventPost + '&subId=' + this.props.subId + '&title=' + title + '&date=' + date + '&text=' + text + '&receivers=' + receiversStr, {
                 method: 'POST',
                 headers: {
@@ -9755,7 +9763,7 @@ var SubmitPost = function (_React$Component) {
     }, {
         key: 'handleChangeOp',
         value: function handleChangeOp(selected) {
-            //need to add it not replace it some how
+
             this.setState({
                 selected: this.state.selected.concat(selected)
             });
@@ -9812,6 +9820,18 @@ var SubmitPost = function (_React$Component) {
                     )
                 )
             );
+        }
+    }], [{
+        key: 'buildDateStr',
+        value: function buildDateStr(date) {
+            var hours = date.getHours() % 12;
+            // converts 0 (midnight) to 12
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            // converts minutes to have leading 0
+
+            var ampm = hours <= 12 ? ' pm' : ' am';
+            var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+            return date.getDate() + "/" + (date.getMonth() + 1) + " " + hours + ":" + minutes + ampm;
         }
     }]);
 

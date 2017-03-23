@@ -40,7 +40,7 @@ class BootStrap {
         Score scorePerson3 = new Score(subId: testPerson3.subId, firstName: testPerson3.firstName, lastName: testPerson3.lastName, houseId:1).save()
 
         Post post = new Post(senderName: testPerson2.firstName, title: "Title of post",
-                text: "aifbviqhbvkjsvnhnhv bhvbjjjahebv", date: (new Date()).getTimeString())
+                text: "aifbviqhbvkjsvnhnhv bhvbjjjahebv", date: "23/3 6:00 pm")
         post.save()
         testPerson1.addToPosts(post).save()
         testPerson3.addToPosts(post).save()
