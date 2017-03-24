@@ -171,4 +171,16 @@ class PersonController {
         redirect(controller: "house", action: "myHouse")
     }
 
+        def addTaskScore(){
+
+        def sub = params.subId.trim()
+        def tscore = params.taskScore
+
+        println(tscore)
+
+        Person P = Person.findBySubId(sub)
+        P.taskScore = tscore
+        P.save(flush: true)
+    }
+
 }
