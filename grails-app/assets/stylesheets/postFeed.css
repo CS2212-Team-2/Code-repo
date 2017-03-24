@@ -2,17 +2,17 @@
     /*border: 0.05px solid red;*/
 }
 
-#root{
+#notifications{
     width: 50%;
 }
 
-
 #post{
-    padding: 10px;
+    padding: 5px;
     border: 1px solid #002a66;
     background: #d8beff;
     overflow: hidden;
 }
+
 
 #postTextField{
     background: #a7ffb9;
@@ -29,19 +29,24 @@
 .centred{
     text-align: center;
     color: #761c19;
-    ;
 }
 
 .FilteredMultiSelect__select{
-    max-height: 10%;
-    width: 80%;
-    margin: auto;
+    width: 30%;
+
     text-align: center;
+    display: inline-block;
 }
 
+.w3-ul{
+    float: left;
+    display: inline-block;
+    width: 40%;
+
+}
 
 .FilteredMultiSelect__button{
-    width: 20%;
-    background: #d8beff;
-    margin: auto;
+    visibility: hidden;
+    width: 0;
+    height:0;
 }

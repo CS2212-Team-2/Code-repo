@@ -73,7 +73,7 @@ export class PostFeed extends React.Component{
         console.log(this.props.params.subId);
         return(
             <div>
-                <h2 class="centered">Notifications</h2>
+                <h2 className="centered">Notifications</h2>
                 {this.state.postList}
                 {<SubmitPost subId={this.props.params.subId} update={this.fetchPosts}
                              firstName={this.props.params.firstName}/>}

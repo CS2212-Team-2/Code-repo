@@ -5,6 +5,8 @@
 <head>
     <title>Welcome Home!</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 
 
 
@@ -603,7 +605,7 @@ function myFunction6() {
 }
 </script>
 
-    <pre id="content"></pre>    
+    <pre id="content2"></pre>
 
 
 	

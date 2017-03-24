@@ -197,11 +197,16 @@ export default class SubmitPost extends React.Component{
                 <label>
                     <input placeholder="Write Your Post here!" id="postTextField" type="text" onChange={this.handleChange}  value={this.state.text}/>
                 </label>
+                    <ul className="w3-ul w3-border">
+                        {listItems}
+                    </ul>
                 <FilteredMultiSelect
                     onChange={this.handleChangeOp}
                     options={houseMateNames}
                     selectedOptions={this.state.selected}
                 />
+
+
                     <input id="postSubmitButton" type="submit" value="Post"
                                disabled={(this.state.selected.length==0 || this.state.text.trim().length == 0)}/>
 
@@ -211,9 +216,7 @@ export default class SubmitPost extends React.Component{
 
                 {/*//make this look good*/}
 
-                <ul>
-                    {listItems}
-                </ul>
+
 
             </div>
         );
