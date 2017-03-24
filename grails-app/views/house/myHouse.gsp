@@ -5,7 +5,10 @@
 <head>
     <title>Welcome Home!</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+
+
 </head>
 <body>
     <!--code for top right corner, user name, logout and add person -->
@@ -25,6 +28,7 @@
     <br/>
     %{--location to open js file--}%
     <div id="root"> </div>
+
 
     <div style="width:auto;height:200px;"><h3>BIG BOX GOES HERE</h3></div>
     <!-- returns the users roommates -->
@@ -76,7 +80,7 @@
     /*
     Author: Jack Ducasse;
     Version: 0.1.0;
-    (????)
+    (◠‿◠✿)
     */
     var Calendar = function(model, options, date){
     // Default Values
@@ -300,7 +304,7 @@
     title.appendChild(a);
     }else{
     var innerString = '';
- 
+
     innerString += '<div class="tooltip">';
     if (calendar.Model[n].Title == 'RoomMateTask'){
     	innerString +='★';
@@ -309,12 +313,12 @@
     	innerString +='☆';
     }
     //innerString += calendar.Model[n].Title;
-    innerString += '<span class="tooltiptext">'  + calendar.Model[n].Link + '<br/><div>'; 
+    innerString += '<span class="tooltiptext">'  + calendar.Model[n].Link + '<br/><div>';
     //if(event.attendees[y].responseStatus = "accepted"
     innerString += '<button onclick="myFunction7(eventId[' + n + '])">Attend</button></div>';
-    
+
     innerString += '</span></div>';
-    title.innerHTML += innerString;  
+    title.innerHTML += innerString;
     //title.innerHTML += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
 
     }
@@ -650,7 +654,7 @@ function myFunction7(text){
 
 
 
-    <pre id="content"></pre>    
+    <pre id="content"></pre>
 
 
     </div>

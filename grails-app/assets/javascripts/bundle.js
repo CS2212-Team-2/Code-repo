@@ -9554,10 +9554,14 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                     'h2',
-                    { className: 'centered' },
+                    null,
                     'Notifications'
                 ),
-                this.state.postList,
+                _react2.default.createElement(
+                    'div',
+                    { id: 'postFeed' },
+                    this.state.postList
+                ),
                 _react2.default.createElement(_SubmitPost2.default, { subId: this.props.params.subId, update: this.fetchPosts,
                     firstName: this.props.params.firstName })
             );

@@ -15,11 +15,11 @@ class BootStrap {
         Person testPerson3 = new Person(firstName: 'down', lastName: 'load', subId: '102369340031760804603', email:'stupidemail9898@gmail.com').save()
 
 
-        /*new Person(firstName: 'Waylan', lastName: 'Smithers', sub_id: '115', houseId: '001').save()
+        new Person(firstName: 'Waylan', lastName: 'Smithers', sub_id: '115', houseId: '001').save()
         new Person(firstName: 'Bart', lastName: 'Simpson', sub_id: '116', houseId: '002').save()
         new Person(firstName: 'Homer', lastName: 'Simpson', sub_id: '117', houseId: '002').save()
         new Person(firstName: 'Marge', lastName: 'Simpson', sub_id: '118', houseId: '002').save()
-        new Person(firstName: 'Lisa', lastName: 'Simpson', sub_id: '119', houseId: '002').save()*/
+        new Person(firstName: 'Lisa', lastName: 'Simpson', sub_id: '119', houseId: '002').save()
 
 
         //add house and person to PersonHouse table
@@ -39,6 +39,11 @@ class BootStrap {
         Score scorePerson2 = new Score(subId: testPerson2.subId, firstName: testPerson2.firstName, lastName: testPerson2.lastName, houseId:1).save()
         Score scorePerson3 = new Score(subId: testPerson3.subId, firstName: testPerson3.firstName, lastName: testPerson3.lastName, houseId:1).save()
 
+        Post post = new Post(senderName: testPerson2.firstName, title: "Title of post",
+                text: "aifbviqhbvkjsvnhnhv bhvbjjjahebv", date: "23/3 6:00 pm")
+        post.save()
+        testPerson1.addToPosts(post).save()
+        testPerson3.addToPosts(post).save()
     }
 
     def destroy = {

@@ -3,7 +3,18 @@
 }
 
 #notifications{
-    width: 50%;
+    width: 45%;
+}
+
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+#postFeed{
+    max-height: 300px;
+    overflow-y: scroll;
+
 }
 
 #post{

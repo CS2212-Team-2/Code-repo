@@ -4,6 +4,7 @@
 <head>
     <meta name="layout" content="main"/>
     <title>Welcome To HouseMates</title>
+    <link rel="stylesheet" href="/assets/stylesheets/login.css">
 
     <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
 </head>

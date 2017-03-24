@@ -1,4 +1,6 @@
 <!doctype html>
+<asset:stylesheet src="login.css"/>
+
 <head>
     <meta name="google-signin-scope" content="profile email https://www.googleapis.com/auth/calendar">
     <meta name="google-signin-client_id" content="724926326266-dhm6bt52ttmrlaessmt8rqp5oc6ueute.apps.googleusercontent.com">

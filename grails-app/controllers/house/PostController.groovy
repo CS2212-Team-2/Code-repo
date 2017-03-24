@@ -56,7 +56,6 @@ class PostController extends RestfulController {
             response.status = 402
             redirect(url:"http://localHost:8080/house/myHouse?subId+%3D+${session['subId']}%0A++firstName+%3D+${[session['firstName']]}", controller:'house' )
             return
-            respond "same" //this causes an error which exits the method lool
         }
 
         Post post = new Post(senderName: sender.getFirstName(),

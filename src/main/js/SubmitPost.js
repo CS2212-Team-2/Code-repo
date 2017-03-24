@@ -214,8 +214,6 @@ export default class SubmitPost extends React.Component{
 
                 <div>{this.state.status}</div>
 
-                {/*//make this look good*/}
-
 
 
             </div>
