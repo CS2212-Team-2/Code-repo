@@ -176,8 +176,9 @@ class TransactionController {
                 }
                 toPay.delete(flush:true)
                 Date today = new Date()
-                redirect(action:'addPost', controller:'Post', params:[receiversId: toPay.creditorId, subId: session['subId'], title: "Finance", text: "Paid: " +amountOwed+", FOR: " +description, date:today.toString() ])
+                redirect(action:'addPost', controller:'Post', params:[receivers: toPay.creditorId, subId: session['subId'], title: "Finance", text: "Paid: " +amountOwed+", FOR: " +description, date:today.toString() ])
 
+                return
 
             }else{
                 int amountPaid = toPay.amountOwed - t.amountOwed
@@ -188,10 +189,10 @@ class TransactionController {
                 String description = toPay.description
                 String amountOwed = toPay.amountOwed
                 notification = [whoPaid: whoPaid, description: description, amountOwed: amountOwed]
+                redirect(url:"http://localHost:8080/house/myHouse?subId+%3D+${session['subId']}%0A++firstName+%3D+${[session['firstName']]}", controller:'house', notification:notification)
+                return
             }
         }
-        redirect(action:'myHouse', controller:'house', notification:notification)
-        return
     }
 
     def savepayment(){
