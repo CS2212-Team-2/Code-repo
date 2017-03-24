@@ -9476,15 +9476,15 @@ var Post = _react2.default.createClass({
     render: function render() {
         return _react2.default.createElement(
             'div',
-            { id: 'status_box' },
-            "Title: " + this.props.title,
-            _react2.default.createElement('br', null),
-            "Date: " + this.props.date,
-            _react2.default.createElement('br', null),
+            { id: 'post' },
+            _react2.default.createElement(
+                'div',
+                { className: 'centred' },
+                this.props.title + " " + this.props.date
+            ),
             "From:  " + this.props.sender,
             _react2.default.createElement('br', null),
-            this.props.text,
-            _react2.default.createElement('hr', null)
+            this.props.text
         );
     }
 });
@@ -9554,7 +9554,7 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                     'h2',
-                    null,
+                    { 'class': 'centered' },
                     'Notifications'
                 ),
                 this.state.postList,
@@ -9654,7 +9654,6 @@ var SubmitPost = function (_React$Component) {
             for (var i = 0; i < this.state.selected.length; i++) {
                 temp[i] = this.state.selected[i].value;
             }
-            alert("this is the temp list" + temp);
 
             this.postPost("Post", this.state.text, temp, false, SubmitPost.buildDateStr(new Date()));
 
@@ -9710,7 +9709,6 @@ var SubmitPost = function (_React$Component) {
                 receiversStr += selectedPersons[i] + ",";
             }
 
-            alert("this is the receiverStr " + receiversStr);
             console.log("this is the receiverStr " + receiversStr);
 
             fetch('http://localhost:8080/Post/addPost?byEmail=' + eventPost + '&subId=' + this.props.subId + '&title=' + title + '&date=' + date + '&text=' + text + '&receivers=' + receiversStr, {
@@ -9790,46 +9788,43 @@ var SubmitPost = function (_React$Component) {
                 'div',
                 null,
                 _react2.default.createElement(
-                    'div',
-                    null,
-                    this.state.status
-                ),
-                _react2.default.createElement(
                     'form',
                     { onSubmit: this.handleSubmit },
                     _react2.default.createElement(
                         'label',
                         null,
-                        _react2.default.createElement('input', { type: 'text', onChange: this.handleChange, value: this.state.text })
+                        _react2.default.createElement('input', { placeholder: 'Write Your Post here!', id: 'postTextField', type: 'text', onChange: this.handleChange, value: this.state.text })
                     ),
-                    _react2.default.createElement('input', { type: 'submit', value: 'Post',
+                    _react2.default.createElement(_reactFilteredMultiselect2.default, {
+                        onChange: this.handleChangeOp,
+                        options: houseMateNames,
+                        selectedOptions: this.state.selected
+                    }),
+                    _react2.default.createElement('input', { id: 'postSubmitButton', type: 'submit', value: 'Post',
                         disabled: this.state.selected.length == 0 || this.state.text.trim().length == 0 })
                 ),
-                _react2.default.createElement(_reactFilteredMultiselect2.default, {
-                    onChange: this.handleChangeOp,
-                    options: houseMateNames,
-                    selectedOptions: this.state.selected
-                }),
                 _react2.default.createElement(
                     'div',
                     null,
-                    _react2.default.createElement(
-                        'ul',
-                        null,
-                        listItems
-                    )
+                    this.state.status
+                ),
+                _react2.default.createElement(
+                    'ul',
+                    null,
+                    listItems
                 )
             );
         }
     }], [{
         key: 'buildDateStr',
         value: function buildDateStr(date) {
+            var ampm = date.getHours() <= 12 ? ' am' : ' pm';
             var hours = date.getHours() % 12;
+
             // converts 0 (midnight) to 12
             hours = hours ? hours : 12; // the hour '0' should be '12'
             // converts minutes to have leading 0
 
-            var ampm = hours <= 12 ? ' pm' : ' am';
             var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
             return date.getDate() + "/" + (date.getMonth() + 1) + " " + hours + ":" + minutes + ampm;
         }

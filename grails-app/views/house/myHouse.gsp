@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <asset:stylesheet src="style.css"/>
+<asset:stylesheet src="postFeed.css"/>
 <head>
     <title>Welcome Home!</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+
 
 
 </head>

@@ -12,7 +12,7 @@ class PostController extends RestfulController {
 
     def index() { }
 
-    def getPosts(){
+    def getPosts( ){
         def subId = params.subId.trim()
         Person person = Person.findBySubId(subId)
         print(person.getFirstName())
@@ -34,8 +34,7 @@ class PostController extends RestfulController {
 
     }
 
-
-    def addPost(){
+    def addPost( ){
         def senderId = params.subId
         def title = params.title
         def text = params.text

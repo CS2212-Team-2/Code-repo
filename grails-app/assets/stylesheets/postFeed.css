@@ -1,0 +1,47 @@
+*{
+    /*border: 0.05px solid red;*/
+}
+
+#root{
+    width: 50%;
+}
+
+
+#post{
+    padding: 10px;
+    border: 1px solid #002a66;
+    background: #d8beff;
+    overflow: hidden;
+}
+
+#postTextField{
+    background: #a7ffb9;
+    width: 100%;
+
+}
+
+#postSubmitButton{
+    float: left;
+    background: #d8beff;
+    width: 100%;
+}
+
+.centred{
+    text-align: center;
+    color: #761c19;
+    ;
+}
+
+.FilteredMultiSelect__select{
+    max-height: 10%;
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+
+.FilteredMultiSelect__button{
+    width: 20%;
+    background: #d8beff;
+    margin: auto;
+}

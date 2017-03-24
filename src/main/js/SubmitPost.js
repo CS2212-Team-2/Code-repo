@@ -87,12 +87,14 @@ export default class SubmitPost extends React.Component{
     }
 
     static buildDateStr(date){
+        let ampm = date.getHours() <= 12 ? ' am' : ' pm';
         let hours = date.getHours() % 12;
+
+
         // converts 0 (midnight) to 12
         hours = hours ? hours : 12; // the hour '0' should be '12'
         // converts minutes to have leading 0
 
-        let ampm = hours <= 12 ? ' pm' : ' am';
         let minutes = date.getMinutes() < 10 ? '0'+ date.getMinutes() : date.getMinutes() ;
         return (
             date.getDate() + "/" + (date.getMonth()+1) + " " +
@@ -191,25 +193,28 @@ export default class SubmitPost extends React.Component{
 
         return (
             <div>
-                <div>{this.state.status}</div>
                 <form onSubmit={this.handleSubmit}>
-                    <label>
-                        <input type="text" onChange={this.handleChange}  value={this.state.text}/>
-                    </label>
-                    <input type="submit" value="Post"
-                           disabled={(this.state.selected.length==0 || this.state.text.trim().length == 0)}/>
-                </form>
+                <label>
+                    <input placeholder="Write Your Post here!" id="postTextField" type="text" onChange={this.handleChange}  value={this.state.text}/>
+                </label>
                 <FilteredMultiSelect
                     onChange={this.handleChangeOp}
                     options={houseMateNames}
                     selectedOptions={this.state.selected}
                 />
+                    <input id="postSubmitButton" type="submit" value="Post"
+                               disabled={(this.state.selected.length==0 || this.state.text.trim().length == 0)}/>
 
-                <div>
-                    <ul>
-                        {listItems}
-                    </ul>
-                </div>
+                </form>
+
+                <div>{this.state.status}</div>
+
+                {/*//make this look good*/}
+
+                <ul>
+                    {listItems}
+                </ul>
+
             </div>
         );
     }
