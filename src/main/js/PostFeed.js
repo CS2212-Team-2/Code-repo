@@ -13,12 +13,11 @@ var Post = React.createClass({
     },
     render(){
         return(
-            <div id="status_box">
-                {"Title: " + this.props.title}<br/>
-                {"Date: " + this.props.date}<br/>
+            <div id="post">
+                <div className="centred">{this.props.title + " " + this.props.date}</div>
                 {"From:  "+this.props.sender}<br/>
                 {this.props.text}
-                <hr/>
+
             </div>
         );
     }
@@ -36,9 +35,6 @@ export class PostFeed extends React.Component{
 
         this.fetchPosts = this.fetchPosts.bind(this);
     }
-
-
-
 
     fetchPosts(subId){
         console.log("getting update to backend");
@@ -61,7 +57,6 @@ export class PostFeed extends React.Component{
             });
     }
 
-
     componentDidMount() {
         let subId = this.props.params.subId;
         this.fetchPosts(subId);
@@ -78,7 +73,7 @@ export class PostFeed extends React.Component{
         console.log(this.props.params.subId);
         return(
             <div>
-                <h2>Notifications</h2>
+                <h2 class="centered">Notifications</h2>
                 {this.state.postList}
                 {<SubmitPost subId={this.props.params.subId} update={this.fetchPosts}
                              firstName={this.props.params.firstName}/>}
@@ -86,7 +81,6 @@ export class PostFeed extends React.Component{
             </div>
         );
     }
-
 
 
 }
