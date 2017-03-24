@@ -10,46 +10,6 @@ class TransactionController {
         String userId = session['subId']
         String houseMemId = params.id
 
-        //section gets total only
-        /*def creditor = Transaction.executeQuery("SELECT p.invoiceId, p.houseId, p.creditorId, p.debitorId, p.creditorName, " +
-                "p.debitorName, p.amountPaid, p.amountOwed, p.description, p.date " +
-                "FROM Transaction p " +
-                "WHERE p.creditorId = '107726694172578448865' "
-        )
-
-        def debitor = Transaction.executeQuery("SELECT p.invoiceId, p.houseId, p.creditorId, p.debitorId, p.creditorName, " +
-                "p.debitorName, p.amountPaid, p.amountOwed, p.description, p.date " +
-                "FROM Transaction p " +
-                "WHERE p.debitorId = '107726694172578448865' ")
-
-
-        def totalCredit = 0
-        int len = creditor.size()
-        //String[] creditList = new String[len];
-        for(int y = 0; y < creditor.size(); y++) {
-            String[] creditList = creditor[y]
-            int creditAmount = creditList[7].toInteger()
-            totalCredit = totalCredit + creditAmount
-        }
-
-        def totalDebit = 0
-        //String[] creditList = new String[len];
-        for(int y = 0; y < debitor.size(); y++) {
-            String[] debitList = debitor[y]
-            int debitAmount = debitList[7].toInteger()
-            totalDebit = totalDebit + debitAmount
-        }
-
-        int total = (totalCredit -totalDebit) //total to be returned to front end*/
-
-
-        //remove duplicate subId
-        /*for(String w: subIdList){
-            if(session['subId'] != w){
-                newList[n] = w
-            }
-            n++
-        }*/
         def listOfCreditDebit = Transaction.executeQuery("SELECT p.invoiceId, p.houseId, p.creditorId, p.debitorId, p.creditorName, " +
                 "p.debitorName, p.amountPaid, p.amountOwed, p.description, p.date " +
                 "FROM Transaction p " +
@@ -174,18 +134,10 @@ class TransactionController {
                         score.save()
                     }
                 }
-
-
-                Person p = Person.FindById(session['subId'])
-                P.financeScore = score
-                P.save(flush: true)
-
-                
                 toPay.delete(flush:true)
                 Date today = new Date()
-                redirect(action:'addPost', controller:'Post', params:[receiversId: toPay.creditorId, subId: session['subId'], title: "Finance", text: "Paid: " +amountOwed+", FOR: " +description, date:today.toString() ])
-
-
+                redirect(action:'addPost', controller:'Post', params:[receivers: toPay.creditorId, subId: session['subId'], title: "Finance", text: "Paid: " +amountOwed+", FOR: " +description, date:today.toString(), byEmail:false ])
+                return
             }else{
                 int amountPaid = toPay.amountOwed - t.amountOwed
                 Transaction invoiceAdjust = Transaction.findByInvoiceId(t.invoiceId)
@@ -195,6 +147,7 @@ class TransactionController {
                 String description = toPay.description
                 String amountOwed = toPay.amountOwed
                 notification = [whoPaid: whoPaid, description: description, amountOwed: amountOwed]
+
             }
         }
         redirect(action:'myHouse', controller:'house', notification:notification)

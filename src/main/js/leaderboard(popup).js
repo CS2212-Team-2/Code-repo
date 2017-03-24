@@ -1,6 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
-export default class popup extends React.Component {
+
+class App extends React.Component {
   constructor(props) {
     super();
 
@@ -122,3 +124,8 @@ class LeaderboardRow extends React.Component {
     )
   }
 }
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);

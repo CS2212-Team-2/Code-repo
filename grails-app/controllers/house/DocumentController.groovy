@@ -40,7 +40,7 @@ class DocumentController extends RestfulController{
         bis.close()
 
         // write the image to a file
-        File outputfile = new File("./grails-app/assets/images/" + imageName)
+        File outputfile = new File("./uploads/" + imageName)
         ImageIO.write(image, "png", outputfile)
     }
 
@@ -49,7 +49,7 @@ class DocumentController extends RestfulController{
             // get the text body of the POST request and send it to the decoder method
             decodeImage(request.inputStream.text, params.imageName)
             // saves some metadata in a domain object - tells the database where to find the file
-            new Document(filename: params.imageName, fullPath: "./grails-app/assets/images/" + params.imageName).save()
+            new Document(filename: params.imageName, fullPath: "./uploads/" + params.imageName).save()
             // all good - send success status
             response.status = 200
         } catch (Exception e){
