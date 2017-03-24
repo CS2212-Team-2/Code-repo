@@ -38,7 +38,14 @@ export default class SubmitPost extends React.Component{
 
     handleSubmit(e){
         e.preventDefault();
-        this.postPost("Post",this.state.text, this.state.selected, false, (new Date()).toISOString());
+        //need to add it not replace it some how
+        let temp = [];
+        for (let i = 0; i< this.state.selected.length; i++){
+            temp[i] = this.state.selected[i].value;
+        }
+
+        this.postPost("Post",this.state.text, temp, false, SubmitPost.buildDateStr(new Date()));
+
         //title, text, selectedPersons, eventPost, date
     }
 
@@ -71,29 +78,43 @@ export default class SubmitPost extends React.Component{
                 eventTitle = events[0].summary;
 
                 eventText = "Your "+ eventTitle +" is " + events[0].description;
-                eventTime = events[i].start.dayTime;
 
-                alert(eventTime);
+                eventTime = SubmitPost.buildDateStr(new Date(events[i].start.dateTime));
 
                 this.postPost(eventTitle, eventText, attendees, true, eventTime);
                 }
         });
     }
 
+    static buildDateStr(date){
+        let ampm = date.getHours() <= 12 ? ' am' : ' pm';
+        let hours = date.getHours() % 12;
+
+
+        // converts 0 (midnight) to 12
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        // converts minutes to have leading 0
+
+        let minutes = date.getMinutes() < 10 ? '0'+ date.getMinutes() : date.getMinutes() ;
+        return (
+            date.getDate() + "/" + (date.getMonth()+1) + " " +
+            hours +
+            ":" + minutes + ampm
+        );
+    }
+
     postPost(title, text, selectedPersons, eventPost, date){
-
-
 
         let receiversStr = "";
         for (let i = 0; i < selectedPersons.length; i++){
             receiversStr += selectedPersons[i] + ",";
-
         }
 
-        console.log(receiversStr);
+        console.log("this is the receiverStr " + receiversStr);
+
         fetch('http://localhost:8080/Post/addPost?byEmail=' + eventPost + '&subId=' + this.props.subId +
                 '&title=' + title + '&date='+ date +
-            '&text=' + text + '&receivers=' + receiversStr ,
+            '&text=' + text + '&receivers=' + receiversStr,
             {
                 method: 'POST',
                 headers: {
@@ -145,7 +166,7 @@ export default class SubmitPost extends React.Component{
     }
 
     handleChangeOp(selected){
-        //need to add it not replace it some how
+
         this.setState({
             selected : this.state.selected.concat(selected)
         });
@@ -172,25 +193,28 @@ export default class SubmitPost extends React.Component{
 
         return (
             <div>
-                <div>{this.state.status}</div>
                 <form onSubmit={this.handleSubmit}>
-                    <label>
-                        <input type="text" onChange={this.handleChange}  value={this.state.text}/>
-                    </label>
-                    <input type="submit" value="Post"
-                           disabled={(this.state.selected.length==0 || this.state.text.trim().length == 0)}/>
-                </form>
+                <label>
+                    <input placeholder="Write Your Post here!" id="postTextField" type="text" onChange={this.handleChange}  value={this.state.text}/>
+                </label>
                 <FilteredMultiSelect
                     onChange={this.handleChangeOp}
                     options={houseMateNames}
                     selectedOptions={this.state.selected}
                 />
+                    <input id="postSubmitButton" type="submit" value="Post"
+                               disabled={(this.state.selected.length==0 || this.state.text.trim().length == 0)}/>
 
-                <div>
-                    <ul>
-                        {listItems}
-                    </ul>
-                </div>
+                </form>
+
+                <div>{this.state.status}</div>
+
+                {/*//make this look good*/}
+
+                <ul>
+                    {listItems}
+                </ul>
+
             </div>
         );
     }

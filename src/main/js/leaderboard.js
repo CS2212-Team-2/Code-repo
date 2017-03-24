@@ -1,69 +1,6 @@
 import React from 'react';
 
-var CLIENT_ID = '731832964818-uecs4clv5qsfubet2rbbr1co235pbost.apps.googleusercontent.com';
-var SCOPES = ["https://www.googleapis.com/auth/calendar"];
-
-var tempCount = 0;
-
-function checkAuth() {
-    gapi.auth.authorize(
-      {
-        'client_id': CLIENT_ID,
-        'scope': SCOPES.join(' '),
-        'immediate': true
-      }, handleAuthResult);
-}
-
-function handleAuthResult(authResult) {
-  if (authResult) {
-    loadCalendarApi();
-  }
-}
-
-function loadCalendarApi() {
-  gapi.client.load('calendar', 'v3', listUpcomingEvents);
-}
-
-function listUpcomingEvents() {
-  var count = 0;
-  var request = gapi.client.calendar.events.list({
-    'calendarId': 'primary',
-    //'timeMin': (new Date()).toISOString(),
-    'showDeleted': false,
-    'singleEvents': true,
-    //'maxResults': 10,
-    'orderBy': 'startTime'
-    })
-
-  request.execute(function(resp) {
-
-    var count = 0;
-    var check = 0;
-    var events = resp.items;
-
-    console.log(events);
-
-    for (var i = 0; i < events.length; i++) { 
-
-      if(events[i].summary === 'RoomMateTask'){
-
-          for (var x = 0; x < events[i].attendees.length; x++) { 
-              if(x.responseStatus === "accepted"){
-                check = check + 1;
-              }
-
-              if(events[i].attendees.length === check){
-                count = count + 1;
-                break;
-              }
-          }
-      }
-    }
-  })
-
-  tempCount = count;
-}
-
+var value = 0
 
 export default class App extends React.Component {
   constructor(props) {
@@ -72,11 +9,42 @@ export default class App extends React.Component {
     this.state = {
       boardList: []
     }
+
+    this.getParams = this.getParams.bind(this);
+  }
+
+  getScore(){
+        var CLIENT_ID = '731832964818-uecs4clv5qsfubet2rbbr1co235pbost.apps.googleusercontent.com';
+        var SCOPES = ["https://www.googleapis.com/auth/calendar"];
+
+        gapi.client.calendar.events.list({
+            'calendarId': 'primary',
+            'showDeleted': false,
+            'singleEvents': true,
+            'orderBy': 'startTime'
+        }).then((response) => {
+          let events = response.result.items;
+            for(let i = 0; i < events.length; i++) {
+                
+                if(events[i].summary === 'RoomMateTask'){
+
+                    for (let j = 0; j < events[i].attendees.length; j++) {
+                        if(j.responseStatus === "accepted"){
+                          value = value + 1;
+                         }
+
+                    }
+                  }
+                }
+
+        });
+
   }
 
   getParams() {
   
       let url_parameter = {};
+
 
       const currLocation = window.location.href,
           parArr = currLocation.split("?")[1].split("%0A++");
@@ -85,19 +53,28 @@ export default class App extends React.Component {
           url_parameter[parr[0]] = parr[1];
       }
 
+      fetch('http://localhost:8080/Person/addTaskScore?subId=' + url_parameter.subId + '&taskScore=' + value,
+            {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then();
+
       let results = [];
       fetch("http://localhost:8080/PersonHouse/getHouseMembers?subId="+url_parameter.subId)
           .then(response => {
               if (response.ok) {
-                  //console.log("fetch call received back ok\n");
+                      console.log("check3");
+                      console.log(value);
                   response.json().then(json => {
                       for (let i = 0; i < json.length; i++) {
                         console.log(json[i]);
-                        results.push({"username": json[i].firstName+" "+json[i].lastName, "TaskScore": tempCount, "FinanceScore": 0, "Stars": 0, "image": "http://www.kombitz.com/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png"});
+                        results.push({"username": json[i].firstName+" "+json[i].lastName, "TaskScore": value, "FinanceScore": json[i].financeScore, "Stars": 0, "image": "http://www.kombitz.com/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png"});
+                        console.log(json[i].financeScore);
 
                       }
                       this.setState({boardList:results})
-                      checkAuth();
                   });
               }
           })
@@ -106,7 +83,11 @@ export default class App extends React.Component {
   }    
 
   componentDidMount() {
-    this.getParams();
+
+    setTimeout(this.getScore, 2000);
+
+    setTimeout(this.getParams, 2500)
+
   }
 
   render() {
@@ -162,24 +143,17 @@ class LeaderboardRow extends React.Component {
   constructor(props) {
     super(props);
     
-    this.state = {
-      isTooltipActive: false,
-      value: ''
-    }
   }
 
-  onPress(vis,uName){
+  onPress(){
 
-    this.setState({
-      isTooltipActive: !vis,
-      value: uName
-    })
+    //window.location = 'http://localhost:8080/house/leaderboard';
   }
 
 
   render() {
     return(
-      <tr onClick={() => this.onPress(this.state.visible,this.props.username)} >
+      <tr onClick={() => this.onPress()} >
         <td className="picture"><img  src={this.props.image} height="50" width="50" alt=''/> </td> 
         <td className="uName">{this.props.username}</td>
         <td className="Score">{this.props.TaskScore}</td> 
