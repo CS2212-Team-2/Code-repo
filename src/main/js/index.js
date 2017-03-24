@@ -18,17 +18,14 @@ function  getParams() {
         url_parameter[parr[0]] = parr[1];
     }
     return url_parameter;
-
 }
+
 
 
 var root = document.getElementById('root');
 let theParams = getParams();
 ReactDOM.render(
-    <div>
-        <div className="row">
-            <div className="col-3" frameBorder={true} >
-                {<PostFeed params={theParams}/>}
-            </div>
-        </div>
-    </div>, root);
+    <div id="notifications">
+        {<PostFeed params={theParams}/>}
+    </div>
+    , root);

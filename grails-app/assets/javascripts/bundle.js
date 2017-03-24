@@ -9554,7 +9554,7 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                     'h2',
-                    { 'class': 'centered' },
+                    { className: 'centered' },
                     'Notifications'
                 ),
                 this.state.postList,
@@ -9795,6 +9795,11 @@ var SubmitPost = function (_React$Component) {
                         null,
                         _react2.default.createElement('input', { placeholder: 'Write Your Post here!', id: 'postTextField', type: 'text', onChange: this.handleChange, value: this.state.text })
                     ),
+                    _react2.default.createElement(
+                        'ul',
+                        { className: 'w3-ul w3-border' },
+                        listItems
+                    ),
                     _react2.default.createElement(_reactFilteredMultiselect2.default, {
                         onChange: this.handleChangeOp,
                         options: houseMateNames,
@@ -9807,11 +9812,6 @@ var SubmitPost = function (_React$Component) {
                     'div',
                     null,
                     this.state.status
-                ),
-                _react2.default.createElement(
-                    'ul',
-                    null,
-                    listItems
                 )
             );
         }
@@ -22367,16 +22367,8 @@ var root = document.getElementById('root');
 var theParams = getParams();
 _reactDom2.default.render(_react2.default.createElement(
     'div',
-    null,
-    _react2.default.createElement(
-        'div',
-        { className: 'row' },
-        _react2.default.createElement(
-            'div',
-            { className: 'col-3', frameBorder: true },
-            _react2.default.createElement(_PostFeed.PostFeed, { params: theParams })
-        )
-    )
+    { id: 'notifications' },
+    _react2.default.createElement(_PostFeed.PostFeed, { params: theParams })
 ), root);
 
 /***/ })
