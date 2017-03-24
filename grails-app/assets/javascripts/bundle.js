@@ -23199,46 +23199,11 @@ var _reactDropzone2 = _interopRequireDefault(_reactDropzone);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-console.log("index rendering"); /**
-                                 * Created by om on 10/03/17.
-                                 */
-
-function getParams() {
-    // http://localhost:8080/house/myHouse?persons=Session+Content%3A%0A++subId+%3D+102369340031760804603%0A++firstName+%3D+down%0A++lastName+%3D+load%0A++houseName+%3D+jb+hg%0A++houseId+%3D+2%0A++org.grails.FLASH_SCOPE+%3D+org.grails.web.servlet.GrailsFlashScope%401467ea6f%0A++email+%3D+stupidemail9898%40gmail.com%0A
-    var url_parameter = {};
-
-    var currLocation = window.location.href,
-        parArr = currLocation.split("?")[1].split("%0A++");
-    for (var i = 0; i < parArr.length; i++) {
-        var parr = parArr[i].split("+%3D+");
-        url_parameter[parr[0]] = parr[1];
-    }
-    return url_parameter;
-}
-
-var root = document.getElementById('root');
-var theParams = getParams();
-_reactDom2.default.render(_react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-        'div',
-        { className: 'row' },
-        _react2.default.createElement(
-            'div',
-            { className: 'col-3', frameBorder: true },
-            _react2.default.createElement(_PostFeed.PostFeed, { params: theParams })
-        )
-    )
-), root);
-
-_reactDom2.default.render(_react2.default.createElement(_leaderboard2.default, null), document.getElementById('leaderboard'));
-
 function encodeAndUpload(file) {
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
-        fetch('http://localhost:8080/house/settings/upload?imageName=' + file.name, {
+        fetch('http://localhost:8080/document?imageName=' + file.name, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
@@ -23255,11 +23220,18 @@ function encodeAndUpload(file) {
     reader.onerror = function (error) {
         console.log('Error: ', error);
     };
-}
+} /**
+   * Created by om on 10/03/17.
+   */
+
 
 var DropzoneDemo = _react2.default.createClass({
     displayName: 'DropzoneDemo',
 
+    onDrop: function onDrop(files) {
+        console.log('Received files: ', files);
+        encodeAndUpload(files[0]);
+    },
     render: function render() {
         return _react2.default.createElement(
             'div',
@@ -23274,15 +23246,15 @@ var DropzoneDemo = _react2.default.createClass({
                 )
             )
         );
-    },
-    onDrop: function onDrop(files) {
-        console.log('Received files: ', files);
-        encodeAndUpload(files[0]);
     }
 
 });
 
-_reactDom2.default.render(_react2.default.createElement(DropzoneDemo, null), document.getElementById('app-div'));
+_reactDom2.default.render(_react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(DropzoneDemo, null)
+), document.getElementById('DROPZONEHERE'));
 
 /***/ })
 /******/ ]);

@@ -225,4 +225,5 @@ class HouseController {
         [person:person, image: image]
     }
 
+
 }

@@ -18,7 +18,7 @@
 <g:img dir="images" file="${image}"/>
 
 <fieldset>
-    <div id="app-div" align="center"></div>
+    <div id="DROPZONEHERE" align="center"></div>
 </fieldset>
 <asset:javascript src="bundle.js"/>
 
