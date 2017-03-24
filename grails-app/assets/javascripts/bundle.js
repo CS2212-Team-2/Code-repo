@@ -9534,7 +9534,7 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var subId = this.props.params.subId;
+            var subId = this.getParams().subId;
             this.fetchPosts(subId);
             //this.listOneEvent();
             //alert(isLoaded);
@@ -9542,13 +9542,27 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
     }, {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
-            var subId = this.props.params.subId;
+            var subId = this.getParams().subId;
             this.fetchPosts(subId);
+        }
+    }, {
+        key: 'getParams',
+        value: function getParams() {
+            // http://localhost:8080/house/myHouse?persons=Session+Content%3A%0A++subId+%3D+102369340031760804603%0A++firstName+%3D+down%0A++lastName+%3D+load%0A++houseName+%3D+jb+hg%0A++houseId+%3D+2%0A++org.grails.FLASH_SCOPE+%3D+org.grails.web.servlet.GrailsFlashScope%401467ea6f%0A++email+%3D+stupidemail9898%40gmail.com%0A
+            var url_parameter = {};
+
+            var currLocation = window.location.href,
+                parArr = currLocation.split("?")[1].split("%0A++");
+            for (var i = 0; i < parArr.length; i++) {
+                var parr = parArr[i].split("+%3D+");
+                url_parameter[parr[0]] = parr[1];
+            }
+            return url_parameter;
         }
     }, {
         key: 'render',
         value: function render() {
-            console.log(this.props.params.subId);
+
             return _react2.default.createElement(
                 'div',
                 null,
@@ -9562,8 +9576,8 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
                     { id: 'postFeed' },
                     this.state.postList
                 ),
-                _react2.default.createElement(_SubmitPost2.default, { subId: this.props.params.subId, update: this.fetchPosts,
-                    firstName: this.props.params.firstName })
+                _react2.default.createElement(_SubmitPost2.default, { subId: this.getParams().subId, update: this.fetchPosts,
+                    firstName: this.getParams().firstName })
             );
         }
     }]);
@@ -22354,25 +22368,12 @@ console.log("index rendering"); /**
                                  * Created by om on 10/03/17.
                                  */
 
-function getParams() {
-    // http://localhost:8080/house/myHouse?persons=Session+Content%3A%0A++subId+%3D+102369340031760804603%0A++firstName+%3D+down%0A++lastName+%3D+load%0A++houseName+%3D+jb+hg%0A++houseId+%3D+2%0A++org.grails.FLASH_SCOPE+%3D+org.grails.web.servlet.GrailsFlashScope%401467ea6f%0A++email+%3D+stupidemail9898%40gmail.com%0A
-    var url_parameter = {};
-
-    var currLocation = window.location.href,
-        parArr = currLocation.split("?")[1].split("%0A++");
-    for (var i = 0; i < parArr.length; i++) {
-        var parr = parArr[i].split("+%3D+");
-        url_parameter[parr[0]] = parr[1];
-    }
-    return url_parameter;
-}
 
 var root = document.getElementById('root');
-var theParams = getParams();
 _reactDom2.default.render(_react2.default.createElement(
     'div',
     { id: 'notifications' },
-    _react2.default.createElement(_PostFeed.PostFeed, { params: theParams })
+    _react2.default.createElement(_PostFeed.PostFeed, null)
 ), root);
 
 /***/ })

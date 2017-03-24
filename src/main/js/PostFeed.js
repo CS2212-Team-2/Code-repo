@@ -33,6 +33,8 @@ export class PostFeed extends React.Component{
             postList : []
         };
 
+
+
         this.fetchPosts = this.fetchPosts.bind(this);
     }
 
@@ -58,27 +60,40 @@ export class PostFeed extends React.Component{
     }
 
     componentDidMount() {
-        let subId = this.props.params.subId;
+        let subId = this.getParams().subId;
         this.fetchPosts(subId);
         //this.listOneEvent();
         //alert(isLoaded);
     }
 
     componentWillReceiveProps(nextProps){
-        let subId = this.props.params.subId;
+        let subId = this.getParams().subId;
         this.fetchPosts(subId);
     }
 
+    getParams() {
+    // http://localhost:8080/house/myHouse?persons=Session+Content%3A%0A++subId+%3D+102369340031760804603%0A++firstName+%3D+down%0A++lastName+%3D+load%0A++houseName+%3D+jb+hg%0A++houseId+%3D+2%0A++org.grails.FLASH_SCOPE+%3D+org.grails.web.servlet.GrailsFlashScope%401467ea6f%0A++email+%3D+stupidemail9898%40gmail.com%0A
+    let url_parameter = {};
+
+    const currLocation = window.location.href,
+        parArr = currLocation.split("?")[1].split("%0A++");
+    for (let i = 0; i < parArr.length; i++) {
+        const parr = parArr[i].split("+%3D+");
+        url_parameter[parr[0]] = parr[1];
+    }
+    return url_parameter;
+}
+
     render() {
-        console.log(this.props.params.subId);
+
         return(
             <div>
                 <h2 >Notifications</h2>
                 <div id="postFeed">
                     {this.state.postList}
                 </div>
-                {<SubmitPost subId={this.props.params.subId} update={this.fetchPosts}
-                             firstName={this.props.params.firstName}/>}
+                {<SubmitPost subId={this.getParams().subId} update={this.fetchPosts}
+                             firstName={this.getParams().firstName}/>}
 
             </div>
         );
