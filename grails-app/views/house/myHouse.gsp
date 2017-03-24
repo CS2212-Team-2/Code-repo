@@ -8,13 +8,63 @@
     
 </head>
 <body>
-    <!--code for top right corner, user name, logout and add person -->
-    <div style="position:relative; left: 1200px;">
+
+
         <h3>Welcome Home: ${user}</h3>
+    <div style="position:relative;">
         <g:form controller="PersonHouse" action="logout">
             <g:submitButton name="logout" controller="PersonHouse" action="logout" value="logout" />
         </g:form>
     </div>
+
+    <div style="position:relative; top:50px;" id="caleandar"></div>
+    <div>
+        <h3 id="calender">
+
+    </div>
+    <script async src="https://apis.google.com/js/api.js"
+            onload="this.onload=function(){};handleClientLoad()"
+            onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+    <div>
+        Calendar
+        <div id="addEventDiv" style="display:none">
+            <button onclick="myFunction()">Add Event</button>
+            Year: <input type="text" id="YearInputEvent" value="YYYY">
+            Month: <input type="text" id="MonthInputEvent" value="MM">
+            Day: <input type="text" id="DayInputEvent" value="DD">
+            Description: <input type="text" id="DescriptionInputEvent" value="Description">
+        </div>
+        <div div style="position:relative; left:-700px;top:550px;">
+            <h4>Add Events and Tasks to Calendar</h4>
+        <div  id="addTaskDiv" style="display:none">
+            <button onclick="myFunction2()">Add Task</button>
+            Year: <input type="text" id="YearInputTask" value="YYYY">
+            Month: <input type="text" id="MonthInputTask" value="MM">
+            Day: <input type="text" id="DayInputTask" value="DD">
+            Description: <input type="text" id="DescriptionInputTask" value="Description">
+            <select id="AssigneesTask" name="AssigneesTask" multiple="multiple">
+                <g:each in="${persons}" var="item">
+                    <option value=${item.email}>${item.email}</option>
+                </g:each>
+            </select>
+        </div>
+        <button onclick="myFunction5()">+E</button>
+        <button onclick="myFunction6()">+T</button>
+        <div id="myEmail">${email}</div>
+    </div>
+    <div style="position:relative; left:-700px;top:600px;">
+        <h4>${user}'s HouseMates</h4>
+        <g:each in="${persons}" var="item">
+            <p>Name: ${item.firstName}</p>
+        </g:each>
+    </div>
+    </div>
+
+
+
+    <!--code for top right corner, user name, logout and add person -->
+
 
     <!-- send EMAIL to add new user-->
     <div style="position:relative; left: 1200px;">
@@ -24,18 +74,10 @@
     </div>
     <br/>
     %{--location to open js file--}%
-    <div id="root"> </div>
+    <div style="position:relative; left:50%;" id="root"> </div>
 
-    <div style="width:auto;height:200px;"><h3>BIG BOX GOES HERE</h3></div>
-    <!-- returns the users roommates -->
 
-    <div>
-        <h4>${user}'s HouseMates</h4>
-        <g:each in="${persons}" var="item">
-                <p>Name: ${item.firstName}</p>
-                <p>Email: ${item.email}</p>
-        </g:each>
-    </div>
+
     <!--integrate with calendar add task/event drop down function-->
 
     <div style="position:relative; bottom: 300px; left: 1000px;">
@@ -57,28 +99,15 @@
             </g:each>
         </div>
 
-<div>
-    <h3 id="calender">
-
-    <div>
-
-    	<div id="caleandar">
-    	</div>
-
 
     	<!--Add buttons to initiate auth sequence and sign out-->
-    	<pre id="content"></pre>
-    <script defer src="https://apis.google.com/js/api.js"
-            onload="this.onload=function(){};handleClientLoad()"
-            onreadystatechange="if (this.readyState === 'complete') this.onload()">
-    </script>
-    <script async>
+
+        <script defer>
     /*
     Author: Jack Ducasse;
     Version: 0.1.0;
     (????)
     */
-
     var Calendar = function(model, options, date){
     // Default Values
     this.Options = {
@@ -301,9 +330,7 @@
     title.appendChild(a);
     }else{
     var innerString = '';
-   
-    //"${email}".replace("&#64;", "@")
-    //✓
+ 
     innerString += '<div class="tooltip">';
     if (calendar.Model[n].Title == 'RoomMateTask'){
     	innerString +='★';
@@ -311,22 +338,12 @@
     if (calendar.Model[n].Title == 'RoomMateEvent'){
     	innerString +='☆';
     }
-    if (attended[n] == 'yes'){
-	innerString += '✓';
-    }
     //innerString += calendar.Model[n].Title;
     innerString += '<span class="tooltiptext">'  + calendar.Model[n].Link + '<br/><div>'; 
     //if(event.attendees[y].responseStatus = "accepted"
-    if (attended[n] == 'no'){
-        innerString += '<button onclick="myFunction7(eventId[' + n + '])">Attend</button>';
-    }else{
-        if (attended[n] == 'yes'){
-        	innerString += 'Already attended';
-	}else{
-		innerString += 'You are the master of this task';
-	}
-    }
-    innerString += '</div></span></div>';
+    innerString += '<button onclick="myFunction7(eventId[' + n + '])">Attend</button></div>';
+    
+    innerString += '</span></div>';
     title.innerHTML += innerString;  
     //title.innerHTML += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
 
@@ -390,7 +407,6 @@
     var summary = [];
     var desc = [];
     var eventId = [];
-    var attended = [];
     // Client ID and API key from the Developer Console
     var CLIENT_ID = '731832964818-uecs4clv5qsfubet2rbbr1co235pbost.apps.googleusercontent.com';
 	//724926326266-dhm6bt52ttmrlaessmt8rqp5oc6ueute.apps.googleusercontent.com
@@ -483,41 +499,6 @@
     month.push(anDate.getMonth());
     day.push(anDate.getDate());
     eventId.push(event.id);
-    var checkIfHere = 'no';
-    if (event.attendees){
-        for(var w = 0; w < event.attendees.length; w++){
-            if (event.attendees[w].email == "${email}".replace("&#64;", "@")){
-                if (event.attendees[w].responseStatus == "accepted"){
-                     checkIfHere = 'yes';
-                }
-            }
-        }
-        if (checkIfHere == 'yes'){
-		attended.push('yes');
-        }else{
-		attended.push('no');
-        }
-    }else{
-        attended.push('invalid');
-    }
-    /*if (event.attendees){
-       for(var w = 0; w < event.attendees.length; w++){
-           if (event.attendees[w].email == "${email}".replace("&#64;", "@")){
-	       //console.log(event.attendees[w].email+anDate.getDate()+event.attendees[w].responseStatus);
-	       if (event.attendees[w].responseStatus == "accepted"){
-		   console.log('a');
-	           attended.push('yes');
-	       }else{
-		   console.log('a');
-		   attended.push('no');
-	       }
-           }
-       }
-    }else{
-        console.log('a');
-        attended.push('invalid');
-    }
-    */
     if (!when) {
     when = event.start.date;
     }
@@ -638,7 +619,7 @@ function myFunction6() {
 }
 function myFunction7(text){
   var event;
-  var myEmailVar = "${email}".replace("&#64;", "@");
+  var myEmailVar = document.getElementById("myEmail").innerHTML;
   alert(myEmailVar);
   var request = gapi.client.calendar.events.get({
                  'calendarId': 'primary',
@@ -669,44 +650,6 @@ function myFunction7(text){
 
 }
 </script>
-
-
-    <div>
-    Calendar Stuff
-    <div id="addEventDiv" style="display:none">
-        <button onclick="myFunction()">Add Event</button>
-            Year: <input type="text" id="YearInputEvent" value="YYYY">
-            Month: <input type="text" id="MonthInputEvent" value="MM">
-            Day: <input type="text" id="DayInputEvent" value="DD">
-            Description: <input type="text" id="DescriptionInputEvent" value="Description">
-    </div>
-    <div id="addTaskDiv" style="display:none">
-        <button onclick="myFunction2()">Add Task</button>
-            Year: <input type="text" id="YearInputTask" value="YYYY">
-            Month: <input type="text" id="MonthInputTask" value="MM">
-            Day: <input type="text" id="DayInputTask" value="DD">
-            Description: <input type="text" id="DescriptionInputTask" value="Description">
-            <select id="AssigneesTask" name="AssigneesTask" multiple="multiple">
-	    <g:each in="${persons}" var="item">
-                  <option value=${item.email}>${item.email}</option>
-            </g:each>
-            </select>
-    </div>
-    <button onclick="myFunction5()">+E</button>
-    <button onclick="myFunction6()">+T</button>
-    <div id="myEmail">${email}</div>
-    </div>
-
-
-
-    <pre id="content"></pre>    
-
-
-    </div>
-
-    </h3>
-	
-
 
     <asset:javascript src="bundle.js"/>
 
