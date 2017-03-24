@@ -34,6 +34,7 @@ class EmailSenderController {
 
             sendMail {
                 to emailAdd
+                from "housemates2212@gmail.com"
                 subject subj
                 text sendMessage
             }
