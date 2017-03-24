@@ -5,27 +5,18 @@
 <head>
     <title>Welcome Home!</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-
-
-
+    
 </head>
 <body>
     <!--code for top right corner, user name, logout and add person -->
-    <h3>Welcome Home: ${user}</h3>
-    <div style="position:relative; background-color: red; left: 0px;">
+    <div style="position:relative; left: 1200px;">
+        <h3>Welcome Home: ${user}</h3>
         <g:form controller="PersonHouse" action="logout">
             <g:submitButton name="logout" controller="PersonHouse" action="logout" value="logout" />
         </g:form>
     </div>
-    <div>
-        <g:form controller="House" action="settings">
-        <g:submitButton name="settings" controller="House" action="settings" value="settings" />
-    </g:form>
-    </div>
 
-<!-- send EMAIL to add new user-->
+    <!-- send EMAIL to add new user-->
     <div style="position:relative; left: 1200px;">
         <g:form controller="EmailSender" action="index">
             <g:submitButton name="addRoommate" controller="EmailSender" action="index" value="Add Person" />
@@ -67,7 +58,7 @@
         </div>
 
 <div>
-    <h3 id="calender">BIG BOX GOES HERE
+    <h3 id="calender">
 
     <div>
 
@@ -85,7 +76,7 @@
     /*
     Author: Jack Ducasse;
     Version: 0.1.0;
-    (◠‿◠✿)
+    (????)
     */
     var Calendar = function(model, options, date){
     // Default Values
@@ -308,10 +299,24 @@
     }
     title.appendChild(a);
     }else{
-    //title.innerHTML += '<a href="' + calendar.Model[n].Link + '">' + calendar.Model[n].Title + '</a>';
-    title.innerHTML += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
-    //title.innerHtml += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
-    //title.innerHtml += '<div>Hello</div>';
+    var innerString = '';
+ 
+    innerString += '<div class="tooltip">';
+    if (calendar.Model[n].Title == 'RoomMateTask'){
+    	innerString +='★';
+    }
+    if (calendar.Model[n].Title == 'RoomMateEvent'){
+    	innerString +='☆';
+    }
+    //innerString += calendar.Model[n].Title;
+    innerString += '<span class="tooltiptext">'  + calendar.Model[n].Link + '<br/><div>'; 
+    //if(event.attendees[y].responseStatus = "accepted"
+    innerString += '<button onclick="myFunction7(eventId[' + n + '])">Attend</button></div>';
+    
+    innerString += '</span></div>';
+    title.innerHTML += innerString;  
+    //title.innerHTML += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
+
     }
     number.appendChild(title);
     }
@@ -364,15 +369,14 @@
     var obj = new Calendar(data, settings);
     createCalendar(obj, el);
     }
-    </script>
-
-    <script defer>
+//cut
     var anDate;
     var year =[];
     var month = [];
     var day = [];
     var summary = [];
     var desc = [];
+    var eventId = [];
     // Client ID and API key from the Developer Console
     var CLIENT_ID = '731832964818-uecs4clv5qsfubet2rbbr1co235pbost.apps.googleusercontent.com';
 	//724926326266-dhm6bt52ttmrlaessmt8rqp5oc6ueute.apps.googleusercontent.com
@@ -464,6 +468,7 @@
     year.push(anDate.getFullYear());
     month.push(anDate.getMonth());
     day.push(anDate.getDate());
+    eventId.push(event.id);
     if (!when) {
     when = event.start.date;
     }
@@ -559,7 +564,62 @@
     alert('Task created: ' + event.htmlLink);
     });
     }
-    </script>
+
+//cut
+
+function myFunction5() {
+    if (document.getElementById("addEventDiv").style.display == "block"){
+        document.getElementById("addEventDiv").style.display = "none";
+    }else{
+        if (document.getElementById("addTaskDiv").style.display == "block"){
+            document.getElementById("addTaskDiv").style.display = "none";
+        }
+        document.getElementById("addEventDiv").style.display = "block";
+    }
+}
+function myFunction6() {
+    if (document.getElementById("addTaskDiv").style.display == "block"){
+        document.getElementById("addTaskDiv").style.display = "none";
+    }else{
+        if (document.getElementById("addEventDiv").style.display == "block"){
+            document.getElementById("addEventDiv").style.display = "none";
+        }
+        document.getElementById("addTaskDiv").style.display = "block";
+    }
+}
+function myFunction7(text){
+  var event;
+  var myEmailVar = document.getElementById("myEmail").innerHTML;
+  alert(myEmailVar);
+  var request = gapi.client.calendar.events.get({
+                 'calendarId': 'primary',
+                 'eventId':text
+               }).then(function(response) {
+	           event = response.result;
+
+                   if (event.attendees){
+                       for(var y = 0; y < event.attendees.length; y++){
+                           if (event.attendees[y].email == myEmailVar){
+			       event.attendees[y].responseStatus = "accepted";
+                           }
+                       }
+                   }
+
+                  var request2 = gapi.client.calendar.events.update({
+                      'calendarId': 'primary',
+                      'eventId':text,
+                      'resource': event
+                  });
+
+                  request2.execute(function(event) {
+                      alert('Event updated successfully' );
+                  });
+
+	       });
+
+
+}
+</script>
 
 
     <div>
@@ -585,35 +645,13 @@
     </div>
     <button onclick="myFunction5()">+E</button>
     <button onclick="myFunction6()">+T</button>
+    <div id="myEmail">${email}</div>
     </div>
 
-<script defer>
-function myFunction5() {
-    if (document.getElementById("addEventDiv").style.display == "block"){
-        document.getElementById("addEventDiv").style.display = "none";
-    }else{
-        if (document.getElementById("addTaskDiv").style.display == "block"){
-            document.getElementById("addTaskDiv").style.display = "none";
-        }
-        document.getElementById("addEventDiv").style.display = "block";
-    }
-}
-function myFunction6() {
-    if (document.getElementById("addTaskDiv").style.display == "block"){
-        document.getElementById("addTaskDiv").style.display = "none";
-    }else{
-        if (document.getElementById("addEventDiv").style.display == "block"){
-            document.getElementById("addEventDiv").style.display = "none";
-        }
-        document.getElementById("addTaskDiv").style.display = "block";
-    }
-}
-</script>
-
-    <pre id="content2"></pre>
 
 
-	
+    <pre id="content"></pre>    
+
 
     </div>
 
