@@ -5,10 +5,7 @@
 <head>
     <title>Welcome Home!</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-
-
+    
 </head>
 <body>
     <!--code for top right corner, user name, logout and add person -->
@@ -28,7 +25,6 @@
     <br/>
     %{--location to open js file--}%
     <div id="root"> </div>
-
 
     <div style="width:auto;height:200px;"><h3>BIG BOX GOES HERE</h3></div>
     <!-- returns the users roommates -->
@@ -72,16 +68,17 @@
 
     	<!--Add buttons to initiate auth sequence and sign out-->
     	<pre id="content"></pre>
-    <script async src="https://apis.google.com/js/api.js"
+    <script defer src="https://apis.google.com/js/api.js"
             onload="this.onload=function(){};handleClientLoad()"
             onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
-    <script defer>
+    <script async>
     /*
     Author: Jack Ducasse;
     Version: 0.1.0;
-    (◠‿◠✿)
+    (????)
     */
+
     var Calendar = function(model, options, date){
     // Default Values
     this.Options = {
@@ -304,7 +301,9 @@
     title.appendChild(a);
     }else{
     var innerString = '';
-
+   
+    //"${email}".replace("&#64;", "@")
+    //✓
     innerString += '<div class="tooltip">';
     if (calendar.Model[n].Title == 'RoomMateTask'){
     	innerString +='★';
@@ -312,13 +311,23 @@
     if (calendar.Model[n].Title == 'RoomMateEvent'){
     	innerString +='☆';
     }
+    if (attended[n] == 'yes'){
+	innerString += '✓';
+    }
     //innerString += calendar.Model[n].Title;
-    innerString += '<span class="tooltiptext">'  + calendar.Model[n].Link + '<br/><div>';
+    innerString += '<span class="tooltiptext">'  + calendar.Model[n].Link + '<br/><div>'; 
     //if(event.attendees[y].responseStatus = "accepted"
-    innerString += '<button onclick="myFunction7(eventId[' + n + '])">Attend</button></div>';
-
-    innerString += '</span></div>';
-    title.innerHTML += innerString;
+    if (attended[n] == 'no'){
+        innerString += '<button onclick="myFunction7(eventId[' + n + '])">Attend</button>';
+    }else{
+        if (attended[n] == 'yes'){
+        	innerString += 'Already attended';
+	}else{
+		innerString += 'You are the master of this task';
+	}
+    }
+    innerString += '</div></span></div>';
+    title.innerHTML += innerString;  
     //title.innerHTML += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
 
     }
@@ -381,6 +390,7 @@
     var summary = [];
     var desc = [];
     var eventId = [];
+    var attended = [];
     // Client ID and API key from the Developer Console
     var CLIENT_ID = '731832964818-uecs4clv5qsfubet2rbbr1co235pbost.apps.googleusercontent.com';
 	//724926326266-dhm6bt52ttmrlaessmt8rqp5oc6ueute.apps.googleusercontent.com
@@ -473,6 +483,41 @@
     month.push(anDate.getMonth());
     day.push(anDate.getDate());
     eventId.push(event.id);
+    var checkIfHere = 'no';
+    if (event.attendees){
+        for(var w = 0; w < event.attendees.length; w++){
+            if (event.attendees[w].email == "${email}".replace("&#64;", "@")){
+                if (event.attendees[w].responseStatus == "accepted"){
+                     checkIfHere = 'yes';
+                }
+            }
+        }
+        if (checkIfHere == 'yes'){
+		attended.push('yes');
+        }else{
+		attended.push('no');
+        }
+    }else{
+        attended.push('invalid');
+    }
+    /*if (event.attendees){
+       for(var w = 0; w < event.attendees.length; w++){
+           if (event.attendees[w].email == "${email}".replace("&#64;", "@")){
+	       //console.log(event.attendees[w].email+anDate.getDate()+event.attendees[w].responseStatus);
+	       if (event.attendees[w].responseStatus == "accepted"){
+		   console.log('a');
+	           attended.push('yes');
+	       }else{
+		   console.log('a');
+		   attended.push('no');
+	       }
+           }
+       }
+    }else{
+        console.log('a');
+        attended.push('invalid');
+    }
+    */
     if (!when) {
     when = event.start.date;
     }
@@ -593,7 +638,7 @@ function myFunction6() {
 }
 function myFunction7(text){
   var event;
-  var myEmailVar = document.getElementById("myEmail").innerHTML;
+  var myEmailVar = "${email}".replace("&#64;", "@");
   alert(myEmailVar);
   var request = gapi.client.calendar.events.get({
                  'calendarId': 'primary',
@@ -654,7 +699,7 @@ function myFunction7(text){
 
 
 
-    <pre id="content"></pre>
+    <pre id="content"></pre>    
 
 
     </div>
