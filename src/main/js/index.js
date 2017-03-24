@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { PostFeed } from './PostFeed'
 import App from './leaderboard'
+import Dropzone from 'react-dropzone';
 
 
 console.log("index rendering");
@@ -38,4 +39,52 @@ ReactDOM.render(
 ReactDOM.render(
   <App />,
   document.getElementById('leaderboard')
+);
+
+
+
+function encodeAndUpload(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+        fetch('http://localhost:8080/house/settings/upload?imageName=' + file.name,{
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: reader.result
+        }).then(res =>{
+            if(res.ok){
+                alert("success!");
+            }
+            else{
+                alert("fail!")
+            }
+        });
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
+}
+
+var DropzoneDemo = React.createClass({
+    render: function () {
+        return (
+            <div>
+                <Dropzone onDrop={this.onDrop}>
+                    <div>Try dropping a file here, or click to select file to upload.</div>
+                </Dropzone>
+            </div>
+        );
+    },
+    onDrop: function (files) {
+        console.log('Received files: ', files);
+        encodeAndUpload(files[0])
+    }
+
+});
+
+ReactDOM.render(
+        <DropzoneDemo />,
+    document.getElementById('app-div')
 );

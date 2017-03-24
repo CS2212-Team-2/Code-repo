@@ -9,6 +9,7 @@ class Person {
     String  subId
     String  email
     List<Post> posts
+    String  image = 'DefaultProfile.png'
 
     static hasMany = [posts : Post]
 
@@ -20,5 +21,6 @@ class Person {
         //email email: true, blank:false
         amount nullable: true
     }
+
 
 }

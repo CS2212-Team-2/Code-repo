@@ -23,9 +23,9 @@ class BootStrap {
 
 
         //add house and person to PersonHouse table
-        PersonHouse testPersonHouse1 = new PersonHouse(personId: testPerson1.subId, houseId:testHouse.houseId).save()
-        PersonHouse testPersonHouse2 = new PersonHouse(personId:testPerson2.subId, houseId:testHouse.houseId).save()
-        PersonHouse testPersonHouse3 = new PersonHouse(personId: testPerson3.subId, houseId:testHouse.houseId).save()
+        //PersonHouse testPersonHouse1 = new PersonHouse(personId: testPerson1.subId, houseId:testHouse.houseId).save()
+        //PersonHouse testPersonHouse2 = new PersonHouse(personId:testPerson2.subId, houseId:testHouse.houseId).save()
+        //PersonHouse testPersonHouse3 = new PersonHouse(personId: testPerson3.subId, houseId:testHouse.houseId).save()
 
         Date today = new Date().minus(120)
 
@@ -35,15 +35,15 @@ class BootStrap {
         Transaction trans4 = new Transaction(invoiceId:4, houseId:1,creditorId:'107726694172578448865', debitorId:'11002002022004', creditorName: 'Gary', debitorName: 'Mark', amountPaid: 60, amountOwed: 40, description: 'KEG', date:today).save()
         Transaction trans5 = new Transaction(invoiceId:5, houseId:1,creditorId:'11256632556454563', debitorId:'107726694172578448865', creditorName: 'Rupi', debitorName: 'Gary', amountPaid: 44, amountOwed: 22, description: 'Phone-Bell', date:today).save()
 
-        Score scorePerson1 = new Score(subId: testPerson1.subId, firstName: testPerson1.firstName, lastName: testPerson1.lastName, houseId:1).save()
-        Score scorePerson2 = new Score(subId: testPerson2.subId, firstName: testPerson2.firstName, lastName: testPerson2.lastName, houseId:1).save()
-        Score scorePerson3 = new Score(subId: testPerson3.subId, firstName: testPerson3.firstName, lastName: testPerson3.lastName, houseId:1).save()
+        //Score scorePerson1 = new Score(subId: testPerson1.subId, firstName: testPerson1.firstName, lastName: testPerson1.lastName, houseId:1).save()
+        //Score scorePerson2 = new Score(subId: testPerson2.subId, firstName: testPerson2.firstName, lastName: testPerson2.lastName, houseId:1).save()
+        //Score scorePerson3 = new Score(subId: testPerson3.subId, firstName: testPerson3.firstName, lastName: testPerson3.lastName, houseId:1).save()
 
-        Post post = new Post(senderName: testPerson2.firstName, title: "Title of post",
-                text: "aifbviqhbvkjsvnhnhv bhvbjjjahebv", date: (new Date()).getTimeString())
-        post.save()
-        testPerson1.addToPosts(post).save()
-        testPerson3.addToPosts(post).save()
+        //Post post = new Post(senderName: testPerson2.firstName, title: "Title of post",
+                //text: "aifbviqhbvkjsvnhnhv bhvbjjjahebv", date: (new Date()).getTimeString())
+        //post.save()
+        //testPerson1.addToPosts(post).save()
+        //testPerson3.addToPosts(post).save()
     }
 
     def destroy = {

@@ -16,6 +16,7 @@
     </g:form>
 </div>
 
+
 <!-- send EMAIL to add new user-->
 <div style="position:relative; left: 1200px;">
     <g:form controller="EmailSender" action="index">
@@ -23,6 +24,9 @@
     </g:form>
 </div>
 <br/>
+<div><g:form controller="House" action="settings">
+    <g:submitButton name="settings" controller="House" action="settings" value="settings" />
+</g:form></div>
 %{--location to open js file--}%
 <div id="root"> </div>
 
