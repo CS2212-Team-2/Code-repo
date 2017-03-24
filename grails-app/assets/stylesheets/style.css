@@ -1,6 +1,20 @@
 *{
-    background: silver;
-    font-family: Verdana, Times, serif;
+    background: lightgreen;
+    font-family: 'Lato', serif;
+    max-width: 100%;
+    margin: auto;
+}
+#topbar {
+    width: 100%;
+    overflow: hidden; /* will contain if #first is longer than #second */
+}
+#calendar1 {
+    width: 700px;
+    float:left; /* add this */
+    align-content: center;
+}
+#notification1 {
+    overflow: hidden; /* if you don't want #second to wrap below #first */
 }
 #loginline{
     text-size: 25;
@@ -13,14 +27,19 @@
     text-align: center; !important;
     text-color: white; !important;
 }
-*{
-    background: silver;
-    font-family: Verdana, Times, serif;
-}
 #topblock
 {
     width:100%;
     text-align: center;
+}
+.welcome{
+    padding-top: 100px;
+    size: 300px;
+    text-align: center;
+    color:black;
+    height: 10px;
+    width: 1400px;
+    font-weight: bold;
 }
 /*#topblock#title{*/
 /*align: center;*/
@@ -59,49 +78,61 @@
 #welcome{
     align: center;
     text-align: center;
-    color: gray;
 }
 #logout{
-    float:right; !important;
-    padding: 20px 20px;
-    /*padding-left: 10px;*/
-    /*background-color: grey;*/
-    /*border: none;*/
-    /*color: white; !important;*/
-    /*!*!*border-style: solid;*!*!*/
-    /*!*!*border-width: 2px;*!*!*/
-    /*!*!*border-color: black;*!*!*/
-    /*!*text-align: center;*!*/
-    /*!*text-decoration: none;*!*/
-    /*display: inline-block; !important;*/
-    /*!*font-size: 16px;*!*/
-    /*margin: 4px 2px; !important;*/
-    /*cursor: pointer; !important;*/
-    /*border-style: solid; !important;*/
-    /*border-width: 0.5px; !important;*/
-    /*border-color: white; !important;*/
-    /*background-color: lightgrey; !important;*/
+text-align: center;
+    padding-top: 20px;
+   
+    size: 50px;
+    background-color: mediumseagreen;
+    border: none;
+    color: black;
+    padding: 15px 79px;
+     text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
-#add{
-    float: left;!important;
-    padding: 20px 20px;
-    /*padding-right: 450px;*/
-    /*border: none;!important;*/
-    /*color: white;!important;*/
-    /*text-align: center;!important;*/
-    /*text-decoration: none;!important;*/
-    /*display: inline-block;!important;*/
-    /*font-size: 16px;!important;*/
-    /*margin: 4px 2px;!important;*/
-    /*cursor: pointer; !important;*/
-    /*border-style: solid;*/
-    /*border-width: 0.5px;*/
-    /*border-color: white;*/
-    /*background-color: lightgrey;*/
+#addRoommate{
+text-align: center;
+    padding-top: 20px;
+    
+    size: 50px;
+    background-color: mediumseagreen;
+    border: none;
+    color: black;
+    padding: 15px 79px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 .class{
 }
-
+#buttons {
+ 
+}
+#addLeft { padding-left:50px;
+    float:left; !important;/* add this */
+    align-content: center;
+}
+#logoutRight { padding-right:50px; float:right;
+    !important;/* if you don't want #second to wrap below #first */
+}
+#bottombar {heigh:500px;
+ width:100%; 
+}
+#housemates1 { padding-left:50px;
+    float:left; !important;/* add this */
+ 
+}
+#finance1 { padding-right:50px; float:right;
+    !important;/* if you don't want #second to wrap below #first */
+}
 .cld-main{
   width: 700px;
 }
@@ -233,6 +264,3 @@
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
-
-
-
