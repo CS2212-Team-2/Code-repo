@@ -8,7 +8,7 @@ import App from './leaderboard'
 import popup from './leaderboard(popup)'
 
 
-<<<<<<< HEAD
+index.js
 function encodeAndUpload(file) {
     var reader = new FileReader();
     reader.readAsDataURL(file);
@@ -57,7 +57,7 @@ ReactDOM.render(
     </div>,
     document.getElementById('DROPZONEHERE')
 );
-=======
+
 console.log("index rendering");
 function  getParams() {
     // http://localhost:8080/house/myHouse?persons=Session+Content%3A%0A++subId+%3D+102369340031760804603%0A++firstName+%3D+down%0A++lastName+%3D+load%0A++houseName+%3D+jb+hg%0A++houseId+%3D+2%0A++org.grails.FLASH_SCOPE+%3D+org.grails.web.servlet.GrailsFlashScope%401467ea6f%0A++email+%3D+stupidemail9898%40gmail.com%0A
@@ -89,4 +89,4 @@ ReactDOM.render(
   <App />,
   document.getElementById('leaderboard')
 );
->>>>>>> origin/VDEV
+
