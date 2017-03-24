@@ -5,7 +5,7 @@ package house
 class BootStrap {
     def init = { servletContext ->
         //ADD HOUSE
-        House testHouse = new House(houseName: '1stHouse', houseId: '1').save()
+        /*House testHouse = new House(houseName: '1stHouse', houseId: '1').save()
 
 
         //Add person
@@ -23,7 +23,7 @@ class BootStrap {
 
 
         //add house and person to PersonHouse table
-        PersonHouse testPersonHouse1 = new PersonHouse(personId: testPerson1.subId, houseId:testHouse.houseId).save()
+       /* PersonHouse testPersonHouse1 = new PersonHouse(personId: testPerson1.subId, houseId:testHouse.houseId).save()
         PersonHouse testPersonHouse2 = new PersonHouse(personId:testPerson2.subId, houseId:testHouse.houseId).save()
         PersonHouse testPersonHouse3 = new PersonHouse(personId: testPerson3.subId, houseId:testHouse.houseId).save()
 
@@ -43,7 +43,7 @@ class BootStrap {
                 text: "aifbviqhbvkjsvnhnhv bhvbjjjahebv", date: "23/3 6:00 pm")
         post.save()
         testPerson1.addToPosts(post).save()
-        testPerson3.addToPosts(post).save()
+        testPerson3.addToPosts(post).save()*/
     }
 
     def destroy = {

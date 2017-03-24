@@ -11,14 +11,19 @@
 </head>
 <body>
     <!--code for top right corner, user name, logout and add person -->
-    <div style="position:relative; left: 1200px;">
-        <h3>Welcome Home: ${user}</h3>
+    <h3>Welcome Home: ${user}</h3>
+    <div style="position:relative; background-color: red; left: 0px;">
         <g:form controller="PersonHouse" action="logout">
             <g:submitButton name="logout" controller="PersonHouse" action="logout" value="logout" />
         </g:form>
     </div>
+    <div>
+        <g:form controller="House" action="settings">
+        <g:submitButton name="settings" controller="House" action="settings" value="settings" />
+    </g:form>
+    </div>
 
-    <!-- send EMAIL to add new user-->
+<!-- send EMAIL to add new user-->
     <div style="position:relative; left: 1200px;">
         <g:form controller="EmailSender" action="index">
             <g:submitButton name="addRoommate" controller="EmailSender" action="index" value="Add Person" />

@@ -147,7 +147,20 @@ class PersonController {
         }
     }
 
+    def changeName() {
+        //Respond to controller call based on submit button
+        //Get session Subid
+        def newFirstName = params.firstName
+        def newLastName = params.lastName
+        def subId = params.subId
+        //Set subid's first name and last name to what was sent
 
+        Person p = Person.findBySubId(subId)
+        p.firstName = newFirstName
+        p.lastName = newLastName
+        p.save(flush: true)
+        redirect(controller:"house", action:"myHouse" )
+    }
 }
 
 

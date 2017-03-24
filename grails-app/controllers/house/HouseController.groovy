@@ -110,8 +110,8 @@ class HouseController {
                     "WHERE p.subId = '${session['subId']}'")
 
             String firstName = name[0]
-
-            [persons:houseList, user:firstName, emails:emailList, totalList:totalList, scores:scores]
+            Person perEmail = Person.findBySubId(session['subId'])
+            [persons:houseList, email: perEmail.email, user:firstName, emails:emailList, totalList:totalList, scores:scores]
         }
         else{
             def persons = Person.list()
@@ -131,7 +131,7 @@ class HouseController {
             session['houseName'] = house.houseName
             //create new users score
             Person person = Person.findBySubId(session['subId'])
-            Score score =  new Score(firstName: person.firstName, lastName: person.lastName, subId: person.subId, houseId: session['subId']).save()
+            //Score score =  new Score(firstName: person.firstName, lastName: person.lastName, subId: person.subId, houseId: session['subId']).save()
 
             redirect(action:'index', controller:'EmailSender')
         }else{
@@ -217,4 +217,12 @@ class HouseController {
         def housecount = House.count()
         render housecount
     }
+
+    def settings(){
+        String subId = session['subId']
+        Person person = Person.findBySubId(subId);
+        String image = person.image
+        [person:person, image:image]
+    }
+
 }
