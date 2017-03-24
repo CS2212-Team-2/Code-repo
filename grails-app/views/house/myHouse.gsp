@@ -3,45 +3,86 @@
 <asset:stylesheet src="style.css"/>
 <asset:stylesheet src="postFeed.css"/>
 <head>
-    <title>Welcome Home!</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-    
-</head>
-<body>
-    <!--code for top right corner, user name, logout and add person -->
-    <div style="position:relative; left: 1200px;">
-        <h3>Welcome Home: ${user}</h3>
+
+    <h1 id="welcome">Welcome Home: ${user}</h1>
+
+    <div id="buttons">
+    <div  id="logoutRight">
         <g:form controller="PersonHouse" action="logout">
             <g:submitButton name="logout" controller="PersonHouse" action="logout" value="logout" />
         </g:form>
     </div>
 
     <!-- send EMAIL to add new user-->
-    <div style="position:relative; left: 1200px;">
+    <div  id="addLeft">
         <g:form controller="EmailSender" action="index">
             <g:submitButton name="addRoommate" controller="EmailSender" action="index" value="Add Person" />
         </g:form>
     </div>
-    <br/>
-    %{--location to open js file--}%
-    <div id="root"> </div>
+    </div>
 
-    <div style="width:auto;height:200px;"><h3>BIG BOX GOES HERE</h3></div>
-    <!-- returns the users roommates -->
+    <title>Welcome Home!</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
+
+</head>
+    <div id="topbar">
+    <div id="calendar1">
+    <div id="caleandar">
+    </div>
+
 
     <div>
+    Calendar Stuff
+    <div id="addEventDiv" style="display:none">
+        <button onclick="myFunction()">Add Event</button>
+            Year: <input type="text" id="YearInputEvent" value="YYYY">
+            Month: <input type="text" id="MonthInputEvent" value="MM">
+            Day: <input type="text" id="DayInputEvent" value="DD">
+            Description: <input type="text" id="DescriptionInputEvent" value="Description">
+    </div>
+    <div id="addTaskDiv" style="display:none">
+        <button onclick="myFunction2()">Add Task</button>
+            Year: <input type="text" id="YearInputTask" value="YYYY">
+            Month: <input type="text" id="MonthInputTask" value="MM">
+            Day: <input type="text" id="DayInputTask" value="DD">
+            Description: <input type="text" id="DescriptionInputTask" value="Description">
+            <select id="AssigneesTask" name="AssigneesTask" multiple="multiple">
+	    <g:each in="${persons}" var="item">
+                  <option value=${item.email}>${item.email}</option>
+            </g:each>
+            </select>
+    </div>
+    <button onclick="myFunction5()">+E</button>
+    <button onclick="myFunction6()">+T</button>
+    </div>
+    </div>
+    <div id="notification1">
+    <div id="root"> </div>
+    </div>
+    </div>
+<body>
+    <!--code for top right corner, user name, logout and add person -->
+
+    <br/>
+    %{--location to open js file--}%
+
+
+    <!--integrate with calendar add task/event drop down function-->
+    
+    <div id="bottombar">
+
+    <div id="housemates1">
         <h4>${user}'s HouseMates</h4>
         <g:each in="${persons}" var="item">
                 <p>Name: ${item.firstName}</p>
                 <p>Email: ${item.email}</p>
         </g:each>
     </div>
-    <!--integrate with calendar add task/event drop down function-->
 
-    <div style="position:relative; bottom: 300px; left: 1000px;">
+    <div id="finance1">
         <h3>Finance</h3>
-        <div>
-            <h4>Select Person to Add Payment</h4>
+        <h4>Select Person to Add Payment</h4>
             <g:form controller="transaction" action="addpayment">
                 <g:select onchange="submit()"
                           name="email"
@@ -49,21 +90,26 @@
                           value="${emails}"
                           noSelection="['':'-Choose Persons Email-']"/>
             </g:form>
-        </div>
-        <div>
-            <h4>Account Balances(+/-)</h4>
-            <g:each in ="${totalList}" var ="person">
-                <h4><g:link action="index" controller = "transaction" id="${person.subId}">${person.firstName} | Total: ${person.amount}</g:link></h4>
-            </g:each>
-        </div>
+        <h4>Account Balances(+/-)</h4>
+        <g:each in ="${totalList}" var ="person">
+            <h4><g:link action="index" controller = "transaction" id="${person.subId}">${person.firstName} | Total: ${person.amount}</g:link></h4>
+        </g:each>
 
-<div>
+
+    </div>
+
+
+
+
+    </div>
+ 
+
+
     <h3 id="calender">
 
     <div>
 
-    	<div id="caleandar">
-    	</div>
+
 
 
     	<!--Add buttons to initiate auth sequence and sign out-->
@@ -78,7 +124,6 @@
     Version: 0.1.0;
     (????)
     */
-
     var Calendar = function(model, options, date){
     // Default Values
     this.Options = {
@@ -329,7 +374,6 @@
     innerString += '</div></span></div>';
     title.innerHTML += innerString;  
     //title.innerHTML += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
-
     }
     number.appendChild(title);
     }
@@ -542,7 +586,6 @@
 	alert("One of your YYYY/MM/DD inputs either contains the wrong number of numbers, or non-numeric characters.");
     	return;
     }
-
     var event = {
     //'summary': document.getElementById("SummaryInputEvent").value,
     'summary': 'RoomMateEvent',
@@ -636,9 +679,7 @@
     alert('Task created: ' + event.htmlLink);
     });
     }
-
 //cut
-
 function myFunction5() {
     if (document.getElementById("addEventDiv").style.display == "block"){
         document.getElementById("addEventDiv").style.display = "none";
@@ -667,7 +708,6 @@ function myFunction7(text){
                  'eventId':text
                }).then(function(response) {
 	           event = response.result;
-
                    if (event.attendees){
                        for(var y = 0; y < event.attendees.length; y++){
                            if (event.attendees[y].email == myEmailVar){
@@ -675,48 +715,17 @@ function myFunction7(text){
                            }
                        }
                    }
-
                   var request2 = gapi.client.calendar.events.update({
                       'calendarId': 'primary',
                       'eventId':text,
                       'resource': event
                   });
-
                   request2.execute(function(event) {
                       alert('Event updated successfully' );
                   });
-
 	       });
-
-
 }
 </script>
-
-
-    <div>
-    Calendar Stuff
-    <div id="addEventDiv" style="display:none">
-        <button onclick="myFunction()">Add Event</button>
-            Year: <input type="text" id="YearInputEvent" value="YYYY">
-            Month: <input type="text" id="MonthInputEvent" value="MM">
-            Day: <input type="text" id="DayInputEvent" value="DD">
-            Description: <input type="text" id="DescriptionInputEvent" value="Description">
-    </div>
-    <div id="addTaskDiv" style="display:none">
-        <button onclick="myFunction2()">Add Task</button>
-            Year: <input type="text" id="YearInputTask" value="YYYY">
-            Month: <input type="text" id="MonthInputTask" value="MM">
-            Day: <input type="text" id="DayInputTask" value="DD">
-            Description: <input type="text" id="DescriptionInputTask" value="Description">
-            <select id="AssigneesTask" name="AssigneesTask" multiple="multiple">
-	    <g:each in="${persons}" var="item">
-                  <option value=${item.email}>${item.email}</option>
-            </g:each>
-            </select>
-    </div>
-    <button onclick="myFunction5()">+E</button>
-    <button onclick="myFunction6()">+T</button>
-    </div>
 
 
     <pre id="content"></pre>    
