@@ -81,16 +81,12 @@
 
     <div id="housemates1">
         <h4>${user}'s HouseMates</h4>
-        <g:each in="${persons}" var="item">
-            <p>Name: ${item.firstName}</p>
-            <p>Email: ${item.email}</p>
-        </g:each>
+        <div id="leaderboard"></div>
     </div>
 
     <div id="finance1">
         <h3>Finance</h3>
         <h4>Select Person to Add Payment</h4>
-
         <g:form controller="transaction" action="addpayment">
             <g:select onchange="submit()"
                       name="email"
@@ -354,7 +350,6 @@
                                     title.appendChild(a);
                                 }else{
                                     var innerString = '';
-
                                     //"${email}".replace("&#64;", "@")
                                     //✓
                                     innerString += '<div class="tooltip">';
@@ -496,7 +491,6 @@
                 var events = [];
                 var b = {};
                 for (i = 0; i < year.length; i++) {
-
                     //b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]};
                     b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]};
                     events.push(b);
@@ -738,8 +732,6 @@
 
         <pre id="content"></pre>
 
-
-        <div id="leaderboard"></div>
 
 </h3>
 
