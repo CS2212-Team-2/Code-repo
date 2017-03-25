@@ -252,6 +252,8 @@ text-align: center;
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
+    max-width: 150px;
+    margin: none;
     
     /* Position the tooltip */
     position: absolute;
@@ -318,5 +320,3 @@ td {
   vertical-align:middle;
   font-size:12px;
 }
-
-
