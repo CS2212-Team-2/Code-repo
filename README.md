@@ -6,7 +6,7 @@ This repository contains a household management web app that allows the users to
 
 ##  Repository Organization
 
-To organize the repo we created a branch on master, and called it dev.  When adding new a new feature, the person implementing it would
+To organize the repo we created a branch on master, and called it dev.  When adding a new feature, the person implementing it would
 branch off of dev and make their own changes. Once the changes were confirmed to work it was merged back into dev. Once it was ready to 
 be evaluated it was branched back into the master.
 
