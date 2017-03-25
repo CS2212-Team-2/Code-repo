@@ -30,12 +30,15 @@ class HouseController {
     //redirect method from login - controller takes person to their house
     def myHouse() {
         if(session['subId']) {
-            def persons = Person.list()
+            //get scores for all house members
             String houseId = session['houseId']
-            //search database for subId as personId
+            def scores = Score.findAllByHouseId(houseId)
+
+            //search database get all subId's associated with house Id
             def list = PersonHouse.executeQuery("SELECT p.personId "+
                     "FROM PersonHouse p " +
                     "WHERE p.houseId = '${houseId}' ")
+
             //remove user from list
             String[] findSubId = new String[list.size()-1]
             int k =0
@@ -47,27 +50,68 @@ class HouseController {
                     k++
                 }
             }
-
+            //calculate totals owed to each person in house
             //search Person table for firstName based on subId from list
-            LinkedList<String> nameList = new LinkedList<String>()
-            def person = Person.list()
-
+            String[] emailList = new String[findSubId.size()]
+            Person[] houseList = new Person[k]
             for(int i = 0; i < findSubId.size(); i++){
                 String nameSubId = findSubId[i]
                 def retPerson = Person.executeQuery("SELECT p.firstName, p.email, p.subId " +
                         "FROM Person p " +
                         "WHERE p.subId = '${nameSubId}'"
                 )
-                nameList.add(retPerson)
-
+                String[] retlist = retPerson[0]
+                String firstname = retlist[0]
+                String email = retlist[1]
+                String subid = retlist[2]
+                Person houseMember = [firstName: firstname, email: email, subId: subid]
+                houseList[i] = houseMember
+                emailList[i] = email
             }
+
+            //get total amount owed/owe per house member
+            LinkedList<Person> totalList = new LinkedList<>()
+
+            for(Person member: houseList){
+                Person person = Person.findBySubId(member.subId)
+                //get credits owed by user to each house member
+                def credits = []
+                credits = Transaction.findAllByCreditorId(member.subId)
+                int creditTotals = 0
+                for(def credit:credits){
+                    if(session['subId'] == credit.debitorId) {//each transaction where user owes member
+                        creditTotals = creditTotals + credit.amountOwed
+                        //render creditTotals
+                    }
+                }
+
+                //get debits owed by member to user
+                def debits= []
+                debits = Transaction.findAllByDebitorId(member.subId)
+                int debitTotals = 0
+
+                for(def debit: debits){
+
+                    if (session['subId'] == debit.creditorId) {
+                        debitTotals = debitTotals + debit.amountOwed
+                    }
+
+                }
+                String name = person.firstName
+                String id = person.subId
+                int netTotal = (creditTotals - debitTotals)
+                Person ledgerItem = [firstName:name, subId:id, amount:netTotal.toString()]
+                totalList.add(ledgerItem)
+            }
+
+            //get name of active user
             def name = Person.executeQuery("SELECT p.firstName " +
                     "FROM Person p " +
                     "WHERE p.subId = '${session['subId']}'")
 
             String firstName = name[0]
 
-            [persons:nameList, user:firstName]
+            [persons:houseList, user:firstName, emails:emailList, totalList:totalList, scores:scores]
         }
         else{
             def persons = Person.list()
@@ -80,12 +124,14 @@ class HouseController {
     def save(){
         if(session['subId']) {
             def house = new House(params)
-            house.save()                             //save house to House table
+            house.save(flush : true)                             //save house to House table
             PersonHouse ph = new PersonHouse(personId: session['subId'], houseId:house.id)
-            ph.save()                               //save personhouse to PersonHouse Table
+            ph.save(flush : true)                               //save personhouse to PersonHouse Table
             session['houseId'] = house.id
             session['houseName'] = house.houseName
-
+            //create new users score
+            Person person = Person.findBySubId(session['subId'])
+            //Score score =  new Score(firstName: person.firstName, lastName: person.lastName, subId: person.subId, houseId: session['subId']).save(flush : true)
 
             redirect(action:'index', controller:'EmailSender')
         }else{
@@ -114,9 +160,10 @@ class HouseController {
         }
     }
     //CONSIDER DELETING
+
     def personsave(){
         def person = new Person(params)
-        person.save()
+        person.save(flush : true)
         render (view:"save.gsp")
     }
 
@@ -151,9 +198,11 @@ class HouseController {
         String subId = params.subId
         String email = params.email
         //add to person table
-        def person = new Person(firstName:firstName, lastName:lastName, subId:subId, email:email).save()
+        def person = new Person(firstName:firstName, lastName:lastName, subId:subId, email:email).save(flush : true)
         //add person and house id to personHouse table
-        def personHouse = new PersonHouse(personId:subId, houseId:houseId).save()
+        def personHouse = new PersonHouse(personId:subId, houseId:houseId).save(flush : true)
+        //set up intial score for new member
+        //Score newScore = new Score(firstName: firstName, lastName:lastName, subId:subId,houseId:houseId).save(flush : true)
         session.invalidate()
         redirect(uri:'/', params:[message:"Thank you for joining HouseMates! Please login below."])
     }
@@ -169,7 +218,17 @@ class HouseController {
         def housecount = House.count()
         render housecount
     }
-    def demo(){
 
+
+
+    def leaderboard(){
+
+    }
+
+    def settings(){
+        String subId = session['subId']
+        Person person = Person.findBySubId(subId)
+        String image = person.image
+        [person:person, image: image]
     }
 }

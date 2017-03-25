@@ -1,12 +1,20 @@
 package house
 
+import grails.rest.RestfulController
 
-class PersonHouseController {
+
+class PersonHouseController extends RestfulController{
+
+    static responseFormats = ['json', 'xml']
+
+    PersonHouseController() {
+        super(PersonHouse)
+    }
 
     def index() {
 
     }
-    //NEED TO ADD all users house mates to return object.
+    //NEED TO ADD all users house mates to session object.
     def login() {
         def auth = params.googleProfile
 
@@ -33,6 +41,8 @@ class PersonHouseController {
                 if(pid in person.subId){//check the passed subId(person) matches the database subId(Person)
                     session['subId'] = pid  //create a session
                     session['houseId'] = hid
+                    def getPerson = Person.findBySubId(pid)
+                    session['firstName'] = getPerson.firstName
                 }
                 //send user to users house.
                 redirect(action:'myHouse', controller:'house', params:[persons:session])
@@ -53,9 +63,6 @@ class PersonHouseController {
         redirect(url: '/')
     }
 
-    def demo(){
-        redirect(uri:'/demo')
-    }
     //fun with session
     def list() {
         if (session['subId']) {
@@ -64,5 +71,20 @@ class PersonHouseController {
         } else {
             redirect(url:'/')
         }
+    }
+
+    //for one api call
+    def getHouseMembers(){
+        print("getting house members")
+        def subId = params.subId
+        def houseId = PersonHouse.findByPersonId(subId).getHouseId()
+        PersonHouse.findAllByHouseId(houseId)
+        def personList = []
+        for(PersonHouse pHouse : PersonHouse.findAllByHouseId(houseId))
+        {
+            personList.add(Person.findBySubId(pHouse.getPersonId()))
+        }
+        println(personList)
+        respond personList
     }
 }

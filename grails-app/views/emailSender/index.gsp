@@ -7,6 +7,7 @@
     <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
 </head>
 <body>
+<h4><g:link  base="http://localHost:8080/house/myHouse?subId+%3D+${session['subId']}%0A++firstName+%3D+${[session['firstName']]}">Back To My House</g:link></h4>
     <div id="content" role="main">
         <section class="row colset-2-its">
             <g:if test="${flash.message}">

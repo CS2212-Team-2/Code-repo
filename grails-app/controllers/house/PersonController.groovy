@@ -1,13 +1,20 @@
 package house
 
+
+
+
 class PersonController {
     //list persons in Person database
+
+    static responseFormats = ['json', 'xml']
+    static allowedMethods = [upload: 'POST']
+
     def index() {
-        if(session['subId']) {
+        if (session['subId']) {
             def persons = Person.list()
             String houseId = session['houseId']
             //search database for subId as personId
-            def list = PersonHouse.executeQuery("SELECT p.personId "+
+            def list = PersonHouse.executeQuery("SELECT p.personId " +
                     "FROM PersonHouse p " +
                     "WHERE p.houseId = '${houseId}' ")
 
@@ -15,7 +22,7 @@ class PersonController {
             LinkedList<String> nameList = new LinkedList<String>()
             def person = Person.list()
 
-            for(int i = 0; i < list.size(); i++){
+            for (int i = 0; i < list.size(); i++) {
                 String nameSubId = list[i]
                 def retPerson = Person.executeQuery("SELECT p.firstName, p.email, p.subId " +
                         "FROM Person p " +
@@ -24,9 +31,8 @@ class PersonController {
                 nameList.add(retPerson)
 
             }
-            [nameList:nameList]
-        }
-        else{
+            [nameList: nameList]
+        } else {
             def persons = Person.list()
             [person: persons]
 
@@ -47,7 +53,7 @@ class PersonController {
     //create new person based on google Id. Data sent from .../index.gsp
     def createperson() {
         def googleProfile = params.googleProfile
-        if(!googleProfile.equals(',,,')) {
+        if (!googleProfile.equals(',,,')) {
             String[] p = googleProfile.split(',')
             session['firstName'] = p[0]
             session['lastName'] = p[1]
@@ -55,21 +61,25 @@ class PersonController {
             session['email'] = p[3]
 
             [person: session]
-        }else{
-            def message ="IMPORTANT You need to log into google to access this app"
-            redirect (uri:'/', params:[message:"IMPORTANT You need to log into google to access this app"])
+        } else {
+            def message = "IMPORTANT You need to log into google to access this app"
+            redirect(uri: '/', params: [message: "IMPORTANT You need to log into google to access this app"])
         }
 
     }
     //save new Person based on google Id. Data sent from createperson() PersonController
     def saveperson() {
         def person = new Person(params)
+        person.setAmount("")
+
+        println("\n\nPARAMS:    " + params + "\n\n\n")
+
         def list = Person.list()
         //check if person is already in data base
         if (person.subId in list.subId) {
             render "Person ${person.email} is in the database"
         } else {
-            person.save()           //add person to Person Table
+            person.save(failOnError : true)           //add person to Person Table
             session['subId'] = person.subId         //create a user session
             session['firstName'] = person.firstName
             redirect(action: 'createhouse', controller: 'house')
@@ -109,28 +119,29 @@ class PersonController {
             } else {
                 chain(action: 'myHouse', controller: 'house', model: [object: p])
 
-                }
             }
-            catch (Exception ex) {
+        }
+        catch (Exception ex) {
             render "You are not signed into your Google Account. Please sign-in to google to proceed"
         }
     }
-    def delete(){
+
+    def delete() {
 
     }
     //removes person from house
-    def remove(){
-        if(session['subId']){
+    def remove() {
+        if (session['subId']) {
             def emailToDelete = params.email
 
             def verify = Person.executeQuery("SELECT p.email, p.subId FROM Person p " +
                     "WHERE p.email = '${emailToDelete}' ")
 
-            if(verify.isEmpty()){
+            if (verify.isEmpty()) {
                 render "Email does not match with database, please try again"
-            }else{
+            } else {
                 String[] list = verify[0]
-                if((session['subId'] == list[1]) && (emailToDelete == list[0])) {
+                if ((session['subId'] == list[1]) && (emailToDelete == list[0])) {
                     try {
                         PersonHouse.executeUpdate("DELETE PersonHouse p WHERE p.personId = '${session['subId']}' ")
                         String num = session['houseId']
@@ -140,14 +151,40 @@ class PersonController {
                         render e
                     }
 
-                }else{
+                } else {
                     render "failed"
                 }
             }
         }
     }
 
+    def changeName() {
+        //Respond to controller call based on submit button
+        //Get session Subid
+
+        def newFirstName = params.firstName
+        def newLastName = params.lastName
+        def subId = params.subId
+
+        //Set subid's first name and last name to what was sent
+        Person p = Person.findBySubId(subId)
+
+        p.firstName = newFirstName
+        p.lastName = newLastName
+        p.save(flush: true)
+        redirect(url:"http://localHost:8080/house/myHouse?subId+%3D+${session['subId']}%0A++firstName+%3D+${[session['firstName']]}", controller:'house' )
+    }
+
+        def addTaskScore(){
+
+        def sub = params.subId.trim()
+        def tscore = params.taskScore
+
+        println(tscore)
+
+        Person P = Person.findBySubId(sub)
+        P.taskScore = tscore
+        P.save(flush: true)
+    }
 
 }
-
-

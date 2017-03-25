@@ -1,49 +1,63 @@
 <!doctype html>
 <head>
-    <meta name="google-signin-scope" content="profile email">
+    <asset:stylesheet src="login.css"/>
+    <meta name="google-signin-scope" content="profile email https://www.googleapis.com/auth/calendar">
+    <head>
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
+    </head>
     <meta name="google-signin-client_id" content="724926326266-dhm6bt52ttmrlaessmt8rqp5oc6ueute.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
 
-    <div style="position:relative; left:1200px;">
-        <p>Message: ${params['message']}</p>
-        <p>Session: ${session['subId']}</p>
-    </div>
-    <div style="position:relative; left:1200px;">
-        <g:form controller="PersonHouse" action="logout">
-            <g:submitButton name="logout" controller="PersonHouse" action="logout" value="logout" />
-        </g:form>
-        <br/>
-        <a href="#" onclick="signOut();">Sign out of google</a>
-    </div>
     <br/>
-    <h2 style="text-align: center;">Welcome To House Mates!</h2>
+    <h2 class="welcome" style="font-size: 20px">Welcome To</h2>
+
+    <h2 class="housemates" style="font-size: 60px">House Mates</h2>
+
     <br/>
-    <div style="position:relative; left:5%;width:43%">
-        <h3>Before we get you setp up... please login to your google gmail account by clicking the button below</h3>
+
+    <div>
+        <h3 class="signup">Sign up with Gmail Below</h3>
     </div>
-    <div style="position:relative;left:16%;" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    <div id="googlebutton" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 
         <br/>
-        <div style="position:relative; left:5%; width:43%;">
 
-            <h4>Already a member and logged in to google? Please click login button below</h4>
-            <g:form style="position:relative; left:18%;" name="jftForm" controller="PersonHouse" action="login">
-                <g:hiddenField name="googleProfile" value=""/>
-                <g:submitButton style="position:relative;left:10%;" name="login" value="login"/>
-            </g:form>
-
+        <div id="option">
+        <div id="one"><h1 class="mem" style="text-align: left">Already a Member </h1></div>
+        <div id="two"><h1 class="mem" style="text-align: right">Not a Member </h1></div>
         </div>
 
-        <div style="position:relative; left:900px; top:-230px">
-            <h4>Not a Member? Please click button below to JOIN</h4>
+                <div id="wrapper">
+
+            <div id="first">
+        <div>
+
+        <div>
+            <g:form id="login" name="jftForm" controller="PersonHouse" action="login">
+                <g:hiddenField name="googleProfile" value=""/>
+                <g:submitButton id="login" name="login" value="Login"/>
+            </g:form>
+
+        </div></div></div>
+
+            <div id="second">
+        <div>
             <g:form name="jftForm" controller="person" action="createperson">
                 <g:hiddenField name="googleProfile" value=""/>
-                <g:submitButton style="position:relative; left:10%;" name="Login" value="JOIN"/>
+                <g:submitButton id="createhouse" name="Login" value="Create House"/>
             </g:form>
         </div>
+            </div>
 
+
+        </div>
+
+        <div>
+         <br/>
+            <a id="signoutgoogle" href="#" onclick="signOut();">Sign out of google</a>
+        </div>
         <!-- javascript-->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>
@@ -51,7 +65,6 @@
             var email;
             var firstName;
             var lastName;
-
 
             function onSignIn(googleUser) {
                 // The ID token you need to pass to your backend:
@@ -88,7 +101,5 @@
                 });
             }
         </script>
-
-
 </body>
 </html>
