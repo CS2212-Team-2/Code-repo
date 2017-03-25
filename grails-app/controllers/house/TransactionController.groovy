@@ -123,8 +123,14 @@ class TransactionController {
 
 
     def addpayment(){
+
         def payer = params.email
         Person person = Person.findByEmail(payer)
+        if(person==null){
+            println("oh no???")
+            redirect(url:"http://localHost:8080/house/myHouse?subId+%3D+${session['subId']}%0A++firstName+%3D+${[session['firstName']]}", controller:'house')
+            return
+        }
         def message = params.message
         [person: person, message:message]
     }

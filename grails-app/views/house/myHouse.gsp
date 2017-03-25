@@ -90,6 +90,7 @@
     <div id="finance1">
         <h3>Finance</h3>
         <h4>Select Person to Add Payment</h4>
+
         <g:form controller="transaction" action="addpayment">
             <g:select onchange="submit()"
                       name="email"
