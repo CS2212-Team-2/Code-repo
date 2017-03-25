@@ -4,6 +4,8 @@
 <asset:stylesheet src="postFeed.css"/>
 <head>
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <h1 id="welcome">Welcome Home: ${user}</h1>
 
     <div id="buttons">
