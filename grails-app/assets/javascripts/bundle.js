@@ -9476,15 +9476,15 @@ var Post = _react2.default.createClass({
     render: function render() {
         return _react2.default.createElement(
             'div',
-            { id: 'post' },
-            _react2.default.createElement(
-                'div',
-                { className: 'centred' },
-                this.props.title + " " + this.props.date
-            ),
+            { id: 'status_box' },
+            "Title: " + this.props.title,
+            _react2.default.createElement('br', null),
+            "Date: " + this.props.date,
+            _react2.default.createElement('br', null),
             "From:  " + this.props.sender,
             _react2.default.createElement('br', null),
-            this.props.text
+            this.props.text,
+            _react2.default.createElement('hr', null)
         );
     }
 });
@@ -9534,35 +9534,22 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var subId = this.getParams().subId;
+            var subId = this.props.params.subId;
             this.fetchPosts(subId);
             //this.listOneEvent();
             //alert(isLoaded);
+            setTimeout(this.listOneEvent, 10000);
         }
     }, {
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
-            var subId = this.getParams().subId;
+            var subId = this.props.params.subId;
             this.fetchPosts(subId);
-        }
-    }, {
-        key: 'getParams',
-        value: function getParams() {
-            // http://localhost:8080/house/myHouse?persons=Session+Content%3A%0A++subId+%3D+102369340031760804603%0A++firstName+%3D+down%0A++lastName+%3D+load%0A++houseName+%3D+jb+hg%0A++houseId+%3D+2%0A++org.grails.FLASH_SCOPE+%3D+org.grails.web.servlet.GrailsFlashScope%401467ea6f%0A++email+%3D+stupidemail9898%40gmail.com%0A
-            var url_parameter = {};
-
-            var currLocation = window.location.href,
-                parArr = currLocation.split("?")[1].split("%0A++");
-            for (var i = 0; i < parArr.length; i++) {
-                var parr = parArr[i].split("+%3D+");
-                url_parameter[parr[0]] = parr[1];
-            }
-            return url_parameter;
         }
     }, {
         key: 'render',
         value: function render() {
-
+            console.log(this.props.params.subId);
             return _react2.default.createElement(
                 'div',
                 null,
@@ -9571,13 +9558,9 @@ var PostFeed = exports.PostFeed = function (_React$Component) {
                     null,
                     'Notifications'
                 ),
-                _react2.default.createElement(
-                    'div',
-                    { id: 'postFeed' },
-                    this.state.postList
-                ),
-                _react2.default.createElement(_SubmitPost2.default, { subId: this.getParams().subId, update: this.fetchPosts,
-                    firstName: this.getParams().firstName })
+                this.state.postList,
+                _react2.default.createElement(_SubmitPost2.default, { subId: this.props.params.subId, update: this.fetchPosts,
+                    firstName: this.props.params.firstName })
             );
         }
     }]);
@@ -9667,14 +9650,7 @@ var SubmitPost = function (_React$Component) {
         key: 'handleSubmit',
         value: function handleSubmit(e) {
             e.preventDefault();
-            //need to add it not replace it some how
-            var temp = [];
-            for (var i = 0; i < this.state.selected.length; i++) {
-                temp[i] = this.state.selected[i].value;
-            }
-
-            this.postPost("Post", this.state.text, temp, false, SubmitPost.buildDateStr(new Date()));
-
+            this.postPost("Post", this.state.text, this.state.selected, false, new Date().toISOString());
             //title, text, selectedPersons, eventPost, date
         }
     }, {
@@ -9710,8 +9686,9 @@ var SubmitPost = function (_React$Component) {
                     eventTitle = events[0].summary;
 
                     eventText = "Your " + eventTitle + " is " + events[0].description;
+                    eventTime = events[i].start.dayTime;
 
-                    eventTime = SubmitPost.buildDateStr(new Date(events[i].start.dateTime));
+                    alert(events[0].attendees[i].email + "  " + events[0].attendees.length);
 
                     _this2.postPost(eventTitle, eventText, attendees, true, eventTime);
                 }
@@ -9727,8 +9704,7 @@ var SubmitPost = function (_React$Component) {
                 receiversStr += selectedPersons[i] + ",";
             }
 
-            console.log("this is the receiverStr " + receiversStr);
-
+            console.log(receiversStr);
             fetch('http://localhost:8080/Post/addPost?byEmail=' + eventPost + '&subId=' + this.props.subId + '&title=' + title + '&date=' + date + '&text=' + text + '&receivers=' + receiversStr, {
                 method: 'POST',
                 headers: {
@@ -9779,7 +9755,7 @@ var SubmitPost = function (_React$Component) {
     }, {
         key: 'handleChangeOp',
         value: function handleChangeOp(selected) {
-
+            //need to add it not replace it some how
             this.setState({
                 selected: this.state.selected.concat(selected)
             });
@@ -9806,45 +9782,36 @@ var SubmitPost = function (_React$Component) {
                 'div',
                 null,
                 _react2.default.createElement(
+                    'div',
+                    null,
+                    this.state.status
+                ),
+                _react2.default.createElement(
                     'form',
                     { onSubmit: this.handleSubmit },
                     _react2.default.createElement(
                         'label',
                         null,
-                        _react2.default.createElement('input', { placeholder: 'Write Your Post here!', id: 'postTextField', type: 'text', onChange: this.handleChange, value: this.state.text })
+                        _react2.default.createElement('input', { type: 'text', onChange: this.handleChange, value: this.state.text })
                     ),
-                    _react2.default.createElement(
-                        'ul',
-                        { className: 'w3-ul w3-border' },
-                        listItems
-                    ),
-                    _react2.default.createElement(_reactFilteredMultiselect2.default, {
-                        onChange: this.handleChangeOp,
-                        options: houseMateNames,
-                        selectedOptions: this.state.selected
-                    }),
-                    _react2.default.createElement('input', { id: 'postSubmitButton', type: 'submit', value: 'Post',
+                    _react2.default.createElement('input', { type: 'submit', value: 'Post',
                         disabled: this.state.selected.length == 0 || this.state.text.trim().length == 0 })
                 ),
+                _react2.default.createElement(_reactFilteredMultiselect2.default, {
+                    onChange: this.handleChangeOp,
+                    options: houseMateNames,
+                    selectedOptions: this.state.selected
+                }),
                 _react2.default.createElement(
                     'div',
                     null,
-                    this.state.status
+                    _react2.default.createElement(
+                        'ul',
+                        null,
+                        listItems
+                    )
                 )
             );
-        }
-    }], [{
-        key: 'buildDateStr',
-        value: function buildDateStr(date) {
-            var ampm = date.getHours() <= 12 ? ' am' : ' pm';
-            var hours = date.getHours() % 12;
-
-            // converts 0 (midnight) to 12
-            hours = hours ? hours : 12; // the hour '0' should be '12'
-            // converts minutes to have leading 0
-
-            var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-            return date.getDate() + "/" + (date.getMonth() + 1) + " " + hours + ":" + minutes + ampm;
         }
     }]);
 
@@ -22368,12 +22335,33 @@ console.log("index rendering"); /**
                                  * Created by om on 10/03/17.
                                  */
 
+function getParams() {
+    // http://localhost:8080/house/myHouse?persons=Session+Content%3A%0A++subId+%3D+102369340031760804603%0A++firstName+%3D+down%0A++lastName+%3D+load%0A++houseName+%3D+jb+hg%0A++houseId+%3D+2%0A++org.grails.FLASH_SCOPE+%3D+org.grails.web.servlet.GrailsFlashScope%401467ea6f%0A++email+%3D+stupidemail9898%40gmail.com%0A
+    var url_parameter = {};
+
+    var currLocation = window.location.href,
+        parArr = currLocation.split("?")[1].split("%0A++");
+    for (var i = 0; i < parArr.length; i++) {
+        var parr = parArr[i].split("+%3D+");
+        url_parameter[parr[0]] = parr[1];
+    }
+    return url_parameter;
+}
 
 var root = document.getElementById('root');
+var theParams = getParams();
 _reactDom2.default.render(_react2.default.createElement(
     'div',
-    { id: 'notifications' },
-    _react2.default.createElement(_PostFeed.PostFeed, null)
+    null,
+    _react2.default.createElement(
+        'div',
+        { className: 'row' },
+        _react2.default.createElement(
+            'div',
+            { className: 'col-3', frameBorder: true },
+            _react2.default.createElement(_PostFeed.PostFeed, { params: theParams })
+        )
+    )
 ), root);
 
 /***/ })

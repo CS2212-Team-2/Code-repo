@@ -424,7 +424,7 @@
     var events = [];
     var b = {};
     for (i = 0; i < year.length; i++) {
-    
+
     //b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]};
     b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]};
     events.push(b);
@@ -551,7 +551,7 @@
         if (document.getElementById("AssigneesTask")[x].selected)
         {
     	    event.attendees.push({'email':document.getElementById("AssigneesTask")[x].value});
-    	}	
+    	}
     }
     request.execute(function(event) {
     alert('Task created: ' + event.htmlLink);
@@ -608,15 +608,15 @@ function myFunction6() {
 }
 </script>
 
-    <pre id="content"></pre>    
+    <pre id="content"></pre>
 
 
-	
+
 
     </div>
 
     </h3>
-	
+
 
 
     <asset:javascript src="bundle.js"/>

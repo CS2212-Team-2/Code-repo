@@ -131,7 +131,7 @@ class HouseController {
             session['houseName'] = house.houseName
             //create new users score
             Person person = Person.findBySubId(session['subId'])
-            //Score score =  new Score(firstName: person.firstName, lastName: person.lastName, subId: person.subId, houseId: session['subId']).save()
+            Score score =  new Score(firstName: person.firstName, lastName: person.lastName, subId: person.subId, houseId: session['subId']).save()
 
             redirect(action:'index', controller:'EmailSender')
         }else{
@@ -218,11 +218,16 @@ class HouseController {
         render housecount
     }
 
-    def settings(){
-        String subId = session['subId']
-        Person person = Person.findBySubId(subId);
-        String image = person.image
-        [person:person, image:image]
+
+
+    def leaderboard(){
+
     }
 
+    def settings(){
+        String subId = session['subId']
+        Person person = Person.findBySubId(subId)
+        String image = person.image
+        [person:person, image: image]
+    }
 }

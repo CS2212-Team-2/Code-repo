@@ -16,16 +16,10 @@ class PostController extends RestfulController {
         def subId = params.subId.trim()
         Person person = Person.findBySubId(subId)
         print(person.getFirstName())
-        println(" POSTS IN GET           " + person.getPosts() )
-
-        println("\n\n\n ALL THE POSTS          " + Post.getAll() )
-        //println("\n\n\n POST 3         " + Post.getAll().get(2).text )
-
+        println("POSTS IN GET           "+Post.getAll())
 
         if(person!=null){
-
-          //  println(person.getPosts().get(2).getText())
-
+            println(person.getPosts())
             respond person.getPosts()
         }
         else{
@@ -34,7 +28,8 @@ class PostController extends RestfulController {
 
     }
 
-    def addPost( ){
+
+    def addPost(){
         def senderId = params.subId
         def title = params.title
         def text = params.text
@@ -53,6 +48,7 @@ class PostController extends RestfulController {
         //checks to see if the post is already in the database
         if(Post.findBySenderNameAndTextAndTitle(sender.firstName, text, title))
         {
+            print("\n i knew it was this if statement")
             response.status = 402
             redirect(url:"http://localHost:8080/house/myHouse?subId+%3D+${session['subId']}%0A++firstName+%3D+${[session['firstName']]}", controller:'house' )
             return

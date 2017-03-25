@@ -15,3 +15,7 @@ ReactDOM.render(
         {<PostFeed/>}
     </div>, root);
 
+ReactDOM.render(
+  <App />,
+  document.getElementById('leaderboard')
+);

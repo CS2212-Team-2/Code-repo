@@ -3,6 +3,8 @@
 <asset:stylesheet src="style.css"/>
 <asset:stylesheet src="postFeed.css"/>
 <head>
+    <title>Welcome Home!</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -69,9 +71,11 @@
     <br/>
     %{--location to open js file--}%
 
+    <div style="width:auto;height:200px;"><h3>BIG BOX GOES HERE</h3></div>
+    <!-- returns the users roommates -->
 
     <!--integrate with calendar add task/event drop down function-->
-    
+
     <div id="bottombar">
 
     <div id="housemates1">
@@ -104,7 +108,7 @@
 
 
     </div>
- 
+
 
 
     <h3 id="calender">
@@ -348,7 +352,7 @@
     title.appendChild(a);
     }else{
     var innerString = '';
-   
+
     //"${email}".replace("&#64;", "@")
     //✓
     innerString += '<div class="tooltip">';
@@ -362,7 +366,7 @@
 	innerString += '✓';
     }
     //innerString += calendar.Model[n].Title;
-    innerString += '<span class="tooltiptext">'  + calendar.Model[n].Link + '<br/><div>'; 
+    innerString += '<span class="tooltiptext">'  + calendar.Model[n].Link + '<br/><div>';
     //if(event.attendees[y].responseStatus = "accepted"
     if (attended[n] == 'no'){
         innerString += '<button onclick="myFunction7(eventId[' + n + '])">Attend</button>';
@@ -374,7 +378,7 @@
 	}
     }
     innerString += '</div></span></div>';
-    title.innerHTML += innerString;  
+    title.innerHTML += innerString;
     //title.innerHTML += '<div class="tooltip">' + calendar.Model[n].Title + '<span class="tooltiptext">' + calendar.Model[n].Link + '</span></div>';
     }
     number.appendChild(title);
@@ -490,7 +494,7 @@
     var events = [];
     var b = {};
     for (i = 0; i < year.length; i++) {
-    
+
     //b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]};
     b = {'Date': new Date(year[i], month[i], day[i]), 'Title': summary[i], 'Link': desc[i]};
     events.push(b);
@@ -675,7 +679,7 @@
         if (document.getElementById("AssigneesTask")[x].selected)
         {
     	    event.attendees.push({'email':document.getElementById("AssigneesTask")[x].value});
-    	}	
+    	}
     }
     request.execute(function(event) {
     alert('Task created: ' + event.htmlLink);
@@ -730,7 +734,7 @@ function myFunction7(text){
 </script>
 
 
-    <pre id="content"></pre>    
+    <pre id="content"></pre>
 
 
     </div>

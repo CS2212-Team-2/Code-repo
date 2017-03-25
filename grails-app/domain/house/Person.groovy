@@ -9,10 +9,9 @@ class Person {
     String  subId
     String  email
     List<Post> posts
-    String image = 'DefaultProfile.png'
-
-
-
+    String  image = 'DefaultProfile.png'
+    String financeScore = 100
+    String taskScore
 
     static hasMany = [posts : Post]
 
@@ -22,7 +21,8 @@ class Person {
         subId size: 2..50, unique: true
         posts nullable: true
         //email email: true, blank:false
-        amount nullable: true
+        taskScore nullable: true
     }
+
 
 }

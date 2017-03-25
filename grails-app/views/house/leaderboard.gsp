@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html>
 <asset:stylesheet src="style.css"/>
-<asset:stylesheet src="postFeed.css"/>
 
 <head>
-    <title>Leaderboard</title>
+   <title>Leaderboard</title>
 
 </head>
 
 <body>
 
-    <div id="leaderboardMoreInfo">
+    <p>This is a test</p>
 
-    </div>
+   <div id="leaderboardpopup"></div>
 
-    <asset:javascript src="bundle.js"/>
+   <asset:javascript src="bundle.js"/>
 
 </body>

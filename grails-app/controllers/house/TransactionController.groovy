@@ -174,6 +174,13 @@ class TransactionController {
                         score.save()
                     }
                 }
+
+
+                Person p = Person.FindById(session['subId'])
+                P.financeScore = score
+                P.save(flush: true)
+
+
                 toPay.delete(flush:true)
                 Date today = new Date()
                 redirect(action:'addPost', controller:'Post', params:[receivers: toPay.creditorId, subId: session['subId'], title: "Finance", text: "Paid: " +amountOwed+", FOR: " +description, date:today.toString() ])
