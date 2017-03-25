@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<asset:stylesheet src="settings.css"/>
 <head>
 </head>
 <body>
