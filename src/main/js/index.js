@@ -4,6 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { PostFeed } from './PostFeed'
+import App from './leaderboard'
 
 
 console.log("index rendering");

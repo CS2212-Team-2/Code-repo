@@ -22,6 +22,8 @@ class Person {
         posts nullable: true
         //email email: true, blank:false
         taskScore nullable: true
+        financeScore nullable: true
+        amount nullable: true
     }
 
 

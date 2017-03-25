@@ -14,7 +14,12 @@ class PostController extends RestfulController {
 
     def getPosts( ){
         def subId = params.subId.trim()
+
+        println("THIs is subID :    " + subId+"\n\n")
+        println("PEOP<E" +Person.getAll() +"\n\n\n")
+
         Person person = Person.findBySubId(subId)
+
         print(person.getFirstName())
         println("POSTS IN GET           "+Post.getAll())
 

@@ -110,8 +110,8 @@ class HouseController {
                     "WHERE p.subId = '${session['subId']}'")
 
             String firstName = name[0]
-            Person perEmail = Person.findBySubId(session['subId'])
-            [persons:houseList, email: perEmail.email, user:firstName, emails:emailList, totalList:totalList, scores:scores]
+
+            [persons:houseList, user:firstName, emails:emailList, totalList:totalList, scores:scores]
         }
         else{
             def persons = Person.list()
@@ -124,14 +124,14 @@ class HouseController {
     def save(){
         if(session['subId']) {
             def house = new House(params)
-            house.save()                             //save house to House table
+            house.save(flush : true)                             //save house to House table
             PersonHouse ph = new PersonHouse(personId: session['subId'], houseId:house.id)
-            ph.save()                               //save personhouse to PersonHouse Table
+            ph.save(flush : true)                               //save personhouse to PersonHouse Table
             session['houseId'] = house.id
             session['houseName'] = house.houseName
             //create new users score
             Person person = Person.findBySubId(session['subId'])
-            Score score =  new Score(firstName: person.firstName, lastName: person.lastName, subId: person.subId, houseId: session['subId']).save()
+            //Score score =  new Score(firstName: person.firstName, lastName: person.lastName, subId: person.subId, houseId: session['subId']).save(flush : true)
 
             redirect(action:'index', controller:'EmailSender')
         }else{
@@ -160,9 +160,10 @@ class HouseController {
         }
     }
     //CONSIDER DELETING
+
     def personsave(){
         def person = new Person(params)
-        person.save()
+        person.save(flush : true)
         render (view:"save.gsp")
     }
 
@@ -197,11 +198,11 @@ class HouseController {
         String subId = params.subId
         String email = params.email
         //add to person table
-        def person = new Person(firstName:firstName, lastName:lastName, subId:subId, email:email).save()
+        def person = new Person(firstName:firstName, lastName:lastName, subId:subId, email:email).save(flush : true)
         //add person and house id to personHouse table
-        def personHouse = new PersonHouse(personId:subId, houseId:houseId).save()
+        def personHouse = new PersonHouse(personId:subId, houseId:houseId).save(flush : true)
         //set up intial score for new member
-        Score newScore = new Score(firstName: firstName, lastName:lastName, subId:subId,houseId:houseId).save()
+        //Score newScore = new Score(firstName: firstName, lastName:lastName, subId:subId,houseId:houseId).save(flush : true)
         session.invalidate()
         redirect(uri:'/', params:[message:"Thank you for joining HouseMates! Please login below."])
     }

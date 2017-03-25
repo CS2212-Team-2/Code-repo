@@ -70,12 +70,16 @@ class PersonController {
     //save new Person based on google Id. Data sent from createperson() PersonController
     def saveperson() {
         def person = new Person(params)
+        person.setAmount("")
+
+        println("\n\nPARAMS:    " + params + "\n\n\n")
+
         def list = Person.list()
         //check if person is already in data base
         if (person.subId in list.subId) {
             render "Person ${person.email} is in the database"
         } else {
-            person.save()           //add person to Person Table
+            person.save(failOnError : true)           //add person to Person Table
             session['subId'] = person.subId         //create a user session
             session['firstName'] = person.firstName
             redirect(action: 'createhouse', controller: 'house')
@@ -168,7 +172,7 @@ class PersonController {
         p.firstName = newFirstName
         p.lastName = newLastName
         p.save(flush: true)
-        redirect(controller: "house", action: "myHouse")
+        redirect(url:"http://localHost:8080/house/myHouse?subId+%3D+${session['subId']}%0A++firstName+%3D+${[session['firstName']]}", controller:'house' )
     }
 
         def addTaskScore(){
